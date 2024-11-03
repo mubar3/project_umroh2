@@ -13,7 +13,7 @@
             // "scrollX": true,
             "autoWidth": false,
             "ajax": {
-                "url": "{{ url('/ajax_get_jamaah') }}", // Ganti dengan URL API Anda
+                "url": "{{ env('APP_URL').'/ajax_get_jamaah' }}", // Ganti dengan URL API Anda
                 "type": "GET",
                 "headers": {
                     'X-Requested-With': 'XMLHttpRequest'
@@ -107,7 +107,7 @@
         $('#btn-confirm-hapus').on('click', function() {
             // Kirim permintaan AJAX untuk menghapus data
             $.ajax({
-                url: "{{ url('/ajax_hapus_jamaah') }}/" + idToDelete, // Ganti dengan URL endpoint hapus
+                url: "{{ env('APP_URL').'/ajax_hapus_jamaah' }}/" + idToDelete, // Ganti dengan URL endpoint hapus
                 type: 'get', // Atau 'POST' sesuai kebutuhan
                 "headers": {
                     'X-Requested-With': 'XMLHttpRequest'
