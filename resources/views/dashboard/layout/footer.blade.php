@@ -3,10 +3,10 @@
   <!-- Content Wrapper. Contains page content -->
 
   <footer class="main-footer">
-    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">PT ASH SHOFWAH GROUP</a>.</strong>
+    <strong>Copyright &copy; {{ date('Y') }} <a href="https://adminlte.io">PT ASH SHOFWAH GROUP</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 3.2.0
+      <b>Version</b> 1.2.0
     </div>
   </footer>
 
@@ -28,6 +28,19 @@
 </script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- DataTables  & Plugins -->
+<script src="{{ asset('asset/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/jszip/jszip.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/pdfmake/pdfmake.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/pdfmake/vfs_fonts.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
 <!-- ChartJS -->
 <script src="{{ asset('asset/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->
@@ -55,22 +68,25 @@
 <script>
     // Mendapatkan elemen input tanggal
     const tanggalInput = document.getElementById('tanggal_hari_ini');
+    if (tanggalInput) {
+        // Mendapatkan tanggal hari ini
+        const today = new Date().toISOString().split('T')[0];
 
-    // Mendapatkan tanggal hari ini
-    const today = new Date().toISOString().split('T')[0];
+        // Mengatur nilai default input tanggal ke hari ini
+        tanggalInput.value = today;
+    }
 
-    // Mengatur nilai default input tanggal ke hari ini
-    tanggalInput.value = today;
 </script>
 <script>
-    const genderSelect = document.getElementById('select_hapus_awal');
-
-    // Menghapus opsi pertama ketika dropdown dibuka
-    genderSelect.addEventListener('focus', function() {
-        if (genderSelect.options[0].value === "") {
-            genderSelect.remove(0);
-        }
-    });
+    const select = document.getElementById('select_hapus_awal');
+    if(select){
+        // Menghapus opsi pertama ketika dropdown dibuka
+        select.addEventListener('focus', function() {
+            if (select.options[0].value === "") {
+                select.remove(0);
+            }
+        });
+    }
 </script>
 </body>
 </html>

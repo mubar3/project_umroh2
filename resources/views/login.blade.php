@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="{{ asset('img/logo.jpg') }}">
   <title>Log in</title>
 
   <!-- Google Font: Source Sans Pro -->
@@ -21,6 +22,11 @@
     <img width="100px" class="img-thumbnail" style="background-color: #026537;" src="{{ asset('img/logo.jpg') }}">
   </div>
   <!-- /.login-logo -->
+  <!-- Preloader -->
+  <div class="preloader flex-column justify-content-center align-items-center">
+    <img class="animation__shake" src="{{ asset('img/logo.jpg') }}" alt="AdminLTELogo" height="60" width="60">
+  </div>
+
   <div class="card">
     <div class="card-body login-card-body">
       <p class="login-box-msg">SIlahkan login ke akun anda</p>

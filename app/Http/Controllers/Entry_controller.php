@@ -49,4 +49,17 @@ class Entry_controller extends Controller
         }
 
     }
+
+    function ajax_get_jamaah() {
+        return response()->json(Anggota::all());
+    }
+
+    function ajax_hapus_jamaah($id){
+        if(Anggota::find($id)->delete()){
+            return response()->json(['message' => 'User deleted successfully.']);
+        }else{
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+    }
 }

@@ -30,9 +30,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-controlsidebar-slide="true" href="{{ url('/logout') }}" role="button">
-                <i class="fas fa-sign-out-alt"> LOGOUT</i>
+            <a class="nav-link" id="kliklogout" role="button">
+                <i class="fas fa-sign-out-alt"></i> LOGOUT
             </a>
+
           </li>
         </ul>
       </nav>
@@ -92,7 +93,7 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="pages/layout/top-nav-sidebar.html" class="nav-link">
+                    <a href="{{ url('/daftar_anggota')}}" class="nav-link">
                       <i class="fas fa-list"></i>
                       <p>DAFTAR ANGGOTA</p>
                     </a>

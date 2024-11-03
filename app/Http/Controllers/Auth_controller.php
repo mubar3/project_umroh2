@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Anggota;
 
 class Auth_controller extends Controller
 {
@@ -28,14 +29,22 @@ class Auth_controller extends Controller
     }
 
     function home() {
+        $jumlah_jamaah=Anggota::where('jenis_akun','jamaah')->count();
         return view('dashboard.halaman')->with([
-            'halaman'   => 'home'
+            'halaman'   => 'home',
+            'jumlah_jamaah'   => $jumlah_jamaah,
         ]);
     }
 
     function tambah_anggota() {
         return view('dashboard.halaman')->with([
             'halaman'   => 'tambah_anggota'
+        ]);
+    }
+
+    function daftar_anggota() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'daftar_anggota',
         ]);
     }
 
