@@ -18,17 +18,17 @@
     </head>
     <body>
         <!-- Top menu -->
-        {{-- <div class="show-menu">
-            <a href="{{ url('/login_page')}}" style="font:normal normal 100 50px/70px 'Fira Sans', sans-serif!important;"><i class="fas fa-sign-in-alt small-icon"></i></a>
-        </div> --}}
         <div class="show-menu">
+            <a href="{{ url('/login_page')}}"><i class="fas fa-sign-in-alt small-icon" style="color:black;"></i></a>
+        </div>
+        {{-- <div class="show-menu">
             <a href="#" class="shadow-top-down">+</a>
         </div>
         <nav class="main-menu shadow-top-down">
             <ul class="nav nav-pills nav-stacked">
                 <li><a href="{{ url('/login_page')}}" class="scroll_effect">Login</a></li>
             </ul>
-        </nav>
+        </nav> --}}
         <!-- Home -->
         <section id="templatemo_home" style="background-image: url({{ asset('img/slidex1.jpg') }})">
         {{-- <section id="templatemo_home"> --}}

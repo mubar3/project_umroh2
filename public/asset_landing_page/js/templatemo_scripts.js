@@ -32,16 +32,16 @@ jQuery(document).ready(function(){
         });
     }
     // Menu click on plus btn
-    $('.show-menu a').on('click', function(e){
-        // When nav is visible make nav hide
-        if($('nav').is(":visible")){
-            $('nav:visible').templateMoMenuHide();
-        // When nav is not visible make nav show
-        }else{
-            $('nav').templateMoMenuShow();
-        }
-        return false;
-    });
+    // $('.show-menu a').on('click', function(e){
+    //     // When nav is visible make nav hide
+    //     if($('nav').is(":visible")){
+    //         $('nav:visible').templateMoMenuHide();
+    //     // When nav is not visible make nav show
+    //     }else{
+    //         $('nav').templateMoMenuShow();
+    //     }
+    //     return false;
+    // });
     // Menu hide when click on any area of document
     $(document).on('click', function(e){
         $('nav:visible').templateMoMenuHide();
