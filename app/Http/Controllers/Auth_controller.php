@@ -24,7 +24,7 @@ class Auth_controller extends Controller
             return redirect('/home');
         }else{
             session()->flash('eror', 'username/password/jenis akun salah');
-            return redirect('/');
+            return redirect('/login_page');
         }
     }
 
@@ -50,6 +50,6 @@ class Auth_controller extends Controller
 
     function logout() {
         Auth::logout();
-        return redirect('/'); // Redirect ke halaman login setelah logout
+        return redirect('/login_page'); // Redirect ke halaman login setelah logout
     }
 }

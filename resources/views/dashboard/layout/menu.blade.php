@@ -15,7 +15,7 @@
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
           </li>
           <li class="nav-item d-none d-sm-inline-block">
-            <a href="{{ url ('/')}}" class="nav-link">Home</a>
+            <a href="{{ url ('/login_page')}}" class="nav-link">Home</a>
           </li>
           {{-- <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Contact</a>
@@ -77,7 +77,7 @@
               <!-- Add icons to the links using the .nav-icon class
                    with font-awesome or any other icon font library -->
               <li class="nav-item">
-                <a href="{{ url('/')}}" class="nav-link">
+                <a href="{{ url('/login_page')}}" class="nav-link">
                   <i class="fas fa-home"></i>
                   <p>
                     HOME

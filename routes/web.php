@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth_controller;
 use App\Http\Controllers\Entry_controller;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,8 @@ use App\Http\Controllers\Entry_controller;
 // });
 
 // auth
-Route::get('/', [Auth_controller::class, 'index']);
+Route::get('/', [Controller::class, 'index']);
+Route::get('/login_page', [Auth_controller::class, 'index']);
 Route::post('/login', [Auth_controller::class, 'login']);
 Route::get('/logout', [Auth_controller::class, 'logout']);
 
