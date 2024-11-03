@@ -16,7 +16,7 @@ class CheckAjaxSource
     public function handle(Request $request, Closure $next): Response
     {
         // Jika permintaan adalah AJAX, lanjutkan
-        if ($request->ajax()) {
+        if ($request->ajax() || $request->header('X-Requested-With') === 'XMLHttpRequest') {
             return $next($request);
         }
 
