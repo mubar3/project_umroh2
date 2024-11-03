@@ -23,12 +23,20 @@ class Auth_controller extends Controller
             return redirect('/home');
         }else{
             session()->flash('eror', 'username/password salah');
-            return view('login');
+            return redirect('/');
         }
     }
 
     function home() {
-        return view('dashboard.home');
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'home'
+        ]);
+    }
+
+    function tambah_anggota() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'tambah_anggota'
+        ]);
     }
 
     function logout() {

@@ -1,0 +1,9 @@
+/* Warna abu-abu untuk placeholder saat belum dipilih */
+.form-control:invalid {
+    color: grey;
+}
+
+/* Warna default setelah opsi dipilih */
+.form-control option {
+    color: black;
+}

@@ -1,60 +1,93 @@
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log in</title>
 
-    </head>
-    <body class='hold-transition login-page'  style="background-image: url('{{ asset('img/background-gelombang.jpg') }}');">
-        <div class='login-box'  style="margin-top: 20px;">
-            <div class='login-logo'>
-              <center><img width="100px" class="img-thumbnail" style="background-color: #026537;" src="{{ asset('img/logo.jpg') }}"></center>
-              <a href='login'><b></b></a>
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{ asset('asset/plugins/fontawesome-free/css/all.min.css') }}">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{ asset('asset/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{ asset('asset/dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('asset/style.css') }}">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+  <div class="login-logo">
+    <img width="100px" class="img-thumbnail" style="background-color: #026537;" src="{{ asset('img/logo.jpg') }}">
+  </div>
+  <!-- /.login-logo -->
+  <div class="card">
+    <div class="card-body login-card-body">
+      <p class="login-box-msg">SIlahkan login ke akun anda</p>
+
+
+      @if (session()->has('success'))
+      <div class="alert alert-success" role="alert">
+          {{ session('success') }}
+          {{-- PO Berhasil Dikirim --}}
+      </div>
+      @endif
+      @if (session()->has('eror'))
+      <div class="alert alert-danger" role="alert">
+          {{ session('eror') }}
+      </div>
+      @endif
+
+      <form action="{{ url('/login') }}" method="post">
+        @csrf
+        <div class="input-group mb-3">
+          <input name="email" type="email" class="form-control" placeholder="Email" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-envelope"></span>
             </div>
-            <div class='login-box-body' style="border-top: 8px solid #00a65a;border-bottom: 8px solid #00a65a;border-top-right-radius: 16px;border-top-left-radius: 16px;border-bottom-right-radius: 16px;border-bottom-left-radius: 16px;box-shadow: 0px 3px 6px 0px #222;">
-                <center><h4  style="background-color: #00a65a; margin-top: -20px;width: 70%;height: 30px;border-bottom-left-radius: 7px;border-bottom-right-radius: 7px;color: #fff;"><b></b></h4></center>
-                <br>
-                @if (session()->has('success'))
-                <div class="alert alert-success" role="alert">
-                    {{ session('success') }}
-                    {{-- PO Berhasil Dikirim --}}
-                </div>
-                @endif
-                @if (session()->has('eror'))
-                <div class="alert alert-danger" role="alert">
-                    {{ session('eror') }}
-                </div>
-                @endif
-                <form method="post" action="{{ url('/login') }}">
-                    @csrf
-                  <div class='form-group has-feedback'>
-                    <input type="email" class="form-control" placeholder="Masukan Username Anda" aria-describedby="basic-addon1" name="email" required autofocus />
-                    <span class='glyphicon glyphicon-user form-control-feedback'></span>
-                  </div>
-                  <br>
-                  <div class='form-group has-feedback'>
-                    <input type="password" class="form-control" placeholder=" Masukan Password Anda" aria-describedby="basic-addon1" name="password">
-                    <span class='glyphicon glyphicon-lock form-control-feedback'></span>
-                  </div>
-                  <br>
-                  <div class='form-group has-feedback'>
-                    <select name="role" class="form-control" required>
-                      <!-- <option value="">Pilih Level User</option> -->
-                      <option value="1">SUPERADMIN</option>
-                    </select>
-                  </div>
-                  <br>
-                  <div class='row'>
-                    <div class='d-grid gap-2'>
-                      <button name="login" type='submit' class='btn bg-orange btn-block'><i class="fa fa-sign-in"></i> MASUK</button>
-                    </div>
-                  </div>
-                </form>
-            </div>
+          </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    </body>
+        <div class="input-group mb-3">
+          <input name="password" type="password" class="form-control" placeholder="Password" required>
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-lock"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
+                <select name="role" id="select_hapus_awal" class="form-control" required>
+                    <option value="" disable selected>JENIS AKUN</option>
+                    <option value="1">Admin</option>
+                  </select>
+        </div>
+        <button type="submit" class="btn-lg btn-primary btn-block">Sign In</button>
+      </form>
+
+
+    </div>
+    <!-- /.login-card-body -->
+  </div>
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery -->
+<script src="{{ asset('asset/plugins/jquery/jquery.min.js') }}"></script>
+<!-- Bootstrap 4 -->
+<script src="{{ asset('asset/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<!-- AdminLTE App -->
+<script src="{{ asset('asset/dist/js/adminlte.min.js') }}"></script>
+
+<script>
+    const genderSelect = document.getElementById('select_hapus_awal');
+
+    // Menghapus opsi pertama ketika dropdown dibuka
+    genderSelect.addEventListener('focus', function() {
+        if (genderSelect.options[0].value === "") {
+            genderSelect.remove(0);
+        }
+    });
+</script>
+</body>
 </html>

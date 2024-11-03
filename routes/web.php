@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth_controller;
+use App\Http\Controllers\Entry_controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,7 +19,16 @@ use App\Http\Controllers\Auth_controller;
 //     return view('login');
 // });
 
+// auth
 Route::get('/', [Auth_controller::class, 'index']);
 Route::post('/login', [Auth_controller::class, 'login']);
-Route::get('/home', [Auth_controller::class, 'home']);
 Route::get('/logout', [Auth_controller::class, 'logout']);
+
+// halaman
+Route::get('/home', [Auth_controller::class, 'home']);
+Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota']);
+
+
+// action
+Route::post('/tambah_jamaah', [Entry_controller::class, 'tambah_jamaah']);
+
