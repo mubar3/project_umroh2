@@ -23,7 +23,7 @@ class Auth_controller extends Controller
         if (Auth::attempt(['email' => $data->email, 'password' => $data->password, 'role' => $data->role])) {
             return redirect('/home');
         }else{
-            session()->flash('eror', 'username/password salah');
+            session()->flash('eror', 'username/password/jenis akun salah');
             return redirect('/');
         }
     }

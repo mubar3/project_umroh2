@@ -26,7 +26,7 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h3>Rp 1.000.000</h3>
+                <h5>Rp 1.000.000</h5>
 
                 <p>Total pemasukan</p>
               </div>
@@ -56,7 +56,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h3>{{ $jumlah_jamaah }}</h3>
+                <h5>{{ $jumlah_jamaah }}</h5>
 
                 <p>Total Jamaah</p>
               </div>
