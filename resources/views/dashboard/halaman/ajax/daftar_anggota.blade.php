@@ -73,7 +73,7 @@
                     <h5 class="modal-title" id="modalHapusLabel">Data Berhasil dihapus</h5>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="btn-cancel-hapus">Tutup</button>
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-berhasilhapus">Tutup</button>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
                     <h5 class="modal-title" id="modalHapusLabel">Data Gagal dihapus</h5>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" id="btn-cancel-hapus">Tutup</button>
+                    <button type="button" class="btn btn-secondary" id="btn-cancel-gagalhapus">Tutup</button>
                 </div>
             </div>
         </div>
@@ -113,7 +113,7 @@
                     'X-Requested-With': 'XMLHttpRequest'
                 },
                 success: function(response) {
-                    console.log(response)
+                    // console.log(response)
                     // Tangani respons berhasil (misal: reload tabel)
                     $('#tabel1').DataTable().ajax.reload(); // Reload DataTable setelah menghapus
                     // alert('Data berhasil dihapus');
@@ -132,7 +132,10 @@
 
         $('#btn-cancel-hapus').on('click', function() {
             $('#modalHapus').modal('hide'); // Menutup modal secara manual
+        });
+        $('#btn-cancel-berhasilhapus').on('click', function() {
             $('#modalsuksesHapus').modal('hide'); // Menutup modal secara manual
+        });$('#btn-cancel-gagalhapus').on('click', function() {
             $('#modalgagalHapus').modal('hide'); // Menutup modal secara manual
         });
 

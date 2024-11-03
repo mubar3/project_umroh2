@@ -29,7 +29,7 @@ class Auth_controller extends Controller
     }
 
     function home() {
-        $jumlah_jamaah=Anggota::where('jenis_akun','jamaah')->count();
+        $jumlah_jamaah=Anggota::where('jenis_akun','jamaah')->where('status','y')->count();
         return view('dashboard.halaman')->with([
             'halaman'   => 'home',
             'jumlah_jamaah'   => $jumlah_jamaah,

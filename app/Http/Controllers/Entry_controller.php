@@ -51,11 +51,13 @@ class Entry_controller extends Controller
     }
 
     function ajax_get_jamaah() {
-        return response()->json(Anggota::all());
+        return response()->json(Anggota::where('status','y')->get());
     }
 
     function ajax_hapus_jamaah($id){
-        if(Anggota::find($id)->delete()){
+        $anggota=Anggota::find($id);
+        if($anggota){
+            $anggota->update(['status'=>'n']);
             return response()->json(['message' => 'User deleted successfully.']);
         }else{
             return response()->json(['message' => 'User not found.'], 404);
