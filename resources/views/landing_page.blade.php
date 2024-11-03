@@ -2,16 +2,13 @@
 <html lang="en" class="ie_11_scroll">
     <head>
         <meta charset="utf-8">
-        {{-- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-        <meta http-equiv="Pragma" content="no-cache" />
-        <meta http-equiv="Expires" content="0" /> --}}
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         {{-- <meta name="viewport" content="hhhwidth=device-width, initial-scale=1"> --}}
         <link rel="icon" type="image/png" href="{{ asset('img/logo.jpg') }}">
         <title>PT ASH SHOFWAH GROUP</title>
         <link rel="stylesheet" href="{{ asset('asset_landing_page/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('asset_landing_page/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('asset_landing_page/css/templatemo_style.css') }}">
+        <link rel="stylesheet" href="{{ asset('asset_landing_page/css/templatemo_style.css') . '?v=' . time() }}">
         <link rel="stylesheet" href="{{ asset('asset_landing_page/style.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('asset/plugins/fontawesome-free/css/all.min.css') }}">
@@ -113,6 +110,6 @@
         <script src="{{ asset('asset_landing_page/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('asset_landing_page/js/jquery.parallax.js') }}"></script>
         <!-- template mo config script -->
-        <script src="{{ asset('asset_landing_page/js/templatemo_scripts.js') }}"></script>
+        <script src="{{ asset('asset_landing_page/js/templatemo_scripts.js') . '?v=' . time() }}"></script>
     </body>
 </html>

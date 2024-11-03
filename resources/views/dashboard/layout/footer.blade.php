@@ -59,6 +59,8 @@
 <script src="{{ asset('asset/plugins/summernote/summernote-bs4.min.js') }}"></script>
 <!-- overlayScrollbars -->
 <script src="{{ asset('asset/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
+<!-- Select2 -->
+<script src="{{ asset('asset/plugins/select2/js/select2.full.min.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('asset/dist/js/adminlte.js') }}"></script>
 <!-- AdminLTE for demo purposes -->

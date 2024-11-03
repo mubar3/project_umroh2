@@ -63,12 +63,21 @@
                             <input name="nama" type="text" class="form-control" placeholder="nama" required>
                         </div>
                         <div class="form-group">
-                        <label>Jenis kelamin</label>
-                        <select name="kelamin" id="select_hapus_awal" class="form-control select2" style="width: 100%;" required>
-                            <option value="" disable selected>jenis kelamin</option>
-                            <option value="pria">pria</option>
-                            <option value="wanita">wanita</option>
-                        </select>
+                            <label>Jenis kelamin</label>
+                            <select name="kelamin" id="select_hapus_awal" class="form-control" style="width: 100%;" required>
+                                <option value="" disable selected>jenis kelamin</option>
+                                <option value="pria">pria</option>
+                                <option value="wanita">wanita</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Paket</label>
+                            <select name="paket" id="select_hapus_awal" class="form-control select2" style="width: 100%;" required>
+                                <option value="" disable selected>Daftar paket</option>
+                                @foreach ($paket as $daftar)
+                                    <option value="{{ $daftar->id_paket }}">{{ $daftar->judul }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <!-- /.col -->
@@ -84,6 +93,11 @@
                         <div class="form-group">
                             <label>Nomor Whatsapp / Nomor telfon</label>
                             <input name="nomor" type="text" class="form-control" placeholder="nomor" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Koordinator</label>
+                            <select name="koordinator" id="select_hapus_awal" class="form-control select-koordinator" style="width: 100%;" required>
+                            </select>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>

@@ -21,6 +21,8 @@ class Entry_controller extends Controller
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
             'nomor' => 'required',
+            'paket' => 'required',
+            'koordinator' => 'required',
         ]);
         if(!empty($cek_validator)){
             session()->flash('eror', $cek_validator);
@@ -38,6 +40,8 @@ class Entry_controller extends Controller
                 'tanggal_lahir'  => $data->tanggal_lahir,
                 'nomor'  => $data->nomor,
                 'jenis_akun'  => 'jamaah',
+                'paket'  => $data->paket,
+                'koordinator'  => $data->koordinator,
             ]);
             DB::commit();
             session()->flash('success', 'Jamaah telah berhasil ditambahkan');
@@ -62,6 +66,23 @@ class Entry_controller extends Controller
         }else{
             return response()->json(['message' => 'User not found.'], 404);
         }
+
+    }
+
+    function ajax_get_koordinator(Request $data) {
+
+        // Ambil query dari parameter 'q' yang dikirim oleh Select2
+        $search = $data->input('q');
+
+        // Query ke database, misalnya mencari nama yang mirip dengan keyword
+        $data = Anggota::select('id_anggota as id', 'nama as text') // 'text' adalah format yang dibutuhkan Select2
+                ->where('nama', 'like', '%' . $search . '%')
+                ->where('status','y')
+                ->where('jenis_akun','koordinator')
+                ->get();
+
+        // Mengembalikan data dalam format JSON
+        return response()->json(['items' => $data]);
 
     }
 }

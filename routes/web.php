@@ -39,6 +39,7 @@ Route::post('/tambah_jamaah', [Entry_controller::class, 'tambah_jamaah']);
 // Route::get('/ajax_get_jamaah', [Entry_controller::class, 'ajax_get_jamaah']);
 Route::get('/ajax_get_jamaah', 'App\Http\Controllers\Entry_controller@ajax_get_jamaah')->middleware('check.ajax.source');
 Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware('check.ajax.source');
+Route::get('/ajax_get_koordinator', 'App\Http\Controllers\Entry_controller@ajax_get_koordinator')->middleware('check.ajax.source');
 
 
 
