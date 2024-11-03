@@ -41,5 +41,9 @@ Route::get('/ajax_get_jamaah', 'App\Http\Controllers\Entry_controller@ajax_get_j
 Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware('check.ajax.source');
 Route::get('/ajax_get_koordinator', 'App\Http\Controllers\Entry_controller@ajax_get_koordinator')->middleware('check.ajax.source');
 
-
+// alamat
+Route::get('provinces', 'App\Http\Controllers\Controller@provinces')->name('provinces');
+Route::get('cities', 'App\Http\Controllers\Controller@cities')->name('cities');
+Route::get('districts', 'App\Http\Controllers\Controller@districts')->name('districts');
+Route::get('villages', 'App\Http\Controllers\Controller@villages')->name('villages');
 

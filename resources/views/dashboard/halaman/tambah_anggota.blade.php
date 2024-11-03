@@ -99,6 +99,39 @@
                             <select name="koordinator" id="select_hapus_awal" class="form-control select-koordinator" style="width: 100%;" required>
                             </select>
                         </div>
+                        <div class="form-group" for="provinsi">
+                            <label>Provinsi</label>
+                            @php
+                                $provinces = new App\Http\Controllers\Controller;
+                                $provinces= $provinces->provinces();
+                            @endphp
+                            <select class="form-control" name="provinsi" id="provinsi" required>
+                                <option>==Pilih Salah Satu==</option>
+                                @foreach ($provinces as $item)
+                                    <option value="{{ $item->id ?? '' }}">{{ $item->name ?? '' }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group" for="kota">
+                            <label>Kabupaten / Kota</label>
+                            <select class="form-control" name="kota" id="kota" required>
+                                <option>==Pilih Salah Satu==</option>
+                            </select>
+                        </div>
+                        <div class="form-group" for="kecamatan">
+                            <label>Kecamatan</label>
+                            <select class="form-control" name="kecamatan" id="kecamatan" required>
+                                <option>==Pilih Salah Satu==</option>
+                            </select>
+                        </div>
+                        <div class="form-group" for="desa">
+                            <label>Desa</label>
+                            <select class="form-control" name="desa" id="desa" required>
+                                <option>==Pilih Salah Satu==</option>
+                            </select>
+                        </div>
+
+
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
