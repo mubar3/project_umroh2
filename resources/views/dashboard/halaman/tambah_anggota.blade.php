@@ -120,7 +120,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nomor Whatsapp / Nomor telfon  <span class="right badge badge-success">wajib</span></label>
-                            <input name="nomor" type="text" class="form-control" placeholder="nomor" required>
+                            <input name="nomor" type="number" class="form-control" placeholder="nomor" required>
                         </div>
                         <div class="form-group">
                             <label>Koordinator  <span class="right badge badge-success">wajib</span></label>
@@ -239,7 +239,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nomor Whatsapp / Nomor telfon  <span class="right badge badge-success">wajib</span></label>
-                            <input name="nomor" type="text" class="form-control" placeholder="nomor" required>
+                            <input name="nomor" type="number" class="form-control" placeholder="nomor" required>
                         </div>
                         <div class="form-group">
                             <label>Leader  <span class="right badge badge-success">wajib</span></label>
