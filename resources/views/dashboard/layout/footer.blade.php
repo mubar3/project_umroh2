@@ -68,18 +68,6 @@
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="{{ asset('asset/dist/js/pages/dashboard.js') }}"></script>
 <script>
-    // Mendapatkan elemen input tanggal
-    const tanggalInput = document.getElementById('tanggal_hari_ini');
-    if (tanggalInput) {
-        // Mendapatkan tanggal hari ini
-        const today = new Date().toISOString().split('T')[0];
-
-        // Mengatur nilai default input tanggal ke hari ini
-        tanggalInput.value = today;
-    }
-
-</script>
-<script>
     const select = document.getElementById('select_hapus_awal');
     if(select){
         // Menghapus opsi pertama ketika dropdown dibuka

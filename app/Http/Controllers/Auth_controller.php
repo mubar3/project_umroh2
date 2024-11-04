@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Anggota;
+use App\Models\Bank;
 use App\Models\Daftar_paket;
 
 class Auth_controller extends Controller
@@ -39,9 +40,11 @@ class Auth_controller extends Controller
 
     function tambah_anggota() {
         $paket=Daftar_paket::where('status','y')->get();
+        $bank=Bank::where('status','y')->get();
         return view('dashboard.halaman')->with([
             'halaman'   => 'tambah_anggota',
-            'paket'   => $paket
+            'paket'   => $paket,
+            'bank'   => $bank,
 
         ]);
     }
