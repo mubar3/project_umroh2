@@ -27,6 +27,7 @@
             <div class="small-box bg-info">
               <div class="inner">
                 <h5>Rp 1.000.000</h5>
+                <span class="right badge badge-primary">Coming Soon</span>
 
                 <p>Total pemasukan</p>
               </div>
@@ -66,6 +67,7 @@
               <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
+
           <!-- ./col -->
           {{-- <div class="col-lg-3 col-6">
             <!-- small box -->
@@ -84,6 +86,28 @@
           <!-- ./col -->
         </div>
         <!-- /.row -->
+
+         <!-- BAR CHART -->
+         <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">Anggota</h3>
+
+              <div class="card-tools">
+                {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                  <i class="fas fa-minus"></i>
+                </button> --}}
+                {{-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                  <i class="fas fa-times"></i>
+                </button> --}}
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="chart">
+                <canvas id="barChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+              </div>
+            </div>
+            <!-- /.card-body -->
+          </div>
       </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->

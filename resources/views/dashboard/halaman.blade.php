@@ -19,6 +19,8 @@
     @include('dashboard.halaman.ajax.daftar_anggota')
 @elseif($halaman == 'tambah_anggota')
     @include('dashboard.halaman.ajax.tambah_anggota')
+@elseif($halaman == 'home')
+    @include('dashboard.halaman.ajax.home')
 @endif
 
 @include('dashboard.halaman.ajax.default')
