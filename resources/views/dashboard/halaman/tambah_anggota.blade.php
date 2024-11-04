@@ -124,7 +124,7 @@
                         </div>
                         <div class="form-group">
                             <label>Koordinator  <span class="right badge badge-success">wajib</span></label>
-                            <select name="koordinator" id="select_hapus_awal" class="form-control select-koordinator" style="width: 100%;" required>
+                            <select name="koordinator" class="form-control select-koordinator" style="width: 100%;" required>
                             </select>
                         </div>
                         <div class="form-group">
@@ -243,7 +243,7 @@
                         </div>
                         <div class="form-group">
                             <label>Leader  <span class="right badge badge-success">wajib</span></label>
-                            <select name="leader" id="select_hapus_awal" class="form-control select-leader" style="width: 100%;" required>
+                            <select name="leader" class="form-control select-leader" style="width: 100%;" required>
                             </select>
                         </div>
                         <div class="form-group">

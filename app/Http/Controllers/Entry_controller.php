@@ -111,6 +111,7 @@ class Entry_controller extends Controller
 
 
             User::create([
+                'id_anggota' => $tambah_anggota->id_anggota,
                 'name' => $data->nama,
                 'email' => $tambah_anggota->id_anggota.'@leader',
                 'role' => 4,
@@ -148,10 +149,10 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        $data = Anggota::select('id_anggota as id', 'nama as text') // 'text' adalah format yang dibutuhkan Select2
-                ->where('nama', 'like', '%' . $search . '%')
+        $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                ->where('name', 'like', '%' . $search . '%')
                 ->where('status','y')
-                ->where('jenis_akun','koordinator')
+                ->where('role',4)
                 ->get();
 
         // Mengembalikan data dalam format JSON
