@@ -58,7 +58,11 @@
                             </div>
                             <div class="col-md-6 col-12 text-center">
                                 <h4>{{ $anggota->nama }}</h4>
-                                <p class="text-muted">Paket yang diambil : {{ $anggota->paket }}</p>
+                                @if(!empty($anggota->koordinator))
+                                    <p class="text-muted">Paket yang diambil : {{ $anggota->paket }}</p>
+                                @else
+                                    <br>
+                                @endif
                                 <h5>Foto Identitas</h5>
                                 <div class="profile-picture">
                                     <img width="100" src="{{ $anggota->foto }}" class="img-fluid" alt="Foto Identitas">
