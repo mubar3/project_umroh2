@@ -22,19 +22,23 @@ use App\Http\Controllers\Controller;
 
 // auth
 Route::get('/', [Controller::class, 'index']);
-Route::get('/login_page', [Auth_controller::class, 'index']);
+Route::get('/login_page', [Auth_controller::class, 'index'])->name('login_page');
 Route::post('/login', [Auth_controller::class, 'login']);
 Route::get('/logout', [Auth_controller::class, 'logout']);
 
-// halaman
-Route::get('/home', [Auth_controller::class, 'home']);
-Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota']);
-Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota']);
+
+Route::middleware(['auth'])->group(function () {
+
+    // halaman
+    Route::get('/home', [Auth_controller::class, 'home']);
+    Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota']);
+    Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota']);
 
 
-// action
-Route::post('/tambah_jamaah', [Entry_controller::class, 'tambah_jamaah']);
-Route::post('/tambah_koordinator', [Entry_controller::class, 'tambah_koordinator']);
+    // action
+    Route::post('/tambah_jamaah', [Entry_controller::class, 'tambah_jamaah']);
+    Route::post('/tambah_koordinator', [Entry_controller::class, 'tambah_koordinator']);
+});
 
 // ajax
 // Route::get('/ajax_get_jamaah', [Entry_controller::class, 'ajax_get_jamaah']);
