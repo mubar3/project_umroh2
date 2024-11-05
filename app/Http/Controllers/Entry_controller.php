@@ -138,7 +138,7 @@ class Entry_controller extends Controller
             User::create([
                 'id_anggota' => $tambah_anggota->id_anggota,
                 'name' => $data->nama,
-                'email' => $tambah_anggota->id_anggota.'@leader',
+                'email' => $tambah_anggota->id_anggota.'@koordinator',
                 'role' => 4,
                 'password' => bcrypt('asd'), // Pastikan untuk mengenkripsi password
             ]);
@@ -216,10 +216,12 @@ class Entry_controller extends Controller
 
     function ajax_get_jamaah() {
         $anggota=Anggota::select(
-                '*',
-                DB::raw("concat('".env('APP_URL')."','/storage/foto/',foto) as foto"),
+                'anggota.*',
+                DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as foto"),
+                'users.email',
             )
-            ->where('status','y')
+            ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+            ->where('anggota.status','y')
             ->get();
         return response()->json($anggota);
     }

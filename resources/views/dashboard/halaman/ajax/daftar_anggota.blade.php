@@ -40,6 +40,7 @@
                 },
                 { "data": "nomor" },
                 { "data": "jenis_akun" },
+                { "data": "email" },
                 {
                     "data": null,
                     "render": function(data, type, row) {

@@ -44,6 +44,7 @@
               <th>TTL</th>
               <th>Nomor HP</th>
               <th>Jenis Anggota</th>
+              <th>Email</th>
               <th>Action</th>
             </tr>
             </thead>
