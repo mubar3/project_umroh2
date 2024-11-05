@@ -364,8 +364,9 @@ class Entry_controller extends Controller
 
     }
 
-    function ajax_get_user() {
-        if(Auth::user()->role == 1){
+    function ajax_get_user($userid) {
+        $user=User::find($userid);
+        if($user->role == 1){
             $user=User::select(
                     '*',
                     DB::raw("CASE WHEN role = 1 THEN 'ADMIN'
@@ -379,7 +380,7 @@ class Entry_controller extends Controller
                 ->where('status','y')
                 ->get();
             return response()->json($user);
-        }elseif(Auth::user()->role == 2){
+        }elseif($user->role == 2){
             $user=User::select(
                     '*',
                     DB::raw("CASE WHEN role = 1 THEN 'ADMIN'
