@@ -368,12 +368,14 @@ class Entry_controller extends Controller
         if(Auth::user()->role == 1){
             $user=User::select(
                     '*',
-                    DB::raw("CASE WHEN 'role' = 1 THEN 'ADMIN'
-                        WHEN 'role' = 2 THEN 'TOP LEADER'
-                        WHEN 'role' = 3 THEN 'LEADER'
-                        WHEN 'role' = 4 THEN 'ADMINISTRATOR'
-                        ELSE 'UNKNOWN'
-                        END as 'role'
+                    DB::raw("
+                        CASE
+                            WHEN `role` = 1 THEN 'ADMIN'
+                            WHEN `role` = 2 THEN 'TOP LEADER'
+                            WHEN `role` = 3 THEN 'LEADER'
+                            WHEN `role` = 4 THEN 'ADMINISTRATOR'
+                            ELSE 'UNKNOWN'
+                        END AS `role`
                     ")
                 )
                 ->where('status','y')
@@ -382,12 +384,14 @@ class Entry_controller extends Controller
         }elseif(Auth::user()->role == 2){
             $user=User::select(
                     '*',
-                    DB::raw("CASE WHEN 'role' = 1 THEN 'ADMIN'
-                        WHEN 'role' = 2 THEN 'TOP LEADER'
-                        WHEN 'role' = 3 THEN 'LEADER'
-                        WHEN 'role' = 4 THEN 'ADMINISTRATOR'
-                        ELSE 'UNKNOWN'
-                        END as 'role'
+                    DB::raw("
+                        CASE
+                            WHEN `role` = 1 THEN 'ADMIN'
+                            WHEN `role` = 2 THEN 'TOP LEADER'
+                            WHEN `role` = 3 THEN 'LEADER'
+                            WHEN `role` = 4 THEN 'ADMINISTRATOR'
+                            ELSE 'UNKNOWN'
+                        END AS `role`
                     ")
                 )
                 ->where('status','y')
