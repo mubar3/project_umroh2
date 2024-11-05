@@ -6,7 +6,7 @@
     <strong>Copyright &copy; {{ date('Y') }} <a href="https://adminlte.io">PT ASH SHOFWAH GROUP</a>.</strong>
     All rights reserved.
     <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> {{ env('version')}}
+      <b>Version</b> {{ env('VERSION')}}
     </div>
   </footer>
 
