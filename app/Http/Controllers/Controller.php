@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 use App\Models\Daftar_paket;
 use Validator;
 use Illuminate\Http\Request;
+use Intervention\Image\Laravel\Facades\Image;
 
 class Controller extends BaseController
 {
@@ -65,4 +66,15 @@ class Controller extends BaseController
     {
         return \Indonesia::findDistrict($request->id, ['villages'])->villages->pluck('name', 'id');
     }
+
+    public function upload_foto($foto,$lokasi,$namafile) {
+        // Buat instance gambar dari file
+        $image = Image::read($foto);
+
+        // Kompres gambar (menyesuaikan ukuran dan kualitas)
+        $image->scale(width: 300);
+
+        return $image->save($lokasi.'/'.$namafile);
+    }
+
 }

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class Entry_controller extends Controller
 {
@@ -28,6 +29,8 @@ class Entry_controller extends Controller
             'kota' => 'required',
             'kecamatan' => 'required',
             'desa' => 'required',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ktp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             // 'alamat' => 'required',
         ]);
         if(!empty($cek_validator)){
@@ -38,6 +41,14 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+            $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+            $this->upload_foto($data->foto,public_path('/storage/foto'),$nama_foto);
+            $data->foto=$nama_foto;
+
+            $nama_foto='ktp'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+            $this->upload_foto($data->ktp,public_path('/storage/ktp'),$nama_foto);
+            $data->ktp=$nama_foto;
+
             Anggota::create([
                 'nama'  => $data->nama,
                 'tanggal_mendaftar'  => $data->tanggal,
@@ -53,6 +64,8 @@ class Entry_controller extends Controller
                 'jenis_akun'  => 'jamaah',
                 'paket'  => $data->paket,
                 'koordinator'  => $data->koordinator,
+                'foto'  => $data->foto,
+                'ktp'  => $data->ktp,
             ]);
             DB::commit();
             session()->flash('success', 'Jamaah telah berhasil ditambahkan');
@@ -81,6 +94,8 @@ class Entry_controller extends Controller
             'bank' => 'required',
             'nama_rekening' => 'required',
             'nomor_rekening' => 'required',
+            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'ktp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
         if(!empty($cek_validator)){
             session()->flash('eror', $cek_validator);
@@ -90,6 +105,14 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+            $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+            $this->upload_foto($data->foto,public_path('/storage/foto'),$nama_foto);
+            $data->foto=$nama_foto;
+
+            $nama_foto='ktp'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+            $this->upload_foto($data->ktp,public_path('/storage/ktp'),$nama_foto);
+            $data->ktp=$nama_foto;
+
             $tambah_anggota=Anggota::create([
                 'nama'  => $data->nama,
                 'tanggal_mendaftar'  => $data->tanggal,
@@ -107,6 +130,8 @@ class Entry_controller extends Controller
                 'bank'  => $data->bank,
                 'nama_rekening'  => $data->nama_rekening,
                 'nomor_rekening'  => $data->nomor_rekening,
+                'foto'  => $data->foto,
+                'ktp'  => $data->ktp,
             ]);
 
 

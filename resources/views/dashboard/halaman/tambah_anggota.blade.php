@@ -52,7 +52,7 @@
               <div class="row">
 
                   <div class="col-md-6">
-                        <form action="{{ url('/tambah_jamaah') }}" method="post">
+                        <form action="{{ url('/tambah_jamaah') }}" method="post" enctype="multipart/form-data">
                             @csrf
                         <div class="form-group">
                             <label>Tanggal mendaftar  <span class="right badge badge-success">wajib</span></label>
@@ -136,6 +136,20 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>PasFoto <span class="right badge badge-success">wajib</span></label>
+                            <div class="custom-file">
+                                <input name="foto" type="file" class="custom-file-input" id="customFile" required>
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Foto KTP  <span class="right badge badge-success">wajib</span></label>
+                            <div class="custom-file">
+                                <input name="ktp" type="file" class="custom-file-input" id="customFile" required>
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
 
 
 
@@ -171,7 +185,7 @@
               <div class="row">
 
                   <div class="col-md-6">
-                        <form action="{{ url('/tambah_koordinator') }}" method="post">
+                        <form action="{{ url('/tambah_koordinator') }}" method="post" enctype="multipart/form-data">
                             @csrf
                         <div class="form-group">
                             <label>Tanggal mendaftar  <span class="right badge badge-success">wajib</span></label>
@@ -262,6 +276,20 @@
                         <div class="form-group">
                             <label>Nomor rekening  <span class="right badge badge-success">wajib</span></label>
                             <input name="nomor_rekening" type="number" class="form-control" placeholder="nomor rekening" required>
+                        </div>
+                        <div class="form-group">
+                            <label>PasFoto <span class="right badge badge-success">wajib</span></label>
+                            <div class="custom-file">
+                                <input name="foto" type="file" class="custom-file-input" id="customFile" required>
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Foto KTP <span class="right badge badge-success">wajib</span></label>
+                            <div class="custom-file">
+                                <input name="ktp" type="file" class="custom-file-input" id="customFile" required>
+                                <label class="custom-file-label" for="customFile">Choose file</label>
+                            </div>
                         </div>
 
 
