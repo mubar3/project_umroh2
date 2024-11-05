@@ -31,6 +31,7 @@ class Auth_controller extends Controller
     }
 
     function home() {
+        $this->log_web('/home');
         $jumlah_jamaah=Anggota::where('jenis_akun','jamaah')->where('status','y')->count();
         return view('dashboard.halaman')->with([
             'halaman'   => 'home',
@@ -68,6 +69,7 @@ class Auth_controller extends Controller
     }
 
     function logout() {
+        $this->log_web('/logout');
         Auth::logout();
         return redirect('/login_page'); // Redirect ke halaman login setelah logout
     }

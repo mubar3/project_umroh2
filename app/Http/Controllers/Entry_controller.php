@@ -41,6 +41,8 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+            $this->log_web('/tambah_jamaah');
+
             $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
             $this->upload_foto($data->foto,public_path('/storage/foto'),$nama_foto);
             $data->foto=$nama_foto;
@@ -105,6 +107,8 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+            $this->log_web('/tambah_koordinator');
+
             $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
             $this->upload_foto($data->foto,public_path('/storage/foto'),$nama_foto);
             $data->foto=$nama_foto;
@@ -165,6 +169,7 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+            $this->log_web('/tambah_user');
 
             if($data->role == 2 && Auth::user()->role == 1){
                 // admin input top leader
@@ -227,9 +232,31 @@ class Entry_controller extends Controller
     }
 
     function ajax_hapus_jamaah($id){
+        $this->log_web('/hapus_anggota');
+
         $anggota=Anggota::find($id);
         if($anggota){
+            // id koordinator
+            User::where('id_anggota',$id)->update(['status' => 'n']);
+
             $anggota->update(['status'=>'n']);
+            return response()->json(['message' => 'User deleted successfully.']);
+        }else{
+            return response()->json(['message' => 'User not found.'], 404);
+        }
+
+    }
+
+    function ajax_hapus_user($id){
+        $this->log_web('/hapus_user');
+
+        $user=User::find($id);
+        if($user){
+            // id koordinator
+            Anggota::where('id_anggota',$user->id_anggota)->update(['status' => 'n']);
+
+            $user->update(['status'=>'n']);
+
             return response()->json(['message' => 'User deleted successfully.']);
         }else{
             return response()->json(['message' => 'User not found.'], 404);

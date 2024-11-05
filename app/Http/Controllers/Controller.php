@@ -7,9 +7,11 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Routing\Controller as BaseController;
 use App\Models\Daftar_paket;
+use App\Models\Log;
 use Validator;
 use Illuminate\Http\Request;
 use Intervention\Image\Laravel\Facades\Image;
+use Illuminate\Support\Facades\Auth;
 
 class Controller extends BaseController
 {
@@ -26,6 +28,15 @@ class Controller extends BaseController
         return view('landing_page')->with([
             'daftar_paket'   => $daftar_paket,
         ]);
+    }
+
+    function log_web($url) {
+        Log::create([
+            'user'  => Auth::user()->id,
+            'url'   => $url,
+            'ip'    => request()->ip(),
+        ]);
+
     }
 
     public function isNullOrEmpty($variable) {
