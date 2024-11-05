@@ -44,8 +44,19 @@
                 {
                     "data": null,
                     "render": function(data, type, row) {
-                        return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_anggota + '">' +
-                                '<i class="fas fa-trash"></i> Hapus</button>';
+                        return `
+                            <div class="btn-group">
+                                <a href="{{ url('/data_anggota') }}/${row.id_anggota}" target="_blank" class="btn btn-info">
+                                    <i class="fas fa-eye"></i> Lihat
+                                </a>
+                                <button type="button" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> Edit
+                                </button>
+                                <button type="button" class="btn btn-danger btn-hapus" data-id="${row.id_anggota}">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </div>
+                        `;
                     }
                 }
             ],

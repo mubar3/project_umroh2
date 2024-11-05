@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Anggota;
 use App\Models\Bank;
 use App\Models\Daftar_paket;
+use Illuminate\Support\Facades\DB;
 
 class Auth_controller extends Controller
 {
@@ -65,6 +66,31 @@ class Auth_controller extends Controller
     function daftar_user() {
         return view('dashboard.halaman')->with([
             'halaman'   => 'daftar_user',
+        ]);
+    }
+
+    function data_anggota($id) {
+        $anggota=Anggota::select(
+                'anggota.*',
+                'p.name as provinsi',
+                'kc.name as kecamatan',
+                'k.name as kota',
+                'd.name as desa',
+                'dp.judul as paket',
+                'users.name as koordinator',
+                DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+            )
+            ->join('indonesia_provinces as p','p.id','=','anggota.provinsi')
+            ->join('indonesia_cities as k','k.id','=','anggota.kota')
+            ->join('indonesia_districts as kc','kc.id','=','anggota.kecamatan')
+            ->join('indonesia_villages as d','d.id','=','anggota.desa')
+            ->leftjoin('daftar_paket as dp','dp.id_paket','=','anggota.paket')
+            ->leftjoin('users','users.id','=','anggota.koordinator')
+            ->where('anggota.id_anggota',$id)
+            ->first();
+
+        return view('data_anggota')->with([
+            'anggota'   => $anggota,
         ]);
     }
 

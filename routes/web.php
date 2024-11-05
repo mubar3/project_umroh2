@@ -25,6 +25,7 @@ Route::get('/', [Controller::class, 'index']);
 Route::get('/login_page', [Auth_controller::class, 'index'])->name('login_page');
 Route::post('/login', [Auth_controller::class, 'login']);
 Route::get('/logout', [Auth_controller::class, 'logout']);
+Route::get('/data_anggota/{id}', [Auth_controller::class, 'data_anggota']);
 
 
 Route::middleware(['auth'])->group(function () {
