@@ -51,7 +51,7 @@ Route::get('/ajax_get_koordinator', 'App\Http\Controllers\Entry_controller@ajax_
 Route::get('/ajax_get_leader', 'App\Http\Controllers\Entry_controller@ajax_get_leader')->middleware('check.ajax.source');
 Route::get('/ajax_get_chart', 'App\Http\Controllers\Entry_controller@ajax_get_chart')->middleware('check.ajax.source');
 Route::get('/ajax_get_top_leader', 'App\Http\Controllers\Entry_controller@ajax_get_top_leader')->middleware('check.ajax.source');
-Route::get('/ajax_get_user/{userid}', 'App\Http\Controllers\Entry_controller@ajax_get_user')->middleware('check.ajax.source');
+Route::get('/ajax_get_user', 'App\Http\Controllers\Entry_controller@ajax_get_user')->middleware('check.ajax.source');
 
 // alamat
 Route::get('provinces', 'App\Http\Controllers\Controller@provinces')->name('provinces');

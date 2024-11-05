@@ -8,7 +8,7 @@
             // "scrollX": true,
             "autoWidth": false,
             "ajax": {
-                "url": "{{ env('APP_URL').'/ajax_get_user/'.Auth::user()->id }}", // Ganti dengan URL API Anda
+                "url": "{{ env('APP_URL').'/ajax_get_user' }}", // Ganti dengan URL API Anda
                 "type": "GET",
                 "headers": {
                     'X-Requested-With': 'XMLHttpRequest'

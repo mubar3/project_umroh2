@@ -217,7 +217,7 @@ class Entry_controller extends Controller
     function ajax_get_jamaah() {
         $anggota=Anggota::select(
                 'anggota.*',
-                DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as foto"),
+                DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
                 'users.email',
             )
             ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
@@ -364,31 +364,30 @@ class Entry_controller extends Controller
 
     }
 
-    function ajax_get_user($userid) {
-        $user=User::find($userid);
-        if($user->role == 1){
+    function ajax_get_user() {
+        if(Auth::user()->role == 1){
             $user=User::select(
                     '*',
-                    DB::raw("CASE WHEN role = 1 THEN 'ADMIN'
-                        WHEN role = 2 THEN 'TOP LEADER'
-                        WHEN role = 3 THEN 'LEADER'
-                        WHEN role = 4 THEN 'ADMINISTRATOR'
+                    DB::raw("CASE WHEN 'role' = 1 THEN 'ADMIN'
+                        WHEN 'role' = 2 THEN 'TOP LEADER'
+                        WHEN 'role' = 3 THEN 'LEADER'
+                        WHEN 'role' = 4 THEN 'ADMINISTRATOR'
                         ELSE 'UNKNOWN'
-                        END as role
+                        END as 'role'
                     ")
                 )
                 ->where('status','y')
                 ->get();
             return response()->json($user);
-        }elseif($user->role == 2){
+        }elseif(Auth::user()->role == 2){
             $user=User::select(
                     '*',
-                    DB::raw("CASE WHEN role = 1 THEN 'ADMIN'
-                        WHEN role = 2 THEN 'TOP LEADER'
-                        WHEN role = 3 THEN 'LEADER'
-                        WHEN role = 4 THEN 'ADMINISTRATOR'
+                    DB::raw("CASE WHEN 'role' = 1 THEN 'ADMIN'
+                        WHEN 'role' = 2 THEN 'TOP LEADER'
+                        WHEN 'role' = 3 THEN 'LEADER'
+                        WHEN 'role' = 4 THEN 'ADMINISTRATOR'
                         ELSE 'UNKNOWN'
-                        END as role
+                        END as 'role'
                     ")
                 )
                 ->where('status','y')
