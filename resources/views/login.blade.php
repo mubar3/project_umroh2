@@ -64,7 +64,7 @@
         </div>
         <div class="input-group mb-3">
                 <select name="role" id="select_hapus_awal" class="form-control" required>
-                    <option value="" disable selected>JENIS AKUN</option>
+                    <option value="" disable selected>ROLE</option>
                     <option value="1">Admin</option>
                     <option value="2">Top leader</option>
                     <option value="3">leader</option>
