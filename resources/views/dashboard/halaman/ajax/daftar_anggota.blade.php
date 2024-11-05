@@ -23,6 +23,13 @@
             "columns": [
                 { "data": "id_anggota" },
                 { "data": "nama" },
+                // { "data": "foto" },
+                {
+                    "data": null,
+                    "render": function(data, type, row) {
+                        return '<img width="60" src="'+row.foto+'">';
+                    }
+                },
                 { "data": "tanggal_mendaftar" },
                 { "data": "jenis_kelamin" },
                 {

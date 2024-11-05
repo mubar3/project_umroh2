@@ -8,6 +8,10 @@
     @include('dashboard.halaman.tambah_anggota')
 @elseif($halaman == 'daftar_anggota')
     @include('dashboard.halaman.daftar_anggota')
+@elseif($halaman == 'tambah_user')
+    @include('dashboard.halaman.tambah_user')
+@elseif($halaman == 'daftar_user')
+    @include('dashboard.halaman.daftar_user')
 @endif
 
 {{-- footer --}}
@@ -21,6 +25,10 @@
     @include('dashboard.halaman.ajax.tambah_anggota')
 @elseif($halaman == 'home')
     @include('dashboard.halaman.ajax.home')
+@elseif($halaman == 'tambah_user')
+    @include('dashboard.halaman.ajax.tambah_user')
+@elseif($halaman == 'daftar_user')
+    @include('dashboard.halaman.ajax.daftar_user')
 @endif
 
 @include('dashboard.halaman.ajax.default')

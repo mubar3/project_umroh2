@@ -84,6 +84,32 @@
                   </p>
                 </a>
               </li>
+              @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <p>
+                            USERS
+                            <i class="fas fa-angle-left right"></i>
+                            {{-- <span class="badge badge-info right">6</span> --}}
+                        </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ url('/tambah_user')}}" class="nav-link">
+                            <i class="fas fa-edit"></i>
+                            <p>TAMBAH USER</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/daftar_user')}}" class="nav-link">
+                            <i class="fas fa-list"></i>
+                            <p>DAFTAR USER</p>
+                            </a>
+                        </li>
+                        </ul>
+                    </li>
+              @endif
               <li class="nav-item">
                 <a href="#" class="nav-link">
                   <i class="fas fa-users"></i>
@@ -94,12 +120,14 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                    <a href="{{ url('/tambah_anggota')}}" class="nav-link">
-                      <i class="fas fa-edit"></i>
-                      <p>TAMBAH ANGGOTA</p>
-                    </a>
-                  </li>
+                  @if(Auth::user()->role != 2)
+                    <li class="nav-item">
+                        <a href="{{ url('/tambah_anggota')}}" class="nav-link">
+                        <i class="fas fa-edit"></i>
+                        <p>TAMBAH ANGGOTA</p>
+                        </a>
+                    </li>
+                  @endif
                   <li class="nav-item">
                     <a href="{{ url('/daftar_anggota')}}" class="nav-link">
                       <i class="fas fa-list"></i>

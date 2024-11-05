@@ -28,6 +28,10 @@ class Controller extends BaseController
         ]);
     }
 
+    public function isNullOrEmpty($variable) {
+        return ( !isset($variable) || $variable === null || $variable === '' || $variable === 'null');
+    }
+
 
     public function validator($data,$validator)
     {

@@ -55,6 +55,18 @@ class Auth_controller extends Controller
         ]);
     }
 
+    function tambah_user() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'tambah_user',
+        ]);
+    }
+
+    function daftar_user() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'daftar_user',
+        ]);
+    }
+
     function logout() {
         Auth::logout();
         return redirect('/login_page'); // Redirect ke halaman login setelah logout

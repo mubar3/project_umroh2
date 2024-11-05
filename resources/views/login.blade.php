@@ -66,8 +66,8 @@
                 <select name="role" id="select_hapus_awal" class="form-control" required>
                     <option value="" disable selected>JENIS AKUN</option>
                     <option value="1">Admin</option>
-                    <option value="2">leader</option>
-                    <option value="3">Top leader</option>
+                    <option value="2">Top leader</option>
+                    <option value="3">leader</option>
                     <option value="4">Koordinator</option>
                   </select>
         </div>

@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">DAFTAR ANGGOTA</h1>
+            <h1 class="m-0">DAFTAR USER</h1>
 
 
 
@@ -30,39 +30,40 @@
     </div>
     <!-- /.content-header -->
 
-    <div class="card">
-        <!-- /.card-header -->
-        <div class="card-body">
-          <table id="tabel1" class="table table-bordered table-striped">
-            <thead>
-            <tr>
-              <th>Id Anggota</th>
-              <th>Nama</th>
-              <th>Foto</th>
-              <th>Tanggal Mendaftar</th>
-              <th>Jenis Kelamin</th>
-              <th>TTL</th>
-              <th>Nomor HP</th>
-              <th>Jenis Anggota</th>
-              <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            {{-- <tr>
-              <td>Trident</td>
-              <td>Internet
-                Explorer 4.0
-              </td>
-              <td>Win 95+</td>
-              <td> 4</td>
-              <td>X</td>
-            </tr> --}}
-          </table>
-        </div>
-        <!-- /.card-body -->
-      </div>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+
+        <div class="card">
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="tabel1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    {{-- <th>Action</th> --}}
+                </tr>
+                </thead>
+                <tbody>
+                {{-- <tr>
+                  <td>Trident</td>
+                  <td>Internet
+                    Explorer 4.0
+                  </td>
+                  <td>Win 95+</td>
+                  <td> 4</td>
+                  <td>X</td>
+                </tr> --}}
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
 
 
+      </div><!-- /.container-fluid -->
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->

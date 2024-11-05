@@ -153,8 +153,75 @@ class Entry_controller extends Controller
 
     }
 
+    function tambah_user(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'role' => 'required',
+            'nama' => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            session()->flash('eror', $cek_validator);
+            return redirect('/tambah_user');
+        }
+
+        DB::beginTransaction();
+        try {
+
+            if($data->role == 2 && Auth::user()->role == 1){
+                // admin input top leader
+                $data->top_leader = Auth::user()->id;
+            }elseif($data->role == 3 && Auth::user()->role == 1){
+                // admin input leader
+                if(!isset($data->top_leader) || isset($data->top_leader) && $this->isNullOrEmpty($data->top_leader)){
+                    session()->flash('eror', 'Data top leader kosong');
+                    return redirect('/tambah_user');
+                }
+            }elseif($data->role == 1 && Auth::user()->role == 1){
+                // admin input admin
+                $data->top_leader=null;
+            }elseif($data->role == 3 && Auth::user()->role == 2){
+                // top leader input leader
+                $data->top_leader = Auth::user()->id;
+            }else{
+                session()->flash('eror', 'Tidak valid');
+                return redirect('/tambah_user');
+            }
+
+            $insert=User::create([
+                'name' => $data->nama,
+                // 'email' => $tambah_anggota->id_anggota.'@leader',
+                'atasan' =>$data->top_leader,
+                'role' => $data->role,
+                'password' => bcrypt('asd'), // Pastikan untuk mengenkripsi password
+            ]);
+            if($data->role == 1){
+                $role='admin';
+            }elseif($data->role == 2){
+                $role='top.leader';
+            }else{
+                $role='leader';
+            }
+            User::find($insert->id)->update(['email' => $insert->id.'@'.$role]);
+
+
+            DB::commit();
+            session()->flash('success', 'User telah berhasil didaftarkann, dengan email '.$insert->id.'@'.$role.' dan password : asd');
+            return redirect('/tambah_user');
+        } catch (Exception $e) {
+            DB::rollBack();
+            session()->flash('eror', 'Terjadi Kesalahan dalam penyimpanan data, silahkan ulangi beberapa menit kemudian');
+            return redirect('/tambah_user');
+        }
+
+    }
+
     function ajax_get_jamaah() {
-        return response()->json(Anggota::where('status','y')->get());
+        $anggota=Anggota::select(
+                '*',
+                DB::raw("concat('".env('APP_URL')."','/storage/foto/',foto) as foto"),
+            )
+            ->where('status','y')
+            ->get();
+        return response()->json($anggota);
     }
 
     function ajax_hapus_jamaah($id){
@@ -197,6 +264,23 @@ class Entry_controller extends Controller
                 ->where('name', 'like', '%' . $search . '%')
                 ->where('status','y')
                 ->where('role',3)
+                ->get();
+
+        // Mengembalikan data dalam format JSON
+        return response()->json(['items' => $data]);
+
+    }
+
+    function ajax_get_top_leader(Request $data) {
+
+        // Ambil query dari parameter 'q' yang dikirim oleh Select2
+        $search = $data->input('q');
+
+        // Query ke database, misalnya mencari nama yang mirip dengan keyword
+        $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                ->where('name', 'like', '%' . $search . '%')
+                ->where('status','y')
+                ->where('role',2)
                 ->get();
 
         // Mengembalikan data dalam format JSON
@@ -276,5 +360,38 @@ class Entry_controller extends Controller
 
         return response()->json($data);
 
+    }
+
+    function ajax_get_user() {
+        if(Auth::user()->role == 1){
+            $user=User::select(
+                    '*',
+                    DB::raw("CASE WHEN role = 1 THEN 'ADMIN'
+                        WHEN role = 2 THEN 'TOP LEADER'
+                        WHEN role = 3 THEN 'LEADER'
+                        WHEN role = 4 THEN 'ADMINISTRATOR'
+                        ELSE 'UNKNOWN'
+                        END as role
+                    ")
+                )
+                ->where('status','y')
+                ->get();
+            return response()->json($user);
+        }elseif(Auth::user()->role == 2){
+            $user=User::select(
+                    '*',
+                    DB::raw("CASE WHEN role = 1 THEN 'ADMIN'
+                        WHEN role = 2 THEN 'TOP LEADER'
+                        WHEN role = 3 THEN 'LEADER'
+                        WHEN role = 4 THEN 'ADMINISTRATOR'
+                        ELSE 'UNKNOWN'
+                        END as role
+                    ")
+                )
+                ->where('status','y')
+                ->where('atasan',Auth::user()->id)
+                ->get();
+            return response()->json($user);
+        }
     }
 }
