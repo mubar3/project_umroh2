@@ -58,6 +58,11 @@
                             </div>
                             <div class="col-md-6 col-12 text-center">
                                 <h4>{{ $anggota->nama }}</h4>
+                                @if($anggota->status == 'y')
+                                    <span class="right badge badge-success">Aktif</span>
+                                @elseif ($anggota->status == 'n')
+                                    <span class="right badge badge-danger">Tidak Aktif</span>
+                                @endif
                                 @if(!empty($anggota->koordinator))
                                     <p class="text-muted">Paket yang diambil : {{ $anggota->paket }}</p>
                                 @else
