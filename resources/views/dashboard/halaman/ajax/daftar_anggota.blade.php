@@ -303,7 +303,7 @@
                 },
                 error: function(xhr, status, error) {
 
-                    $('#errorMessage').text(xhr.responseText);
+                    $('#errorMessage').text(JSON.parse(xhr.responseText).message);
                     $('#modalgagalEdit').modal('show');
                     // console.log(xhr)
                     // alert('Terjadi kesalahan: ' + xhr.responseText);
