@@ -70,7 +70,7 @@
                                 @endif
                                 <h5>Foto Identitas</h5>
                                 <div class="profile-picture">
-                                    <img width="100" src="{{ $anggota->foto }}" class="img-fluid" alt="Foto Identitas">
+                                    <img width="100" src="{{ $anggota->ktp }}" class="img-fluid" alt="Foto Identitas">
                                 </div>
                             </div>
 

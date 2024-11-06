@@ -228,7 +228,7 @@ class Entry_controller extends Controller
             'tempat_lahir' => 'required',
             'tanggal_lahir' => 'required',
             'nomor' => 'required',
-            'paket' => 'required',
+            // 'paket' => 'required',
             // 'koordinator' => 'required',
             'provinsi' => 'required',
             'kota' => 'required',
@@ -243,6 +243,16 @@ class Entry_controller extends Controller
         }
         if(!$this->isNullOrEmpty($data->ktp)){
             $validasi['ktp'] =  'required|image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+
+        if($data->jenis == 'jamaah'){
+            // ketika jamaah
+            $validasi['paket'] =  'required';
+        }else{
+            // ketika koordinator
+            $validasi['bank'] =  'required';
+            $validasi['nama_rekening'] =  'required';
+            $validasi['nomor_rekening'] =  'required';
         }
 
         $cek_validator=$this->validator($data,$validasi);
@@ -266,13 +276,22 @@ class Entry_controller extends Controller
                 'tempat_lahir'  => $data->tempat_lahir,
                 'tanggal_lahir'  => $data->tanggal_lahir,
                 'nomor'  => $data->nomor,
-                'jenis_akun'  => 'jamaah',
-                'paket'  => $data->paket,
+                // 'jenis_akun'  => 'jamaah',
+                // 'paket'  => $data->paket,
                 // 'koordinator'  => $data->koordinator,
                 // 'foto'  => $data->foto,
                 // 'ktp'  => $data->ktp,
             ];
 
+            if($data->jenis == 'jamaah'){
+                // ketika jamaah
+                $update['paket'] =  $data->paket;
+            }else{
+                // ketika koordinator
+                $update['bank'] =  $data->bank;
+                $update['nama_rekening'] =  $data->nama_rekening;
+                $update['nomor_rekening'] =  $data->nomor_rekening;
+            }
 
 
             if(!$this->isNullOrEmpty($data->koordinator)){

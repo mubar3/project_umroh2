@@ -83,6 +83,7 @@ class Auth_controller extends Controller
                 'dp.judul as paket',
                 'users.name as koordinator',
                 DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                DB::raw("concat('".env('APP_URL')."','/storage/ktp/',anggota.ktp) as 'ktp'"),
             )
             ->join('indonesia_provinces as p','p.id','=','anggota.provinsi')
             ->join('indonesia_cities as k','k.id','=','anggota.kota')

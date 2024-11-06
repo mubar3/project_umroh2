@@ -114,6 +114,7 @@
                     // Tampilkan data di modal atau elemen lainnya untuk diedit
                     // console.log(response.data);
                     // Contoh menampilkan data di form modal
+                    $('#jenis_akun').val(response.data.jenis_akun);
                     $('#anggota').val(response.data.id_anggota);
                     $('#nama').val(response.data.nama);
                     $('#tanggal_mendaftar').val(response.data.tanggal_mendaftar);
@@ -127,6 +128,19 @@
                     $('#tanggal_lahir').val(response.data.tanggal_lahir);
                     $('#nomor').val(response.data.nomor);
                     $('#paket').val(response.data.paket);
+                    $('#bank').val(response.data.bank);
+                    $('#nama_rekening').val(response.data.nama_rekening);
+                    $('#nomor_rekening').val(response.data.nomor_rekening);
+
+                    if(response.data.jenis_akun == 'jamaah'){
+                        $("#data-koordinator").show();
+                        $("#data-paket").show();
+                        $("#data-bank").hide();
+                    }else{
+                        $("#data-bank").show();
+                        $("#data-paket").hide();
+                        $("#data-koordinator").hide();
+                    }
 
 
                     $('#editModal').modal('show');
@@ -160,10 +174,11 @@
                     <form id="formEdit" method="POST" enctype="multipart/form-data">
                     {{-- <form action="{{ url('/edit_jamaah') }}" method="post" enctype="multipart/form-data"> --}}
                             <input type="hidden" id="anggota" name="id_anggota">
+                            <input type="hidden" id="jenis_akun" name="jenis_akun">
                             {{-- <input id="id_anggota" type="text" class="form-control" name="id_anggota"> --}}
                         {{-- <div class="col-md-6"> --}}
                             {{-- @csrf --}}
-                            <div class="form-group">
+                            <div class="form-group" id="data-koordinator">
                                 <label>Koordinator  <span class="right badge badge-secondary">Diisi ketika ganti koordinator</span></label>
                                 <select name="koordinator" class="form-control select-koordinator" style="width: 100%;" required>
                                 </select>
@@ -235,7 +250,7 @@
                                 <label>Nomor Whatsapp / Nomor telfon  <span class="right badge badge-success">wajib</span></label>
                                 <input name="nomor" id="nomor" type="number" class="form-control" placeholder="nomor" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" id="data-paket">
                                 <label>Paket  <span class="right badge badge-success">wajib</span></label>
                                 <select name="paket" id="paket" class="form-control select2" style="width: 100%;" required>
                                     <option value="" disable selected>Daftar paket</option>
@@ -243,6 +258,25 @@
                                         <option value="{{ $daftar->id_paket }}">{{ $daftar->judul }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                            <div id="data-bank">
+                                <div class="form-group">
+                                    <label>Bank  <span class="right badge badge-success">wajib</span></label>
+                                    <select class="form-control" id="bank" name="bank"required>
+                                        <option value="" disable selected>==Pilih Salah Satu==</option>
+                                        @foreach ($bank as $data_bank)
+                                            <option value="{{ $data_bank->id}}"> {{ $data_bank->nama_bank }} </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Rekening atas nama  <span class="right badge badge-success">wajib</span></label>
+                                    <input name="nama_rekening" id="nama_rekening" type="text" class="form-control" placeholder="nama rekening" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Nomor rekening  <span class="right badge badge-success">wajib</span></label>
+                                    <input name="nomor_rekening" id="nomor_rekening" type="number" class="form-control" placeholder="nomor rekening" required>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label>PasFoto <span class="right badge badge-secondary">Diisi ketika ganti foto</span></label>
