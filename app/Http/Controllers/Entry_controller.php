@@ -324,14 +324,86 @@ class Entry_controller extends Controller
     }
 
     function ajax_get_jamaah() {
-        $anggota=Anggota::select(
-                'anggota.*',
-                DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
-                'users.email',
-            )
-            ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
-            ->where('anggota.status','y')
-            ->get();
+        if(Auth::user()->role == 1){
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->get();
+        }elseif(Auth::user()->role == 2){
+
+            $koordinator=User::select(
+                    'koor.id as koordinator',
+                    'koor.id_anggota as koordinator_data',
+                )
+                ->join('users as koor','koor.atasan','=','users.id')
+                ->where('users.atasan',Auth::user()->id)
+                ->get();
+
+            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+            $koordinator = $koordinator->pluck('koordinator')->toArray();
+
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where(function ($where) use($koordinator,$koordinator_data){
+                    $where->whereIn('anggota.koordinator',$koordinator)
+                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
+                        ;
+                })
+                // ->whereIn('koordinator',$koordinator)
+                ->get();
+
+        }elseif(Auth::user()->role == 3){
+
+            $koordinator=User::select(
+                    'users.id as koordinator',
+                    'users.id_anggota as koordinator_data',
+                )
+                ->where('users.atasan',Auth::user()->id)
+                ->get();
+
+            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+            $koordinator = $koordinator->pluck('koordinator')->toArray();
+
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where(function ($where) use($koordinator,$koordinator_data){
+                    $where->whereIn('anggota.koordinator',$koordinator)
+                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
+                        ;
+                })
+                // ->whereIn('koordinator',$koordinator)
+                ->get();
+
+        }elseif(Auth::user()->role == 4){
+
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where('koordinator',Auth::user()->id)
+                ->get();
+
+        }else{
+            $anggota=[];
+        }
+
         return response()->json($anggota);
     }
 
