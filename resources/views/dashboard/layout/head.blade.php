@@ -34,4 +34,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('asset/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('asset/style.css') }}">
+    @if($halaman == 'daftar_anggota')
+        @include('dashboard.halaman.head.daftar_anggota')
+    @endif
 </head>

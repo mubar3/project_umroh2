@@ -24,7 +24,6 @@ use App\Http\Controllers\Controller;
 Route::get('/', [Controller::class, 'index']);
 Route::get('/login_page', [Auth_controller::class, 'index'])->name('login_page');
 Route::post('/login', [Auth_controller::class, 'login']);
-Route::get('/logout', [Auth_controller::class, 'logout']);
 Route::get('/data_anggota/{id}', [Auth_controller::class, 'data_anggota']);
 
 
@@ -39,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // action
+    Route::get('/logout', [Auth_controller::class, 'logout']);
     Route::post('/tambah_jamaah', [Entry_controller::class, 'tambah_jamaah']);
     Route::post('/tambah_koordinator', [Entry_controller::class, 'tambah_koordinator']);
     Route::post('/tambah_user', [Entry_controller::class, 'tambah_user']);
@@ -54,6 +54,8 @@ Route::get('/ajax_get_leader', 'App\Http\Controllers\Entry_controller@ajax_get_l
 Route::get('/ajax_get_chart', 'App\Http\Controllers\Entry_controller@ajax_get_chart')->middleware('check.ajax.source');
 Route::get('/ajax_get_top_leader', 'App\Http\Controllers\Entry_controller@ajax_get_top_leader')->middleware('check.ajax.source');
 Route::get('/ajax_get_user', 'App\Http\Controllers\Entry_controller@ajax_get_user')->middleware('check.ajax.source');
+Route::get('/ajax_data_jamaah/{id_anggota}', 'App\Http\Controllers\Entry_controller@ajax_data_jamaah')->middleware('check.ajax.source');
+Route::post('/ajax_update_anggota', 'App\Http\Controllers\Entry_controller@ajax_update_anggota');
 
 // alamat
 Route::get('provinces', 'App\Http\Controllers\Controller@provinces')->name('provinces');

@@ -52,8 +52,12 @@ class Auth_controller extends Controller
     }
 
     function daftar_anggota() {
+        $paket=Daftar_paket::where('status','y')->get();
+        $bank=Bank::where('status','y')->get();
         return view('dashboard.halaman')->with([
             'halaman'   => 'daftar_anggota',
+            'paket'   => $paket,
+            'bank'   => $bank,
         ]);
     }
 

@@ -219,6 +219,91 @@ class Entry_controller extends Controller
 
     }
 
+    function ajax_update_anggota(Request $data) {
+        $validasi=[
+            'id_anggota' => 'required',
+            'tanggal' => 'required',
+            'nama' => 'required',
+            'kelamin' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
+            'nomor' => 'required',
+            'paket' => 'required',
+            // 'koordinator' => 'required',
+            'provinsi' => 'required',
+            'kota' => 'required',
+            'kecamatan' => 'required',
+            'desa' => 'required',
+            // 'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'ktp' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'alamat' => 'required',
+        ];
+        if(!$this->isNullOrEmpty($data->foto)){
+            $validasi['foto'] =  'required|image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+        if(!$this->isNullOrEmpty($data->ktp)){
+            $validasi['ktp'] =  'required|image|mimes:jpeg,png,jpg,gif|max:2048';
+        }
+
+        $cek_validator=$this->validator($data,$validasi);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/update_anggota');
+            $update=[
+                'nama'  => $data->nama,
+                'tanggal_mendaftar'  => $data->tanggal,
+                'jenis_kelamin'  => $data->kelamin,
+                'provinsi'  => $data->provinsi,
+                'kota'  => $data->kota,
+                'kecamatan'  => $data->kecamatan,
+                'desa'  => $data->desa,
+                'alamat'  => $data->alamat,
+                'tempat_lahir'  => $data->tempat_lahir,
+                'tanggal_lahir'  => $data->tanggal_lahir,
+                'nomor'  => $data->nomor,
+                'jenis_akun'  => 'jamaah',
+                'paket'  => $data->paket,
+                // 'koordinator'  => $data->koordinator,
+                // 'foto'  => $data->foto,
+                // 'ktp'  => $data->ktp,
+            ];
+
+
+
+            if(!$this->isNullOrEmpty($data->koordinator)){
+                $update['koordinator'] = $data->koordinator;
+            }
+            if(!$this->isNullOrEmpty($data->foto)){
+                $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+                $this->upload_foto($data->foto,public_path('/storage/foto'),$nama_foto);
+                $update['foto'] = $nama_foto;
+            }
+            if(!$this->isNullOrEmpty($data->ktp)){
+                $nama_foto='ktp'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+                $this->upload_foto($data->ktp,public_path('/storage/ktp'),$nama_foto);
+                $update['ktp'] = $nama_foto;
+            }
+
+            $anggota=Anggota::find($data->id_anggota);
+            if(!$anggota){
+                return response()->json(['message' => 'Anggota tidak ditemukan'], 404);
+            }
+            $anggota->update($update);
+
+            DB::commit();
+            return response()->json(['message' => 'Data berhasil diupdate']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Anggota tidak ditemukan'], 404);
+        }
+
+    }
+
     function ajax_get_jamaah() {
         $anggota=Anggota::select(
                 'anggota.*',
@@ -229,6 +314,15 @@ class Entry_controller extends Controller
             ->where('anggota.status','y')
             ->get();
         return response()->json($anggota);
+    }
+
+    function ajax_data_jamaah($id_anggota) {
+        $anggota=Anggota::find($id_anggota);
+        if ($anggota) {
+            return response()->json(['success' => true, 'data' => $anggota]);
+        } else {
+            return response()->json(['success' => false, 'message' => 'Data anggota tidak ditemukan.'], 404);
+        }
     }
 
     function ajax_hapus_jamaah($id){
