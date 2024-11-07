@@ -94,7 +94,7 @@
                             {{-- <span class="badge badge-info right">6</span> --}}
                         </p>
                         </a>
-                        <ul class="nav nav-treeview">
+                        <ul class="nav nav-treeview" style="padding-left: 20px;">
                         <li class="nav-item">
                             <a href="{{ url('/tambah_user')}}" class="nav-link">
                             <i class="fas fa-edit"></i>
@@ -119,7 +119,7 @@
                     {{-- <span class="badge badge-info right">6</span> --}}
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" style="padding-left: 20px;">
                   {{-- @if(Auth::user()->role != 2) --}}
                     <li class="nav-item">
                         <a href="{{ url('/tambah_anggota')}}" class="nav-link">
@@ -146,7 +146,7 @@
                     {{-- <i class="fas fa-angle-left right"></i> --}}
                   </p>
                 </a>
-                <ul class="nav nav-treeview">
+                <ul class="nav nav-treeview" style="padding-left: 20px;">
                   <li class="nav-item">
                     <a href="" class="nav-link">
                       {{-- <i class="far fa-circle nav-icon"></i> --}}

@@ -57,9 +57,23 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
+                <h5>{{ $jumlah_jamaah_total }}</h5>
+
+                <p>Total Seluruh Jamaah</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+            </div>
+          </div>
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
                 <h5>{{ $jumlah_jamaah }}</h5>
 
-                <p>Total Jamaah</p>
+                <p>Total Jamaah Anda</p>
               </div>
               <div class="icon">
                 <i class="ion ion-person-add"></i>
@@ -90,7 +104,7 @@
          <!-- BAR CHART -->
          <div class="card card-success">
             <div class="card-header">
-              <h3 class="card-title">Anggota</h3>
+              <h3 class="card-title">Total Seluruh Anggota</h3>
 
               <div class="card-tools">
                 {{-- <button type="button" class="btn btn-tool" data-card-widget="collapse">
