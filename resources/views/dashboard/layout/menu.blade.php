@@ -120,14 +120,14 @@
                   </p>
                 </a>
                 <ul class="nav nav-treeview">
-                  @if(Auth::user()->role != 2)
+                  {{-- @if(Auth::user()->role != 2) --}}
                     <li class="nav-item">
                         <a href="{{ url('/tambah_anggota')}}" class="nav-link">
                         <i class="fas fa-edit"></i>
                         <p>TAMBAH ANGGOTA</p>
                         </a>
                     </li>
-                  @endif
+                  {{-- @endif --}}
                   <li class="nav-item">
                     <a href="{{ url('/daftar_anggota')}}" class="nav-link">
                       <i class="fas fa-list"></i>

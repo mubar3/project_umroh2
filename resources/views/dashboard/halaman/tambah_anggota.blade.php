@@ -34,7 +34,7 @@
     <section class="content">
       <div class="container-fluid">
 
-        @if(Auth::user()->role == 1 || Auth::user()->role == 4)
+        {{-- @if(Auth::user()->role == 1 || Auth::user()->role == 4) --}}
         <div class="card card-default collapsed-card">
             <div class="card-header">
               <h3 class="card-title">Tambah Jamaah</h3>
@@ -165,9 +165,9 @@
             {{-- <div class="card-footer">
             </div> --}}
         </div>
-        @endif
+        {{-- @endif --}}
           <!-- /.card -->
-          @if(Auth::user()->role == 3 || Auth::user()->role == 1)
+          @if(Auth::user()->role != 4)
           {{-- <div class="card card-default"> --}}
           <div class="card card-default collapsed-card">
             <div class="card-header">

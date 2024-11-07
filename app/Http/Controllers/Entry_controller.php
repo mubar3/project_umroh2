@@ -455,11 +455,39 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
-                ->where('name', 'like', '%' . $search . '%')
-                ->where('status','y')
-                ->where('role',4)
-                ->get();
+        if(Auth::user()->role == 1){
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->where('status','y')
+                    ->where('role',4)
+                    ->get();
+
+        }elseif(Auth::user()->role == 2){
+            $data = User::select('users.id', 'users.name as text') // 'text' adalah format yang dibutuhkan Select2
+                    ->join('users as leader','leader.id','=','users.atasan')
+                    ->where('users.name', 'like', '%' . $search . '%')
+                    ->where('users.status','y')
+                    ->where('leader.atasan',Auth::user()->id)
+                    ->where('users.role',4)
+                    ->get();
+
+        }elseif(Auth::user()->role == 3){
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->where('status','y')
+                    ->where('atasan',Auth::user()->id)
+                    ->where('role',4)
+                    ->get();
+        }elseif(Auth::user()->role == 4){
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->where('status','y')
+                    ->where('atasan',Auth::user()->atasan)
+                    ->where('role',4)
+                    ->get();
+        }else{
+            $data=[];
+        }
 
         // Mengembalikan data dalam format JSON
         return response()->json(['items' => $data]);
@@ -474,11 +502,33 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+        if(Auth::user()->role == 1){
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
                 ->where('name', 'like', '%' . $search . '%')
                 ->where('status','y')
                 ->where('role',3)
                 ->get();
+
+        }elseif(Auth::user()->role == 2){
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                ->where('name', 'like', '%' . $search . '%')
+                ->where('status','y')
+                ->where('atasan',Auth::user()->id)
+                ->where('role',3)
+                ->get();
+
+        }elseif(Auth::user()->role == 3){
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                    // ->where('name', 'like', '%' . $search . '%')
+                    ->where('status','y')
+                    ->where('id',Auth::user()->id)
+                    ->where('role',3)
+                    ->get();
+        }elseif(Auth::user()->role == 4){
+            $data=[];
+        }else{
+            $data=[];
+        }
 
         // Mengembalikan data dalam format JSON
         return response()->json(['items' => $data]);
