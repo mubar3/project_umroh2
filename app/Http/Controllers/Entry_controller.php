@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class Entry_controller extends Controller
 {
@@ -220,6 +222,7 @@ class Entry_controller extends Controller
     }
 
     function ajax_update_anggota(Request $data) {
+        // $data->id_anggota = Crypt::decryptString($data->id_anggota);
         $validasi=[
             'id_anggota' => 'required',
             'tanggal' => 'required',
@@ -404,10 +407,16 @@ class Entry_controller extends Controller
             $anggota=[];
         }
 
+        // encryp
+        foreach ($anggota as $key) {
+            $key->id_anggota_fix=Crypt::encryptString($key->id_anggota);
+        }
+
         return response()->json($anggota);
     }
 
     function ajax_data_jamaah($id_anggota) {
+        $id_anggota = Crypt::decryptString($id_anggota);
         $anggota=Anggota::find($id_anggota);
         if ($anggota) {
             return response()->json(['success' => true, 'data' => $anggota]);
@@ -419,6 +428,8 @@ class Entry_controller extends Controller
     function ajax_hapus_jamaah($id){
         $this->log_web('/hapus_anggota');
 
+
+        $id = Crypt::decryptString($id);
         $anggota=Anggota::find($id);
         if($anggota){
             // id koordinator
@@ -642,7 +653,6 @@ class Entry_controller extends Controller
                 )
                 ->where('status','y')
                 ->get();
-            return response()->json($user);
         }elseif(Auth::user()->role == 2){
             $user=User::select(
                     '*',
@@ -659,7 +669,10 @@ class Entry_controller extends Controller
                 ->where('status','y')
                 ->where('atasan',Auth::user()->id)
                 ->get();
-            return response()->json($user);
+        }else{
+            $user=[];
         }
+
+        return response()->json($user);
     }
 }

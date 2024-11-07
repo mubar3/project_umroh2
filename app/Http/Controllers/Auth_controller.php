@@ -8,6 +8,8 @@ use App\Models\Anggota;
 use App\Models\Bank;
 use App\Models\Daftar_paket;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Contracts\Encryption\DecryptException;
 
 class Auth_controller extends Controller
 {
@@ -74,6 +76,7 @@ class Auth_controller extends Controller
     }
 
     function data_anggota($id) {
+        $id = Crypt::decryptString($id);
         $anggota=Anggota::select(
                 'anggota.*',
                 'p.name as provinsi',
