@@ -652,6 +652,7 @@ class Entry_controller extends Controller
                     ")
                 )
                 ->where('status','y')
+                ->whereNot('users.id',Auth::user()->id)
                 ->get();
         }elseif(Auth::user()->role == 2){
             $user=User::select(
@@ -668,6 +669,7 @@ class Entry_controller extends Controller
                 )
                 ->where('status','y')
                 ->where('atasan',Auth::user()->id)
+                ->whereNot('users.id',Auth::user()->id)
                 ->get();
         }else{
             $user=[];
