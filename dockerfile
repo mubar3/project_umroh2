@@ -2,6 +2,7 @@ FROM php:8.2-apache
 WORKDIR /var/www/html/public
 
 COPY . /var/www/html/
+COPY .env.example /var/www/html/.env
 COPY docker_file/project.conf /etc/apache2/sites-available/
 
 RUN apt-get update && apt-get install -y \
