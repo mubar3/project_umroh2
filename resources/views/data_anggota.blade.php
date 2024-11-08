@@ -103,6 +103,9 @@
                             <div class="col-md-3 col-6">
                                 <strong>Nomor Telepon:</strong> {{ $anggota->nomor }}
                             </div>
+                            <div class="col-md-3 col-6">
+                                <strong>Total Saldo:</strong> {{ $anggota->saldo }}
+                            </div>
 
                             @if(!empty($anggota->koordinator))
                                 <div class="col-md-3 col-6">

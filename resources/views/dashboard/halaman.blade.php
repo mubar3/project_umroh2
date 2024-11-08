@@ -12,6 +12,8 @@
     @include('dashboard.halaman.tambah_user')
 @elseif($halaman == 'daftar_user')
     @include('dashboard.halaman.daftar_user')
+@elseif($halaman == 'tabungan')
+    @include('dashboard.halaman.tabungan')
 @endif
 
 {{-- footer --}}
@@ -29,6 +31,8 @@
     @include('dashboard.halaman.ajax.tambah_user')
 @elseif($halaman == 'daftar_user')
     @include('dashboard.halaman.ajax.daftar_user')
+@elseif($halaman == 'tabungan')
+    @include('dashboard.halaman.ajax.tabungan')
 @endif
 
 @include('dashboard.halaman.ajax.default')

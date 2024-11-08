@@ -83,6 +83,30 @@
     $(function () {
         bsCustomFileInput.init();
     });
+
+
+
+    function formatRupiah(angka) {
+        // Hapus karakter non-angka (termasuk spasi dan simbol)
+        let cleaned = angka.toString().replace(/[^0-9]/g, '');
+
+        // Jika angka kosong setelah pembersihan, kembalikan dengan 'Rp0'
+        if (cleaned === '') {
+            return 'Rp';
+        }
+
+        // Ubah angka menjadi string dan balikkan
+        let reverse = cleaned.split('').reverse().join('');
+
+        // Pisahkan angka dalam grup ribuan
+        let ribuan = reverse.match(/\d{1,3}/g);
+
+        // Gabungkan hasil dengan titik (.) dan balikkan lagi
+        let hasil = ribuan.join('.').split('').reverse().join('');
+
+        // Kembalikan hasil dengan awalan 'Rp'
+        return 'Rp' + hasil;
+    }
 </script>
 </body>
 </html>

@@ -33,8 +33,8 @@
   <link rel="stylesheet" href="{{ asset('asset/plugins/daterangepicker/daterangepicker.css') }}">
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('asset/plugins/summernote/summernote-bs4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('asset/style.css') }}">
-    @if($halaman == 'daftar_anggota')
-        @include('dashboard.halaman.head.daftar_anggota')
+  <link rel="stylesheet" href="{{ asset('asset/style.css') . '?v=' . time() }}">
+    @if($halaman == 'daftar_anggota' || $halaman == 'tabungan')
+        @include('dashboard.halaman.head.crf')
     @endif
 </head>

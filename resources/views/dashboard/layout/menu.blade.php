@@ -148,7 +148,7 @@
                 </a>
                 <ul class="nav nav-treeview" style="padding-left: 20px;">
                   <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{ url('/tabungan')}}" class="nav-link">
                       {{-- <i class="far fa-circle nav-icon"></i> --}}
                       <p>TABUNGAN</p>
                     </a>

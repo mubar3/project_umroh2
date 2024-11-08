@@ -165,6 +165,12 @@ class Auth_controller extends Controller
         ]);
     }
 
+    function tabungan() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'tabungan',
+        ]);
+    }
+
     function data_anggota($id) {
         $id = Crypt::decryptString($id);
         $anggota=Anggota::select(
@@ -177,6 +183,13 @@ class Auth_controller extends Controller
                 'users.name as koordinator',
                 DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
                 DB::raw("concat('".env('APP_URL')."','/storage/ktp/',anggota.ktp) as 'ktp'"),
+                DB::raw("
+                    CASE
+                        WHEN tabungan.saldo is NULL THEN 0
+                        ELSE tabungan.saldo
+                    END AS `saldo`
+                ")
+                // 'tabungan.saldo'
             )
             ->join('indonesia_provinces as p','p.id','=','anggota.provinsi')
             ->join('indonesia_cities as k','k.id','=','anggota.kota')
@@ -184,8 +197,11 @@ class Auth_controller extends Controller
             ->join('indonesia_villages as d','d.id','=','anggota.desa')
             ->leftjoin('daftar_paket as dp','dp.id_paket','=','anggota.paket')
             ->leftjoin('users','users.id','=','anggota.koordinator')
+            ->leftjoin('tabungan','tabungan.id_anggota','=','anggota.id_anggota')
             ->where('anggota.id_anggota',$id)
             ->first();
+
+        $anggota->saldo=$this->formatRupiah($anggota->saldo);
 
         return view('data_anggota')->with([
             'anggota'   => $anggota,

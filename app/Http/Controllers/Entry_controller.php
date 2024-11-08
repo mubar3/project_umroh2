@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Anggota;
 use App\Models\User;
+use App\Models\Tabungan;
+use App\Models\Tabungan_log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -676,5 +678,49 @@ class Entry_controller extends Controller
         }
 
         return response()->json($user);
+    }
+
+    function ajax_tambah_tabungan(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'jumlah'    => 'required',
+            'rfid'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $id_anggota=Crypt::decryptString($data->rfid);
+            // $id_anggota=$data->rfid;
+
+            $this->log_web('/ajax_tambah_tabungan');
+
+            $cek_tabungan=Tabungan::where('id_anggota',$id_anggota)->first();
+            if(!$cek_tabungan){
+                $cek_tabungan=Tabungan::create([
+                    'id_anggota'    => $id_anggota,
+                ]);
+            }
+            $log=Tabungan_log::create([
+                'id_anggota'    => $id_anggota,
+                'jenis'         => 'tabungan',
+                'transaksi'     => 'masuk',
+                'id_tabungan'   => $cek_tabungan->id_tabungan,
+                'saldo'         => $data->jumlah,
+                'saldo_total'   => $cek_tabungan->saldo + $data->jumlah,
+            ]);
+
+            $cek_tabungan->update([
+                'saldo' =>$cek_tabungan->saldo + $data->jumlah
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Transaksi berhasil']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
     }
 }

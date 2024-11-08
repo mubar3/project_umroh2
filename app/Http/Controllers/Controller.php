@@ -92,4 +92,10 @@ class Controller extends BaseController
         return $image->save($lokasi.'/'.$namafile);
     }
 
+    public function formatRupiah($angka)
+    {
+        // Menggunakan number_format untuk memformat angka menjadi format Rupiah
+        return 'Rp ' . number_format($angka, 0, ',', '.');
+    }
+
 }
