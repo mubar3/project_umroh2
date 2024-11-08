@@ -52,8 +52,8 @@
                             data: { jumlah: jumlah, rfid: rfid },
                             success: function(response) {
                                 $('#uang_masuk')[0].reset();
-                                $('#rfidErrorModalLabel').text('Transaksi Berhasil');
-                                // $('#rfidErrorMessage').text(JSON.parse(xhr.responseText).message);
+                                $('#rfidErrorModalLabel').text('Berhasil');
+                                $('#rfidErrorMessage').text(response.message);
                                 $('#rfidErrorModal').modal('show');  // Tampilkan modal error
                             },
                             error: function(xhr, status, error) {
