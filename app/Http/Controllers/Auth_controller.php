@@ -185,8 +185,8 @@ class Auth_controller extends Controller
                 DB::raw("concat('".env('APP_URL')."','/storage/ktp/',anggota.ktp) as 'ktp'"),
                 DB::raw("
                     CASE
-                        WHEN tabungan.saldo is NULL THEN 0
-                        ELSE tabungan.saldo
+                        WHEN `tabungan`.`saldo` is NULL THEN 0
+                        ELSE `tabungan`.`saldo`
                     END AS `saldo`
                 ")
                 // 'tabungan.saldo'
