@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">TABUNGAN</h1>
+            <h1 class="m-0">SETORAN</h1>
 
 
 
@@ -39,7 +39,7 @@
             {{-- <div class="card card-default"> --}}
             <div class="card card-default collapsed">
                 <div class="card-header">
-                    <h3 class="card-title">Tambah Tabungan</h3>
+                    <h3 class="card-title">Tambah setoran</h3>
 
                     <div class="card-tools">
                     <button type="button" class="btn btn-tool" data-card-widget="collapse">

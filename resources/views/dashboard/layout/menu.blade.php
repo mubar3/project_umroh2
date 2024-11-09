@@ -142,41 +142,38 @@
                   <i class="fas fa-wallet"></i>
                   <p>
                     KEUANGAN
-                    <span class="right badge badge-primary">Coming Soon</span>
-                    {{-- <i class="fas fa-angle-left right"></i> --}}
+                    {{-- <span class="right badge badge-primary">Coming Soon</span> --}}
+                    <i class="fas fa-angle-left right"></i>
                   </p>
                 </a>
                 <ul class="nav nav-treeview" style="padding-left: 20px;">
                   <li class="nav-item">
                     <a href="{{ url('/tabungan')}}" class="nav-link">
-                      {{-- <i class="far fa-circle nav-icon"></i> --}}
+                        <i class="fas fa-coins"></i>
                       <p>TABUNGAN</p>
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a href="" class="nav-link">
-                      {{-- <i class="far fa-circle nav-icon"></i> --}}
-                      <p>SETORAN JAMAAH HAJI</p>
+                    <a href="{{ url('/setoran')}}" class="nav-link">
+                      <i class="fas fa-hand-holding-usd"></i>
+                      <p>SETORAN</p>
                     </a>
                   </li>
-                  <li class="nav-item">
+                  {{-- <li class="nav-item">
                     <a href="" class="nav-link">
-                      {{-- <i class="far fa-circle nav-icon"></i> --}}
                       <p>SETORAN JAMAAH UMROH</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="" class="nav-link">
-                      {{-- <i class="far fa-circle nav-icon"></i> --}}
                       <p>HUTANG</p>
                     </a>
                   </li>
                   <li class="nav-item">
                     <a href="" class="nav-link">
-                      {{-- <i class="far fa-circle nav-icon"></i> --}}
                       <p>DP</p>
                     </a>
-                  </li>
+                  </li> --}}
                 </ul>
               </li>
             </ul>

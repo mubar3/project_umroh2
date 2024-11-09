@@ -34,7 +34,7 @@
   <!-- summernote -->
   <link rel="stylesheet" href="{{ asset('asset/plugins/summernote/summernote-bs4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('asset/style.css') . '?v=' . time() }}">
-    @if($halaman == 'daftar_anggota' || $halaman == 'tabungan')
+    @if($halaman == 'daftar_anggota' || $halaman == 'tabungan' || $halaman == 'setoran')
         @include('dashboard.halaman.head.crf')
     @endif
 </head>

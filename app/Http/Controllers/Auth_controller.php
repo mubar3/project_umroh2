@@ -8,6 +8,7 @@ use App\Models\Anggota;
 use App\Models\Bank;
 use App\Models\User;
 use App\Models\Daftar_paket;
+use App\Models\Setoran;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -171,6 +172,11 @@ class Auth_controller extends Controller
         ]);
     }
 
+    function setoran() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'setoran',
+        ]);
+    }
     function data_anggota($id) {
         $id = Crypt::decryptString($id);
         $anggota=Anggota::select(
@@ -188,7 +194,20 @@ class Auth_controller extends Controller
                         WHEN `tabungan`.`saldo` is NULL THEN 0
                         ELSE `tabungan`.`saldo`
                     END AS `saldo`
-                ")
+                "),
+                DB::raw("
+                    CASE
+                        WHEN `daftar_paket`.`harga` is NULL THEN 0
+                        ELSE `daftar_paket`.`harga`
+                    END AS `tagihan_paket`
+                "),
+                DB::raw("
+                    CASE
+                        WHEN `setoran`.`saldo_total` is NULL THEN 0
+                        ELSE `setoran`.`saldo_total`
+                    END AS `setoran`
+                "),
+                'leader.name as leader'
                 // 'tabungan.saldo'
             )
             ->join('indonesia_provinces as p','p.id','=','anggota.provinsi')
@@ -197,11 +216,21 @@ class Auth_controller extends Controller
             ->join('indonesia_villages as d','d.id','=','anggota.desa')
             ->leftjoin('daftar_paket as dp','dp.id_paket','=','anggota.paket')
             ->leftjoin('users','users.id','=','anggota.koordinator')
+            ->leftjoin('users as koor','koor.id_anggota','=','anggota.id_anggota')
+            ->leftjoin('users as leader','leader.id','=','koor.atasan')
             ->leftjoin('tabungan','tabungan.id_anggota','=','anggota.id_anggota')
+            ->leftjoin('daftar_paket','daftar_paket.id_paket','=','anggota.paket')
+            ->leftjoin('setoran',function ($join) {
+                $join->on('setoran.id_anggota','=','anggota.id_anggota')
+                    ->whereColumn('setoran.input_time','=',DB::raw('(SELECT MAX(s1.input_time) FROM setoran as s1 WHERE s1.id_anggota = anggota.id_anggota)'))
+                    ;
+            })
             ->where('anggota.id_anggota',$id)
             ->first();
 
         $anggota->saldo=$this->formatRupiah($anggota->saldo);
+        $anggota->tagihan_paket=$this->formatRupiah($anggota->tagihan_paket);
+        $anggota->setoran=$this->formatRupiah($anggota->setoran);
 
         return view('data_anggota')->with([
             'anggota'   => $anggota,

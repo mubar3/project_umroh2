@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Anggota;
 use App\Models\User;
 use App\Models\Tabungan;
+use App\Models\Daftar_paket;
 use App\Models\Tabungan_log;
+use App\Models\Setoran;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -314,6 +316,12 @@ class Entry_controller extends Controller
             }
 
             $anggota=Anggota::find($data->id_anggota);
+
+            // tidak bisa ganti paket kalau sudah setor uang
+            if($anggota->jenis_akun == 'jamaah' && $anggota->paket != $data->paket && Setoran::where('id_anggota',$anggota->id_anggota)->first()){
+                return response()->json(['message' => 'Perubahan paket tidak dapat dilakukan karena sudah terdapat data setoran uang pada paket ini'], 404);
+            }
+
             if(!$anggota){
                 return response()->json(['message' => 'Anggota tidak ditemukan'], 404);
             }
@@ -712,12 +720,71 @@ class Entry_controller extends Controller
                 'saldo_total'   => $cek_tabungan->saldo + $data->jumlah,
             ]);
 
+            $message='Berhasil tambah saldo sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total saldo kartu sebanyak '.$this->formatRupiah($cek_tabungan->saldo + $data->jumlah);
             $cek_tabungan->update([
                 'saldo' =>$cek_tabungan->saldo + $data->jumlah
             ]);
 
             DB::commit();
-            return response()->json(['message' => 'Transaksi berhasil']);
+            return response()->json(['message' => $message ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_tambah_setoran(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'jumlah'    => 'required',
+            'rfid'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $id_anggota=Crypt::decryptString($data->rfid);
+            // $id_anggota=$data->rfid;
+
+            $this->log_web('/ajax_tambah_setoran');
+
+            $anggota=Anggota::find($id_anggota);
+
+            $cek_paket=Daftar_paket::where('id_paket',$anggota->paket)->first();
+            if(!$cek_paket){
+                return response()->json(['message' => 'Anggota ini belum terdaftar paket apapun'], 404);
+            }
+
+            $cek_setoran=Setoran::where('id_anggota',$id_anggota)->orderBy('input_time','desc')->first();
+            if($cek_setoran){
+                // setoran ke 2 ++
+                if( ($cek_setoran->saldo_total + $data->jumlah) > $cek_paket->harga ){
+                    return response()->json(['message' => 'Jumlah uang berlebih, sisa tagihan paket sebesar'.$this->formatRupiah($cek_paket->harga - $cek_setoran->saldo_total) ], 404);
+                }
+                Setoran::create([
+                    'id_anggota'    => $id_anggota,
+                    'saldo'         => $data->jumlah,
+                    'saldo_total'   => $cek_setoran->saldo_total + $data->jumlah,
+                ]);
+
+                $message='Berhasil setoran sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total tagihan tersisa sebanyak '.$this->formatRupiah($cek_paket->harga - ($cek_setoran->saldo_total + $data->jumlah) );
+            }else{
+                // setoran awal
+                if( $data->jumlah > $cek_paket->harga ){
+                    return response()->json(['message' => 'Jumlah uang berlebih, sisa tagihan paket sebesar'.$this->formatRupiah($cek_paket->harga) ], 404);
+                }
+                Setoran::create([
+                    'id_anggota'    => $id_anggota,
+                    'saldo'         => $data->jumlah,
+                    'saldo_total'   => $data->jumlah,
+                ]);
+                $message='Berhasil setoran sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total tagihan tersisa sebanyak '.$this->formatRupiah($cek_paket->harga - $data->jumlah);
+            }
+
+            DB::commit();
+            return response()->json(['message' => $message ]);
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
