@@ -50,7 +50,7 @@ class Entry_controller extends Controller
 
             if(!$this->isNullOrEmpty($data->rfid)){
                 // cek rfid
-                if( Anggota::where('rfid',$data->rfid)->first() ){
+                if( Anggota::where('rfid',$data->rfid)->where('status','y')->first() ){
                     session()->flash('eror', 'Nomor RFID ini sudah terdaftar di anggota yang lain');
                     return redirect('/tambah_anggota');
                 }
@@ -125,7 +125,7 @@ class Entry_controller extends Controller
 
             if(!$this->isNullOrEmpty($data->rfid)){
                 // cek rfid
-                if( Anggota::where('rfid',$data->rfid)->first() ){
+                if( Anggota::where('rfid',$data->rfid)->where('status','y')->first() ){
                     session()->flash('eror', 'Nomor RFID ini sudah terdaftar di anggota yang lain');
                     return redirect('/tambah_anggota');
                 }
@@ -339,7 +339,7 @@ class Entry_controller extends Controller
 
             if(!$this->isNullOrEmpty($data->rfid)){
                 // cek rfid
-                if( Anggota::where('rfid',$data->rfid)->whereNot('id_anggota',$anggota->id_anggota)->first() ){
+                if( Anggota::where('rfid',$data->rfid)->where('status','y')->whereNot('id_anggota',$anggota->id_anggota)->first() ){
                     return response()->json(['message' => 'Nomor RFID ini sudah terdaftar di anggota yang lain'], 404);
                 }
             }
