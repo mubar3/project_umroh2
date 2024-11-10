@@ -295,7 +295,7 @@
                             </div>
                             <div class="form-group">
                                 <label>Nomor RFID </label>
-                                <input name="rfid" id="rfid" type="text" class="form-control" placeholder="RFID" required>
+                                <input name="rfid" id="rfid" type="password" class="form-control" placeholder="RFID" required>
                             </div>
 
 

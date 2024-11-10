@@ -153,7 +153,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nomor RFID  </label>
-                            <input name="rfid" type="text" class="form-control" placeholder="RFID">
+                            <input name="rfid" type="password" class="form-control" placeholder="RFID">
                         </div>
 
 
@@ -299,7 +299,7 @@
                         </div>
                         <div class="form-group">
                             <label>Nomor RFID  </label>
-                            <input name="rfid" type="text" class="form-control" placeholder="RFID">
+                            <input name="rfid" type="password" class="form-control" placeholder="RFID">
                         </div>
 
 
