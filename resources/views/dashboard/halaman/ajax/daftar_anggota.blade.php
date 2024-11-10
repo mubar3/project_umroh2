@@ -131,6 +131,7 @@
                     $('#bank').val(response.data.bank);
                     $('#nama_rekening').val(response.data.nama_rekening);
                     $('#nomor_rekening').val(response.data.nomor_rekening);
+                    $('#rfid').val(response.data.rfid);
 
                     if(response.data.jenis_akun == 'jamaah'){
                         $("#data-koordinator").show();
@@ -291,6 +292,10 @@
                                     <input name="ktp" type="file" class="custom-file-input" id="customFile">
                                     <label class="custom-file-label" for="customFile">Choose file</label>
                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Nomor RFID </label>
+                                <input name="rfid" id="rfid" type="text" class="form-control" placeholder="RFID" required>
                             </div>
 
 

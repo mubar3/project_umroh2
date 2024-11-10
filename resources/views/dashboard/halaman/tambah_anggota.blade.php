@@ -151,6 +151,10 @@
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label>Nomor RFID  </label>
+                            <input name="rfid" type="text" class="form-control" placeholder="RFID">
+                        </div>
 
 
 
@@ -292,6 +296,10 @@
                                 <input name="ktp" type="file" class="custom-file-input" id="customFile" required>
                                 <label class="custom-file-label" for="customFile">Choose file</label>
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Nomor RFID  </label>
+                            <input name="rfid" type="text" class="form-control" placeholder="RFID">
                         </div>
 
 

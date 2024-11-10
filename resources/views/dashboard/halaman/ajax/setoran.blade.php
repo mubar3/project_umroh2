@@ -11,7 +11,7 @@
 
             // Ambil nilai tanpa karakter selain angka
             let angkaBersih = $('#rupiah_masuk').val().replace(/[^,\d]/g, "");
-            if (angkaBersih === '') {
+            if (angkaBersih === ''|| angkaBersih < 1) {
                 // alert('Angka kosong');
                 $('#rfidErrorModalLabel').text('Gagal');
                 $('#rfidErrorMessage').text('Jumlah uang kosong');
@@ -37,6 +37,7 @@
 
                     // Periksa jika panjang teks RFID sesuai, misalnya 4 karakter atau lebih
                     if (rfid.length >= 2) {
+                        $('#rfidInput').val('');
                         $('#rfidModal').modal('hide'); // Tutup modal setelah input diterima
 
                         // alert(`RFID: ${rfid}`);

@@ -47,6 +47,14 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+
+            if(!$this->isNullOrEmpty($data->rfid)){
+                // cek rfid
+                if( Anggota::where('rfid',$data->rfid)->first() ){
+                    session()->flash('eror', 'Nomor RFID ini sudah terdaftar di anggota yang lain');
+                    return redirect('/tambah_anggota');
+                }
+            }
             $this->log_web('/tambah_jamaah');
 
             $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
@@ -74,6 +82,7 @@ class Entry_controller extends Controller
                 'koordinator'  => $data->koordinator,
                 'foto'  => $data->foto,
                 'ktp'  => $data->ktp,
+                'rfid'  => $data->rfid,
             ]);
             DB::commit();
             session()->flash('success', 'Jamaah telah berhasil ditambahkan');
@@ -113,6 +122,14 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+
+            if(!$this->isNullOrEmpty($data->rfid)){
+                // cek rfid
+                if( Anggota::where('rfid',$data->rfid)->first() ){
+                    session()->flash('eror', 'Nomor RFID ini sudah terdaftar di anggota yang lain');
+                    return redirect('/tambah_anggota');
+                }
+            }
             $this->log_web('/tambah_koordinator');
 
             $nama_foto='ft'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
@@ -142,6 +159,7 @@ class Entry_controller extends Controller
                 'nomor_rekening'  => $data->nomor_rekening,
                 'foto'  => $data->foto,
                 'ktp'  => $data->ktp,
+                'rfid'  => $data->rfid,
             ]);
 
 
@@ -252,7 +270,7 @@ class Entry_controller extends Controller
             $validasi['ktp'] =  'required|image|mimes:jpeg,png,jpg,gif|max:2048';
         }
 
-        if($data->jenis == 'jamaah'){
+        if($data->jenis_akun == 'jamaah'){
             // ketika jamaah
             $validasi['paket'] =  'required';
         }else{
@@ -283,6 +301,7 @@ class Entry_controller extends Controller
                 'tempat_lahir'  => $data->tempat_lahir,
                 'tanggal_lahir'  => $data->tanggal_lahir,
                 'nomor'  => $data->nomor,
+                'rfid'  => $data->rfid,
                 // 'jenis_akun'  => 'jamaah',
                 // 'paket'  => $data->paket,
                 // 'koordinator'  => $data->koordinator,
@@ -290,7 +309,7 @@ class Entry_controller extends Controller
                 // 'ktp'  => $data->ktp,
             ];
 
-            if($data->jenis == 'jamaah'){
+            if($data->jenis_akun == 'jamaah'){
                 // ketika jamaah
                 $update['paket'] =  $data->paket;
             }else{
@@ -316,6 +335,14 @@ class Entry_controller extends Controller
             }
 
             $anggota=Anggota::find($data->id_anggota);
+
+
+            if(!$this->isNullOrEmpty($data->rfid)){
+                // cek rfid
+                if( Anggota::where('rfid',$data->rfid)->whereNot('id_anggota',$anggota->id_anggota)->first() ){
+                    return response()->json(['message' => 'Nomor RFID ini sudah terdaftar di anggota yang lain'], 404);
+                }
+            }
 
             // tidak bisa ganti paket kalau sudah setor uang
             if($anggota->jenis_akun == 'jamaah' && $anggota->paket != $data->paket && Setoran::where('id_anggota',$anggota->id_anggota)->first()){
@@ -700,8 +727,13 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
-            $id_anggota=Crypt::decryptString($data->rfid);
+            // $id_anggota=Crypt::decryptString($data->rfid);
             // $id_anggota=$data->rfid;
+            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            if(!$anggota){
+                return response()->json(['message' => 'RFID belum terdaftar'], 404);
+            }
+            $id_anggota=$anggota->id_anggota;
 
             $this->log_web('/ajax_tambah_tabungan');
 
@@ -745,8 +777,13 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
-            $id_anggota=Crypt::decryptString($data->rfid);
+            // $id_anggota=Crypt::decryptString($data->rfid);
             // $id_anggota=$data->rfid;
+            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            if(!$anggota){
+                return response()->json(['message' => 'RFID belum terdaftar'], 404);
+            }
+            $id_anggota=$anggota->id_anggota;
 
             $this->log_web('/ajax_tambah_setoran');
 

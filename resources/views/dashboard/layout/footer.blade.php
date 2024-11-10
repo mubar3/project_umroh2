@@ -95,6 +95,10 @@
             return 'Rp';
         }
 
+         // Konversi menjadi number
+        cleaned = Number(cleaned);
+        cleaned = cleaned.toString()
+
         // Ubah angka menjadi string dan balikkan
         let reverse = cleaned.split('').reverse().join('');
 
