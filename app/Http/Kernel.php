@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         // Middleware lain...
         'check.ajax.source' => \App\Http\Middleware\CheckAjaxSource::class,
+        'role' => \App\Http\Middleware\RoleMiddleware::class,
     ];
 }

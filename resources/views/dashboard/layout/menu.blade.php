@@ -181,6 +181,7 @@
                     </a>
                   </li> --}}
                 </ul>
+                @if(Auth::user()->role == 1)
                 <li class="nav-item">
                   <a href="{{ url('/uang_keluar')}}" class="nav-link">
                     <i class="fas fa-arrow-circle-up"></i>
@@ -189,6 +190,7 @@
                     </p>
                   </a>
                 </li>
+                @endif
               </li>
             </ul>
           </nav>
