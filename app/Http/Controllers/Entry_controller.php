@@ -643,6 +643,7 @@ class Entry_controller extends Controller
 
         }
 
+        // data chart
         $data = [
             // 'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
             'labels' => $labels,
@@ -671,6 +672,109 @@ class Entry_controller extends Controller
                     'data' => $jumlah_koordinator
                 ],
             ]
+        ];
+
+        // semua jamaah
+        $jumlah_jamaah=Anggota::where('jenis_akun','jamaah')->where('status','y')->count();
+
+        // ambil jamaah user
+        if(Auth::user()->role == 1){
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where('anggota.jenis_akun','jamaah')
+                ->count();
+        }elseif(Auth::user()->role == 2){
+
+            $koordinator=User::select(
+                    'koor.id as koordinator',
+                    'koor.id_anggota as koordinator_data',
+                )
+                ->join('users as koor','koor.atasan','=','users.id')
+                ->where('users.atasan',Auth::user()->id)
+                ->get();
+
+            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+            $koordinator = $koordinator->pluck('koordinator')->toArray();
+
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where(function ($where) use($koordinator,$koordinator_data){
+                    $where->whereIn('anggota.koordinator',$koordinator)
+                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
+                        ;
+                })
+                ->where('anggota.jenis_akun','jamaah')
+                // ->whereIn('koordinator',$koordinator)
+                ->count();
+
+        }elseif(Auth::user()->role == 3){
+
+            $koordinator=User::select(
+                    'users.id as koordinator',
+                    'users.id_anggota as koordinator_data',
+                )
+                ->where('users.atasan',Auth::user()->id)
+                ->get();
+
+            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+            $koordinator = $koordinator->pluck('koordinator')->toArray();
+
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where(function ($where) use($koordinator,$koordinator_data){
+                    $where->whereIn('anggota.koordinator',$koordinator)
+                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
+                        ;
+                })
+                ->where('anggota.jenis_akun','jamaah')
+                // ->whereIn('koordinator',$koordinator)
+                ->count();
+
+        }elseif(Auth::user()->role == 4){
+
+            $anggota=Anggota::select(
+                    'anggota.*',
+                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+                    'users.email',
+                )
+                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+                ->where('anggota.status','y')
+                ->where('koordinator',Auth::user()->id)
+                ->where('anggota.jenis_akun','jamaah')
+                ->count();
+        }
+
+        // hitung semua pemasukan
+        $total_pemasukan=0;
+        $tabungan=Tabungan::select(DB::raw('sum(saldo) as total'))->first();
+        if($tabungan){
+            $total_pemasukan+=$tabungan->total;
+        }
+        $setoran=Setoran::select(DB::raw('sum(saldo) as total'))->first();
+        if($setoran){
+            $total_pemasukan+=$setoran->total;
+        }
+
+        $data=[
+            'chart' => $data,
+            'jamaah_user'   => $anggota,
+            'total_jamaah'   => $jumlah_jamaah,
+            'total_pemasukan'   => $total_pemasukan,
         ];
 
         return response()->json($data);

@@ -26,10 +26,10 @@
             <!-- small box -->
             <div class="small-box bg-info">
               <div class="inner">
-                <h5>Rp 1.000.000</h5>
-                <span class="right badge badge-primary">Coming Soon</span>
+                <h5 id="total_pemasukan"></h5>
+                {{-- <span class="right badge badge-primary">Coming Soon</span> --}}
 
-                <p>Total pemasukan</p>
+                <p>Total semua pemasukan</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"></i>
@@ -57,7 +57,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h5>{{ $jumlah_jamaah_total }}</h5>
+                <h5 id="total_jamaah"></h5>
 
                 <p>Total Seluruh Jamaah</p>
               </div>
@@ -71,7 +71,7 @@
             <!-- small box -->
             <div class="small-box bg-warning">
               <div class="inner">
-                <h5>{{ $jumlah_jamaah }}</h5>
+                <h5 id="jumlah_jamaah_user"></h5>
 
                 <p>Total Jamaah Anda</p>
               </div>

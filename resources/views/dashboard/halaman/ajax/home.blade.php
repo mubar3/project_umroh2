@@ -34,7 +34,10 @@
             'X-Requested-With': 'XMLHttpRequest'
         },
         success: function(response) {
-            var areaChartData = response;
+            var areaChartData = response.chart;
+            $('#jumlah_jamaah_user').text(response.jamaah_user);
+            $('#total_jamaah').text(response.total_jamaah);
+            $('#total_pemasukan').text(formatRupiah(response.total_pemasukan));
 
             var barChartCanvas = $('#barChart').get(0).getContext('2d')
             var barChartData = $.extend(true, {}, areaChartData)
