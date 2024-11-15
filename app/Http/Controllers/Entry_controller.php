@@ -761,11 +761,17 @@ class Entry_controller extends Controller
 
         // hitung semua pemasukan
         $total_pemasukan=0;
-        $tabungan=Tabungan::select(DB::raw('sum(saldo) as total'))->first();
+        $tabungan=Tabungan::select(DB::raw('sum(saldo) as total'))
+            ->join('anggota','anggota.id_anggota','=','tabungan.id_anggota')
+            ->where('anggota.status','y')
+            ->first();
         if($tabungan){
             $total_pemasukan+=$tabungan->total;
         }
-        $setoran=Setoran::select(DB::raw('sum(saldo) as total'))->first();
+        $setoran=Setoran::select(DB::raw('sum(saldo) as total'))
+            ->join('anggota','anggota.id_anggota','=','setoran.id_anggota')
+            ->where('anggota.status','y')
+            ->first();
         if($setoran){
             $total_pemasukan+=$setoran->total;
         }
