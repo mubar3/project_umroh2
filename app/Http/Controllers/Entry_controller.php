@@ -8,6 +8,7 @@ use App\Models\Tabungan;
 use App\Models\Daftar_paket;
 use App\Models\Tabungan_log;
 use App\Models\Setoran;
+use App\Models\Hutang;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -818,6 +819,108 @@ class Entry_controller extends Controller
                     'saldo_total'   => $data->jumlah,
                 ]);
                 $message='Berhasil setoran sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total tagihan tersisa sebanyak '.$this->formatRupiah($cek_paket->harga - $data->jumlah);
+            }
+
+            DB::commit();
+            return response()->json(['message' => $message ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_tambah_hutang(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'jumlah'    => 'required',
+            'rfid'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            // $id_anggota=Crypt::decryptString($data->rfid);
+            // $id_anggota=$data->rfid;
+            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            if(!$anggota){
+                return response()->json(['message' => 'RFID belum terdaftar'], 404);
+            }
+            $id_anggota=$anggota->id_anggota;
+
+            $this->log_web('/ajax_tambah_hutang');
+
+            $anggota=Anggota::find($id_anggota);
+
+            $cek_hutang=Hutang::where('id_anggota',$id_anggota)->orderBy('input_time','desc')->first();
+            if($cek_hutang){
+                // hutang ke 2 ++
+                Hutang::create([
+                    'id_anggota'    => $id_anggota,
+                    'saldo'         => $data->jumlah,
+                    'saldo_total'   => $cek_hutang->saldo_total + $data->jumlah,
+                ]);
+
+                $message='Berhasil hutang sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total hutang sebanyak '.$this->formatRupiah($cek_hutang->saldo_total + $data->jumlah);
+            }else{
+                // hutang awal
+                Hutang::create([
+                    'id_anggota'    => $id_anggota,
+                    'saldo'         => $data->jumlah,
+                    'saldo_total'   => $data->jumlah,
+                ]);
+                $message='Berhasil hutang sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total hutang sebanyak '.$this->formatRupiah($data->jumlah);
+            }
+
+            DB::commit();
+            return response()->json(['message' => $message ]);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_bayar_hutang(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'jumlah'    => 'required',
+            'rfid'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            // $id_anggota=Crypt::decryptString($data->rfid);
+            // $id_anggota=$data->rfid;
+            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            if(!$anggota){
+                return response()->json(['message' => 'RFID belum terdaftar'], 404);
+            }
+            $id_anggota=$anggota->id_anggota;
+
+            $this->log_web('/ajax_bayar_hutang');
+
+            $anggota=Anggota::find($id_anggota);
+
+            $cek_hutang=Hutang::where('id_anggota',$id_anggota)->orderBy('input_time','desc')->first();
+            if($cek_hutang){
+                if($cek_hutang->saldo_total < $data->jumlah){
+                    return response()->json(['message' => 'Uang terlalu banyak, sisa hutang sebesar '.$this->formatRupiah($cek_hutang->saldo_total)], 404);
+                }
+                // hutang ke 2 ++
+                Hutang::create([
+                    'transaksi'    => 'bayar',
+                    'id_anggota'    => $id_anggota,
+                    'saldo'         => $data->jumlah,
+                    'saldo_total'   => $cek_hutang->saldo_total - $data->jumlah,
+                ]);
+
+                $message='Berhasil bayar hutang sebanyak '.$this->formatRupiah($data->jumlah).', sehingga total hutang sebanyak '.$this->formatRupiah($cek_hutang->saldo_total - $data->jumlah);
+            }else{
+                return response()->json(['message' => 'Tidak ada data hutang yang ditemukan'], 404);
             }
 
             DB::commit();

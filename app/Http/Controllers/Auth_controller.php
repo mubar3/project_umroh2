@@ -177,6 +177,13 @@ class Auth_controller extends Controller
             'halaman'   => 'setoran',
         ]);
     }
+
+    function hutang() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'hutang',
+        ]);
+    }
+
     function data_anggota($id) {
         $id = Crypt::decryptString($id);
         $anggota=Anggota::select(
@@ -207,6 +214,12 @@ class Auth_controller extends Controller
                         ELSE `setoran`.`saldo_total`
                     END AS `setoran`
                 "),
+                DB::raw("
+                    CASE
+                        WHEN `hutang`.`saldo_total` is NULL THEN 0
+                        ELSE `hutang`.`saldo_total`
+                    END AS `hutang`
+                "),
                 'leader.name as leader'
                 // 'tabungan.saldo'
             )
@@ -225,12 +238,18 @@ class Auth_controller extends Controller
                     ->whereColumn('setoran.input_time','=',DB::raw('(SELECT MAX(s1.input_time) FROM setoran as s1 WHERE s1.id_anggota = anggota.id_anggota)'))
                     ;
             })
+            ->leftjoin('hutang',function ($join) {
+                $join->on('hutang.id_anggota','=','anggota.id_anggota')
+                    ->whereColumn('hutang.input_time','=',DB::raw('(SELECT MAX(h1.input_time) FROM hutang as h1 WHERE h1.id_anggota = anggota.id_anggota)'))
+                    ;
+            })
             ->where('anggota.id_anggota',$id)
             ->first();
 
         $anggota->saldo=$this->formatRupiah($anggota->saldo);
         $anggota->tagihan_paket=$this->formatRupiah($anggota->tagihan_paket);
         $anggota->setoran=$this->formatRupiah($anggota->setoran);
+        $anggota->hutang=$this->formatRupiah($anggota->hutang);
 
         return view('data_anggota')->with([
             'anggota'   => $anggota,

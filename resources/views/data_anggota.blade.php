@@ -109,6 +109,9 @@
                             <div class="col-md-3 col-6">
                                 <strong>Total (Tagihan / Telah disetor):</strong> {{ $anggota->tagihan_paket}} / {{ $anggota->setoran}}
                             </div>
+                            <div class="col-md-3 col-6">
+                                <strong>Total Hutang:</strong> {{ $anggota->hutang }}
+                            </div>
 
                             @if(!empty($anggota->koordinator))
                                 <div class="col-md-3 col-6">

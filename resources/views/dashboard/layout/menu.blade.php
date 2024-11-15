@@ -139,9 +139,9 @@
 
               <li class="nav-item">
                 <a href="" class="nav-link">
-                  <i class="fas fa-wallet"></i>
+                  <i class="fas fa-arrow-circle-down"></i>
                   <p>
-                    KEUANGAN
+                    UANG MASUK
                     {{-- <span class="right badge badge-primary">Coming Soon</span> --}}
                     <i class="fas fa-angle-left right"></i>
                   </p>
@@ -157,6 +157,12 @@
                     <a href="{{ url('/setoran')}}" class="nav-link">
                       <i class="fas fa-hand-holding-usd"></i>
                       <p>SETORAN</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="{{ url('/hutang')}}" class="nav-link">
+                      <i class="fas fa-credit-card"></i>
+                      <p>HUTANG</p>
                     </a>
                   </li>
                   {{-- <li class="nav-item">

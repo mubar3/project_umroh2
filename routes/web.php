@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daftar_user', [Auth_controller::class, 'daftar_user']);
     Route::get('/tabungan', [Auth_controller::class, 'tabungan']);
     Route::get('/setoran', [Auth_controller::class, 'setoran']);
+    Route::get('/hutang', [Auth_controller::class, 'hutang']);
 
 
     // action
@@ -59,6 +60,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ajax_update_anggota', 'App\Http\Controllers\Entry_controller@ajax_update_anggota')->middleware('check.ajax.source');
     Route::post('/ajax_tambah_tabungan', 'App\Http\Controllers\Entry_controller@ajax_tambah_tabungan')->middleware('check.ajax.source');
     Route::post('/ajax_tambah_setoran', 'App\Http\Controllers\Entry_controller@ajax_tambah_setoran')->middleware('check.ajax.source');
+    Route::post('/ajax_tambah_hutang', 'App\Http\Controllers\Entry_controller@ajax_tambah_hutang')->middleware('check.ajax.source');
+    Route::post('/ajax_bayar_hutang', 'App\Http\Controllers\Entry_controller@ajax_bayar_hutang')->middleware('check.ajax.source');
 });
 
 
