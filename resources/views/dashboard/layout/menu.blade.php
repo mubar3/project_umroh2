@@ -181,6 +181,14 @@
                     </a>
                   </li> --}}
                 </ul>
+                <li class="nav-item">
+                  <a href="{{ url('/uang_keluar')}}" class="nav-link">
+                    <i class="fas fa-arrow-circle-up"></i>
+                    <p>
+                      UANG KELUAR
+                    </p>
+                  </a>
+                </li>
               </li>
             </ul>
           </nav>

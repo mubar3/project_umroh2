@@ -38,6 +38,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tabungan', [Auth_controller::class, 'tabungan']);
     Route::get('/setoran', [Auth_controller::class, 'setoran']);
     Route::get('/hutang', [Auth_controller::class, 'hutang']);
+    Route::get('/uang_keluar', [Auth_controller::class, 'uang_keluar']);
 
 
     // action
@@ -62,6 +63,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ajax_tambah_setoran', 'App\Http\Controllers\Entry_controller@ajax_tambah_setoran')->middleware('check.ajax.source');
     Route::post('/ajax_tambah_hutang', 'App\Http\Controllers\Entry_controller@ajax_tambah_hutang')->middleware('check.ajax.source');
     Route::post('/ajax_bayar_hutang', 'App\Http\Controllers\Entry_controller@ajax_bayar_hutang')->middleware('check.ajax.source');
+    Route::post('/ajax_uang_keluar', 'App\Http\Controllers\Entry_controller@ajax_uang_keluar')->middleware('check.ajax.source');
+    Route::get('/ajax_get_uang_keluar', 'App\Http\Controllers\Entry_controller@ajax_get_uang_keluar')->middleware('check.ajax.source');
+    Route::get('/ajax_hapus_uang_keluar/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_uang_keluar')->middleware('check.ajax.source');
 });
 
 

@@ -18,6 +18,8 @@
     @include('dashboard.halaman.setoran')
 @elseif($halaman == 'hutang')
     @include('dashboard.halaman.hutang')
+@elseif($halaman == 'uang_keluar')
+    @include('dashboard.halaman.uang_keluar')
 @endif
 
 {{-- footer --}}
@@ -41,6 +43,8 @@
     @include('dashboard.halaman.ajax.setoran')
 @elseif($halaman == 'hutang')
     @include('dashboard.halaman.ajax.hutang')
+@elseif($halaman == 'uang_keluar')
+    @include('dashboard.halaman.ajax.uang_keluar')
 @endif
 
 @include('dashboard.halaman.ajax.default')

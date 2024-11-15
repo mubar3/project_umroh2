@@ -9,6 +9,7 @@ use App\Models\Bank;
 use App\Models\User;
 use App\Models\Daftar_paket;
 use App\Models\Setoran;
+use App\Models\Uang_keluar_list;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -181,6 +182,14 @@ class Auth_controller extends Controller
     function hutang() {
         return view('dashboard.halaman')->with([
             'halaman'   => 'hutang',
+        ]);
+    }
+
+    function uang_keluar() {
+        $list=Uang_keluar_list::where('status','y')->get();
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'uang_keluar',
+            'list'   => $list,
         ]);
     }
 

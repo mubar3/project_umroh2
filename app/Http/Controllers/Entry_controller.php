@@ -9,6 +9,8 @@ use App\Models\Daftar_paket;
 use App\Models\Tabungan_log;
 use App\Models\Setoran;
 use App\Models\Hutang;
+use App\Models\uang_keluar;
+use App\Models\uang_keluar_list;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -929,5 +931,57 @@ class Entry_controller extends Controller
             DB::rollBack();
             return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
         }
+    }
+
+    function ajax_uang_keluar(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'jumlah'    => 'required',
+            'kategori'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+
+            Uang_keluar::create([
+                'id_list'   => $data->kategori,
+                'ket'   => $data->ket,
+                'jumlah'   => $data->jumlah,
+                'userid'   => Auth::user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_get_uang_keluar() {
+
+        $data=Uang_keluar::select(
+                'uang_keluar.*',
+                'uang_keluar_list.nama as kategori'
+            )
+            ->join('uang_keluar_list','uang_keluar_list.id_list','=','uang_keluar.id_list')
+            ->get();
+
+        return response()->json($data);
+    }
+
+    function ajax_hapus_uang_keluar($id){
+        $this->log_web('/hapus_uang_keluar');
+
+        $data=Uang_keluar::find($id)->delete();
+        if($data){
+            return response()->json(['message' => 'Berhasil hapus data']);
+        }else{
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+
     }
 }
