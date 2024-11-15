@@ -19,7 +19,7 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src="{{ asset('asset/plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/jquery/jquery.min.js') . '?v=' . time() }}"></script>
 <!-- jQuery UI 1.11.4 -->
 <script src="{{ asset('asset/plugins/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
@@ -46,7 +46,7 @@
 <!-- Sparkline -->
 <script src="{{ asset('asset/plugins/sparklines/sparkline.js') }}"></script>
 <!-- JQVMap -->
-<script src="{{ asset('asset/plugins/jqvmap/jquery.vmap.min.js') }}"></script>
+<script src="{{ asset('asset/plugins/jqvmap/jquery.vmap.min.js') . '?v=' . time() }}"></script>
 <script src="{{ asset('asset/plugins/jqvmap/maps/jquery.vmap.usa.js') }}"></script>
 <!-- jQuery Knob Chart -->
 <script src="{{ asset('asset/plugins/jquery-knob/jquery.knob.min.js') }}"></script>
