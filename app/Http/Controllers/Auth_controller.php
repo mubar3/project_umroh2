@@ -33,6 +33,10 @@ class Auth_controller extends Controller
                 Auth::logout();
                 session()->flash('eror', 'Akun nonaktif');
                 return redirect('/login_page');
+            }elseif(Auth::user()->hapus == 'y'){
+                Auth::logout();
+                session()->flash('eror', 'Akun telah dihapus');
+                return redirect('/login_page');
             }
             return redirect('/home');
         }else{

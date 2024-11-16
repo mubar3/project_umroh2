@@ -56,6 +56,9 @@
             </div>
             <div class="info">
               <a href="#" class="d-block">{{ Auth::user()->email }}</a>
+              <button class="btn-sm btn-secondary" id="edit_pass">
+                Edit Password
+              </button>
             </div>
           </div>
 

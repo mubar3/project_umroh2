@@ -112,5 +112,102 @@
         return 'Rp' + hasil;
     }
 </script>
+
+
+
+<div class="modal fade" id="edit_pass_modal" tabindex="-1" aria-labelledby="rfidModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >EDIT PASSWORD</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <input class="form-control" type="password" id="pass_lama" placeholder="Password Lama">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" id="pass_baru" placeholder="Password Baru">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" id="pass_baru2" placeholder="Ulangi Password Baru">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancel_edit_pass">Cancel</button>
+                <button type="submit" class="btn btn-primary" id="simpan_edit_pass">Simpan</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal Error -->
+<div class="modal fade" id="modal_eror" tabindex="-2" aria-labelledby="rfidErrorModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal_eror_label"></h5>
+          {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+        </div>
+        <div class="modal-body">
+          <p id="modal_eror_message"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="modal_eror_tutup">Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+    $('#edit_pass').on('click', function() {
+        $('#edit_pass_modal').modal('show'); // Menutup modal secara manual
+    });
+
+
+    $('#cancel_edit_pass').on('click', function() {
+        $('#edit_pass_modal').modal('hide'); // Menutup modal secara manual
+    });
+
+
+    $('#modal_eror_tutup').on('click', function() {
+        $('#modal_eror').modal('hide'); // Menutup modal secara manual
+    });
+
+    $('#simpan_edit_pass').on('click', function(e) {
+        $.ajax({
+            url: "{{ env('APP_URL').'/ajax_edit_pass_user' }}", // Ganti dengan URL tujuan
+            type: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF
+            },
+            data: {
+                    pass_lama: $('#pass_lama').val(),
+                    pass_baru: $('#pass_baru').val(),
+                    pass_baru2: $('#pass_baru2').val()
+                },
+            success: function(response) {
+                $('#edit_pass_modal').modal('hide'); // Menutup modal secara manual
+                $('#pass_lama').val('')
+                $('#pass_baru').val('')
+                $('#pass_baru2').val('')
+
+                $('#modal_eror_label').text('Berhasil');
+                $('#modal_eror_message').text(response.message);
+                $('#modal_eror').modal('show');  // Tampilkan modal error
+            },
+            error: function(xhr, status, error) {
+                $('#modal_eror_label').text('Gagal');
+                $('#modal_eror_message').text(JSON.parse(xhr.responseText).message);
+                $('#modal_eror').modal('show');  // Tampilkan modal error
+            }
+        });
+    });
+</script>
+
 </body>
 </html>

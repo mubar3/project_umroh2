@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/ajax_get_jamaah', [Entry_controller::class, 'ajax_get_jamaah']);
     Route::get('/ajax_get_jamaah', 'App\Http\Controllers\Entry_controller@ajax_get_jamaah')->middleware('check.ajax.source');
     Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware('check.ajax.source');
-    Route::get('/ajax_hapus_user/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_user')->middleware('check.ajax.source');
+    Route::get('/ajax_ubah_user/{task}/{id}', 'App\Http\Controllers\Entry_controller@ajax_ubah_user')->middleware('check.ajax.source');
     Route::get('/ajax_get_koordinator', 'App\Http\Controllers\Entry_controller@ajax_get_koordinator')->middleware('check.ajax.source');
     Route::get('/ajax_get_leader', 'App\Http\Controllers\Entry_controller@ajax_get_leader')->middleware('check.ajax.source');
     Route::get('/ajax_get_chart', 'App\Http\Controllers\Entry_controller@ajax_get_chart')->middleware('check.ajax.source');
@@ -66,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ajax_uang_keluar', 'App\Http\Controllers\Entry_controller@ajax_uang_keluar')->middleware('check.ajax.source');
     Route::get('/ajax_get_uang_keluar', 'App\Http\Controllers\Entry_controller@ajax_get_uang_keluar')->middleware('check.ajax.source');
     Route::get('/ajax_hapus_uang_keluar/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_uang_keluar')->middleware('check.ajax.source');
+    Route::post('/ajax_edit_pass_user', 'App\Http\Controllers\Entry_controller@ajax_edit_pass_user')->middleware('check.ajax.source');
 });
 
 

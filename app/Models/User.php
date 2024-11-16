@@ -25,6 +25,7 @@ class User extends Authenticatable
         'id_anggota',
         'atasan',
         'status',
+        'hapus',
     ];
 
     /**

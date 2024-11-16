@@ -483,21 +483,54 @@ class Entry_controller extends Controller
 
     }
 
-    function ajax_hapus_user($id){
-        $this->log_web('/hapus_user');
+    function ajax_ubah_user($role,$id){
+        if($role == 'hapus'){
+            $this->log_web('/hapus_user');
 
-        $user=User::find($id);
-        if($user){
-            // id koordinator
-            Anggota::where('id_anggota',$user->id_anggota)->update(['status' => 'n']);
+            $user=User::find($id);
+            if($user){
+                // id koordinator
+                Anggota::where('id_anggota',$user->id_anggota)->update(['status' => 'n']);
 
-            $user->update(['status'=>'n']);
+                $user->update(['hapus'=>'y']);
 
-            return response()->json(['message' => 'User deleted successfully.']);
+                return response()->json(['message' => 'Hapus data berhasil']);
+            }else{
+                return response()->json(['message' => 'Data tidak ditemukan'], 404);
+            }
+        }elseif($role == 'reset_pass'){
+            $this->log_web('/reset_pass_user');
+
+            $user=User::find($id);
+            if($user){
+                $user->update(['password'=>bcrypt('asd')]);
+                return response()->json(['message' => 'Reset password berhasil']);
+            }else{
+                return response()->json(['message' => 'Data tidak ditemukan'], 404);
+            }
+        }elseif($role == 'aktifkan'){
+            $this->log_web('/aktifkan_user');
+
+            $user=User::where('id',$id)->where('status','n')->first();
+            if($user){
+                $user->update(['status'=>'y']);
+                return response()->json(['message' => 'Status User Berhasil Diaktifkan']);
+            }else{
+                return response()->json(['message' => 'Data tidak ditemukan'], 404);
+            }
+        }elseif($role == 'nonaktifkan'){
+            $this->log_web('/nonaktifkan_user');
+
+            $user=User::where('id',$id)->where('status','y')->first();
+            if($user){
+                $user->update(['status'=>'n']);
+                return response()->json(['message' => 'Status User Berhasil Dinonaktifkan']);
+            }else{
+                return response()->json(['message' => 'Data tidak ditemukan'], 404);
+            }
         }else{
-            return response()->json(['message' => 'User not found.'], 404);
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
         }
-
     }
 
     function ajax_get_koordinator(Request $data) {
@@ -801,7 +834,7 @@ class Entry_controller extends Controller
                         END AS `role`
                     ")
                 )
-                ->where('status','y')
+                ->where('hapus','n')
                 ->whereNot('users.id',Auth::user()->id)
                 ->get();
         }elseif(Auth::user()->role == 2){
@@ -817,7 +850,7 @@ class Entry_controller extends Controller
                         END AS `role`
                     ")
                 )
-                ->where('status','y')
+                ->where('hapus','n')
                 ->where('atasan',Auth::user()->id)
                 ->whereNot('users.id',Auth::user()->id)
                 ->get();
@@ -842,7 +875,7 @@ class Entry_controller extends Controller
         try {
             // $id_anggota=Crypt::decryptString($data->rfid);
             // $id_anggota=$data->rfid;
-            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            $anggota=Anggota::where('rfid',$data->rfid)->where('status','y')->first();
             if(!$anggota){
                 return response()->json(['message' => 'RFID belum terdaftar'], 404);
             }
@@ -892,7 +925,7 @@ class Entry_controller extends Controller
         try {
             // $id_anggota=Crypt::decryptString($data->rfid);
             // $id_anggota=$data->rfid;
-            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            $anggota=Anggota::where('rfid',$data->rfid)->where('status','y')->first();
             if(!$anggota){
                 return response()->json(['message' => 'RFID belum terdaftar'], 404);
             }
@@ -955,7 +988,7 @@ class Entry_controller extends Controller
         try {
             // $id_anggota=Crypt::decryptString($data->rfid);
             // $id_anggota=$data->rfid;
-            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            $anggota=Anggota::where('rfid',$data->rfid)->where('status','y')->first();
             if(!$anggota){
                 return response()->json(['message' => 'RFID belum terdaftar'], 404);
             }
@@ -1007,7 +1040,7 @@ class Entry_controller extends Controller
         try {
             // $id_anggota=Crypt::decryptString($data->rfid);
             // $id_anggota=$data->rfid;
-            $anggota=Anggota::where('rfid',$data->rfid)->first();
+            $anggota=Anggota::where('rfid',$data->rfid)->where('status','y')->first();
             if(!$anggota){
                 return response()->json(['message' => 'RFID belum terdaftar'], 404);
             }
@@ -1091,6 +1124,44 @@ class Entry_controller extends Controller
             return response()->json(['message' => 'Berhasil hapus data']);
         }else{
             return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+
+    }
+
+    function ajax_edit_pass_user(Request $data){
+        $cek_validator=$this->validator($data,[
+            'pass_lama'    => 'required',
+            'pass_baru'    => 'required',
+            'pass_baru2'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/edit_pass_user');
+
+            if ( !(Auth::attempt(['id' => Auth::user()->id, 'password' => $data->pass_lama]))) {
+                return response()->json(['message' => 'Password yang lama salah'], 404);
+            }
+
+            if($data->pass_baru != $data->pass_baru2){
+                return response()->json(['message' => 'Inputan password yang baru tidak sama'], 404);
+            }
+
+            if($data->pass_lama == $data->pass_baru){
+                return response()->json(['message' => 'Password lama dan baru sama'], 404);
+            }
+
+            User::find(Auth::user()->id)->update(['password'=>bcrypt($data->pass_baru)]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil edit password']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
         }
 
     }
