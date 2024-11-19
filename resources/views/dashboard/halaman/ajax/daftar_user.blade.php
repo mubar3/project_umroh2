@@ -38,11 +38,11 @@
                         </button>`;
                         if(row.status == 'y'){
                             aktif=`<button class="btn btn-danger btn-nonaktif" data-id="${row.id}">
-                                    <i class="fas fa-eye"></i> Nonaktifkan
+                                    <i class="fas fa-times-circle"></i> Nonaktifkan
                             </button>`;
                         }else{
                             aktif=`<button class="btn btn-info btn-aktifkan" data-id="${row.id}">
-                                    <i class="fas fa-eye"></i> Aktifkan
+                                    <i class="fas fa-check-circle"></i> Aktifkan
                             </button>`;
                         }
                         reset_pass=`<button class="btn btn-primary btn-reset" data-id="${row.id}">
