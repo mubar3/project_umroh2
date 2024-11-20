@@ -40,6 +40,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/hutang', [Auth_controller::class, 'hutang']);
     Route::get('/uang_keluar', [Auth_controller::class, 'uang_keluar'])->middleware('role:1');
 
+    // cetak
+    Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat']);
+    Route::get('/kartu/{id}', [Auth_controller::class, 'kartu']);
 
     // action
     Route::get('/logout', [Auth_controller::class, 'logout']);

@@ -55,6 +55,12 @@
                                 <button type="button" class="btn btn-danger btn-hapus" data-id="${row.id_anggota_fix}">
                                     <i class="fas fa-trash"></i> Hapus
                                 </button>
+                                <a href="{{ url('/sertifikat') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
+                                    <i class="fas fa-award"></i> Cetak Sertifikat
+                                </a>
+                                <a href="{{ url('/kartu') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
+                                    <i class="fas fa-address-card"></i> Cetak kartu
+                                </a>
                             </div>
                         `;
                     }

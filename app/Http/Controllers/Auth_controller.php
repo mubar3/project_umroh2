@@ -114,6 +114,28 @@ class Auth_controller extends Controller
         ]);
     }
 
+    function sertifikat($id) {
+        $id = Crypt::decryptString($id);
+
+        return view('dashboard.cetak.sertifikat')->with([
+            'anggota'   => Anggota::find($id),
+        ]);
+    }
+
+    function kartu($id) {
+        $id = Crypt::decryptString($id);
+        $anggota=Anggota::select(
+                '*',
+                DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+            )
+            ->where('id_anggota',$id)
+            ->first();
+
+        return view('dashboard.cetak.kartu')->with([
+            'anggota'   => $anggota,
+        ]);
+    }
+
     function data_anggota($id) {
         $id = Crypt::decryptString($id);
         $anggota=Anggota::select(
