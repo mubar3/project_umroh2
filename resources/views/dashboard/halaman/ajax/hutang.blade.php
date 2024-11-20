@@ -36,7 +36,7 @@
                     let rfid = $(this).val();
 
                     // Periksa jika panjang teks RFID sesuai, misalnya 4 karakter atau lebih
-                    if (rfid.length >= 2) {
+                    if (rfid.length >= 10) {
                         $('#rfidInput').val('');
                         $('#rfidModal').modal('hide'); // Tutup modal setelah input diterima
 
@@ -115,7 +115,7 @@
                     let rfid = $(this).val();
 
                     // Periksa jika panjang teks RFID sesuai, misalnya 4 karakter atau lebih
-                    if (rfid.length >= 2) {
+                    if (rfid.length >= 10) {
                         $('#rfidInput_bayar').val('');
                         $('#rfidModal_bayar').modal('hide'); // Tutup modal setelah input diterima
 
