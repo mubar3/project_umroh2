@@ -33,10 +33,12 @@
 
                 // Tangkap input teks dari RFID secara dinamis
                 $('#rfidInput').on('input', function() {
-                    let rfid = $(this).val();
+                    // let rfid = $(this).val();
+                    let rfid = $(this).val().trim();
 
                     // Periksa jika panjang teks RFID sesuai, misalnya 4 karakter atau lebih
                     if (rfid.length >= 10) {
+                        rfid = rfid.replace(/\n|\r/g, '');
                         $('#rfidInput').val('');
                         $('#rfidModal').modal('hide'); // Tutup modal setelah input diterima
 
@@ -112,10 +114,12 @@
 
                 // Tangkap input teks dari RFID secara dinamis
                 $('#rfidInput_bayar').on('input', function() {
-                    let rfid = $(this).val();
+                    // let rfid = $(this).val();
+                    let rfid = $(this).val().trim();
 
                     // Periksa jika panjang teks RFID sesuai, misalnya 4 karakter atau lebih
                     if (rfid.length >= 10) {
+                        rfid = rfid.replace(/\n|\r/g, '');
                         $('#rfidInput_bayar').val('');
                         $('#rfidModal_bayar').modal('hide'); // Tutup modal setelah input diterima
 
