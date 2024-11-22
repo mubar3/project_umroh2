@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Daftar_paket;
 use App\Models\Setoran;
 use App\Models\Uang_keluar_list;
+use App\Models\Uang_masuk_list;
 use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
@@ -124,6 +125,26 @@ class Auth_controller extends Controller
         return view('dashboard.halaman')->with([
             'halaman'   => 'uang_keluar',
             'list'   => $list,
+        ]);
+    }
+
+    function uang_masuk() {
+        $list=Uang_masuk_list::where('status','y')->get();
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'uang_masuk',
+            'list'   => $list,
+        ]);
+    }
+
+    function kategori_list() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'kategori_list',
+        ]);
+    }
+
+    function daftar_paket() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'daftar_paket',
         ]);
     }
 

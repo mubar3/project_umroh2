@@ -114,6 +114,35 @@
                     </li>
               @endif
 
+              @if(in_array(Auth::user()->role,[1,6]))
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                    <i class="fas fa-cog"></i>
+                    <p>
+                        SETTING
+                        <i class="fas fa-angle-left right"></i>
+                        {{-- <span class="badge badge-info right">6</span> --}}
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="padding-left: 20px;">
+                        <li class="nav-item">
+                            <a href="{{ url('/kategori_list')}}" class="nav-link">
+                            <i class="fas fa-list"></i>
+                            <p>KATEGORI UANG MASUK/KELUAR</p>
+                            </a>
+                        </li>
+                        @if(in_array(Auth::user()->role,[1]))
+                            <li class="nav-item">
+                                <a href="{{ url('/daftar_paket')}}" class="nav-link">
+                                <i class="fas fa-plane"></i>
+                                <p>DAFTAR PAKET</p>
+                                </a>
+                            </li>
+                        @endif
+                    </ul>
+                </li>
+              @endif
+
               @if(in_array(Auth::user()->role,[1,2,3,4,5]))
                 <li class="nav-item">
                     <a href="#" class="nav-link">
@@ -178,6 +207,14 @@
               @endif
 
               @if(in_array(Auth::user()->role,[1,6]))
+                <li class="nav-item">
+                    <a href="{{ url('/uang_masuk')}}" class="nav-link">
+                        <i class="fas fa-arrow-circle-down"></i>
+                        <p>
+                        UANG MASUK
+                        </p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="{{ url('/uang_keluar')}}" class="nav-link">
                         <i class="fas fa-arrow-circle-up"></i>

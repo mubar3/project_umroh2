@@ -11,6 +11,8 @@ use App\Models\Setoran;
 use App\Models\Hutang;
 use App\Models\Uang_keluar;
 use App\Models\Uang_keluar_list;
+use App\Models\Uang_masuk;
+use App\Models\Uang_masuk_list;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -1103,8 +1105,38 @@ class Entry_controller extends Controller
 
         DB::beginTransaction();
         try {
+            $this->log_web('/tambah_uang_keluar');
 
             Uang_keluar::create([
+                'id_list'   => $data->kategori,
+                'ket'   => $data->ket,
+                'jumlah'   => $data->jumlah,
+                'userid'   => Auth::user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_uang_masuk(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'jumlah'    => 'required',
+            'kategori'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/tambah_uang_masuk');
+
+            Uang_masuk::create([
                 'id_list'   => $data->kategori,
                 'ket'   => $data->ket,
                 'jumlah'   => $data->jumlah,
@@ -1131,6 +1163,18 @@ class Entry_controller extends Controller
         return response()->json($data);
     }
 
+    function ajax_get_uang_masuk() {
+
+        $data=Uang_masuk::select(
+                'uang_masuk.*',
+                'uang_masuk_list.nama as kategori'
+            )
+            ->join('uang_masuk_list','uang_masuk_list.id_list','=','uang_masuk.id_list')
+            ->get();
+
+        return response()->json($data);
+    }
+
     function ajax_hapus_uang_keluar($id){
         $this->log_web('/hapus_uang_keluar');
 
@@ -1140,7 +1184,186 @@ class Entry_controller extends Controller
         }else{
             return response()->json(['message' => 'Gagal hapus data'], 404);
         }
+    }
 
+    function ajax_hapus_uang_masuk($id){
+        $this->log_web('/hapus_uang_masuk');
+
+        $data=Uang_masuk::find($id)->delete();
+        if($data){
+            return response()->json(['message' => 'Berhasil hapus data']);
+        }else{
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+    }
+
+    function ajax_list_uang_masuk(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'nama'    => 'required',
+            // 'ket'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/tambah_list_uang_masuk');
+
+            Uang_masuk_list::create([
+                'nama'   => $data->nama,
+                'ket'   => $data->ket,
+                'userid'   => Auth::user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_list_uang_keluar(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'nama'    => 'required',
+            // 'ket'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/tambah_list_uang_keluar');
+
+            Uang_keluar_list::create([
+                'nama'   => $data->nama,
+                'ket'   => $data->ket,
+                'userid'   => Auth::user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_get_list_uang_masuk() {
+
+        $data=Uang_masuk_list::all();
+
+        return response()->json($data);
+    }
+
+    function ajax_get_list_uang_keluar() {
+
+        $data=Uang_keluar_list::all();
+
+        return response()->json($data);
+    }
+
+    function ajax_ubah_list_uang_masuk($action,$id){
+        if($action == 'hapus'){
+            $data=Uang_masuk_list::find($id)->delete();
+        }elseif($action == 'aktifkan'){
+            $data=Uang_masuk_list::find($id)->update(['status'=>'y']);
+        }elseif($action == 'nonaktifkan'){
+            $data=Uang_masuk_list::find($id)->update(['status'=>'n']);
+        }else{
+            $data=false;
+        }
+
+        $this->log_web('/'.$action.'_list_uang_masuk');
+
+        if($data){
+            return response()->json(['message' => 'Berhasil '.$action.' data kategori']);
+        }else{
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+    }
+
+    function ajax_ubah_list_uang_keluar($action,$id){
+        if($action == 'hapus'){
+            $data=Uang_keluar_list::find($id)->delete();
+        }elseif($action == 'aktifkan'){
+            $data=Uang_keluar_list::find($id)->update(['status'=>'y']);
+        }elseif($action == 'nonaktifkan'){
+            $data=Uang_keluar_list::find($id)->update(['status'=>'n']);
+        }else{
+            $data=false;
+        }
+
+        $this->log_web('/'.$action.'_list_uang_keluar');
+
+        if($data){
+            return response()->json(['message' => 'Berhasil '.$action.' data kategori']);
+        }else{
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+    }
+
+
+
+    function ajax_tambah_paket(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'judul'    => 'required',
+            'harga'    => 'required',
+            // 'deskripsi'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/tambah_paket');
+
+            Daftar_paket::create([
+                'judul'   => $data->judul,
+                'harga'   => $data->harga,
+                'deskripsi'   => $data->deskripsi,
+                'userid'   => Auth::user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_get_paket() {
+
+        $data=Daftar_paket::all();
+
+        return response()->json($data);
+    }
+
+    function ajax_ubah_paket($action,$id){
+        if($action == 'hapus'){
+            $data=Daftar_paket::find($id)->delete();
+        }elseif($action == 'aktifkan'){
+            $data=Daftar_paket::find($id)->update(['status'=>'y']);
+        }elseif($action == 'nonaktifkan'){
+            $data=Daftar_paket::find($id)->update(['status'=>'n']);
+        }else{
+            $data=false;
+        }
+
+        $this->log_web('/'.$action.'_paket');
+
+        if($data){
+            return response()->json(['message' => 'Berhasil '.$action.' data paket']);
+        }else{
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
     }
 
     function ajax_edit_pass_user(Request $data){

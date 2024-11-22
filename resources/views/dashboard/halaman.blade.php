@@ -20,6 +20,12 @@
     @include('dashboard.halaman.hutang')
 @elseif($halaman == 'uang_keluar')
     @include('dashboard.halaman.uang_keluar')
+@elseif($halaman == 'uang_masuk')
+    @include('dashboard.halaman.uang_masuk')
+@elseif($halaman == 'kategori_list')
+    @include('dashboard.halaman.kategori_list')
+@elseif($halaman == 'daftar_paket')
+    @include('dashboard.halaman.daftar_paket')
 @endif
 
 {{-- footer --}}
@@ -45,6 +51,12 @@
     @include('dashboard.halaman.ajax.hutang')
 @elseif($halaman == 'uang_keluar')
     @include('dashboard.halaman.ajax.uang_keluar')
+@elseif($halaman == 'uang_masuk')
+    @include('dashboard.halaman.ajax.uang_masuk')
+@elseif($halaman == 'kategori_list')
+    @include('dashboard.halaman.ajax.kategori_list')
+@elseif($halaman == 'daftar_paket')
+    @include('dashboard.halaman.ajax.daftar_paket')
 @endif
 
 @include('dashboard.halaman.ajax.default')
