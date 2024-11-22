@@ -31,14 +31,14 @@ Route::middleware(['auth'])->group(function () {
 
     // halaman
     Route::get('/home', [Auth_controller::class, 'home']);
-    Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota']);
-    Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota']);
+    Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota'])->middleware('role:1,2,3,4');
+    Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota'])->middleware('role:1,2,3,4,5');
     Route::get('/tambah_user', [Auth_controller::class, 'tambah_user'])->middleware('role:1,2');
     Route::get('/daftar_user', [Auth_controller::class, 'daftar_user'])->middleware('role:1,2');
-    Route::get('/tabungan', [Auth_controller::class, 'tabungan']);
-    Route::get('/setoran', [Auth_controller::class, 'setoran']);
-    Route::get('/hutang', [Auth_controller::class, 'hutang']);
-    Route::get('/uang_keluar', [Auth_controller::class, 'uang_keluar'])->middleware('role:1');
+    Route::get('/tabungan', [Auth_controller::class, 'tabungan'])->middleware('role:1,2,3,4');
+    Route::get('/setoran', [Auth_controller::class, 'setoran'])->middleware('role:1,2,3,4');
+    Route::get('/hutang', [Auth_controller::class, 'hutang'])->middleware('role:1,2,3,4');
+    Route::get('/uang_keluar', [Auth_controller::class, 'uang_keluar'])->middleware('role:1,6');
 
     // cetak
     Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat']);

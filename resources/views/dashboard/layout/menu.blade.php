@@ -113,88 +113,80 @@
                         </ul>
                     </li>
               @endif
-              <li class="nav-item">
-                <a href="#" class="nav-link">
-                  <i class="fas fa-users"></i>
-                  <p>
-                    ANGGOTA
-                    <i class="fas fa-angle-left right"></i>
-                    {{-- <span class="badge badge-info right">6</span> --}}
-                  </p>
-                </a>
-                <ul class="nav nav-treeview" style="padding-left: 20px;">
-                  {{-- @if(Auth::user()->role != 2) --}}
+
+              @if(in_array(Auth::user()->role,[1,2,3,4,5]))
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                    <i class="fas fa-users"></i>
+                    <p>
+                        ANGGOTA
+                        <i class="fas fa-angle-left right"></i>
+                        {{-- <span class="badge badge-info right">6</span> --}}
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="padding-left: 20px;">
+                        @if(in_array(Auth::user()->role,[1,2,3,4]))
+                            <li class="nav-item">
+                                <a href="{{ url('/tambah_anggota')}}" class="nav-link">
+                                <i class="fas fa-edit"></i>
+                                <p>TAMBAH ANGGOTA</p>
+                                </a>
+                            </li>
+                        @endif
                     <li class="nav-item">
-                        <a href="{{ url('/tambah_anggota')}}" class="nav-link">
-                        <i class="fas fa-edit"></i>
-                        <p>TAMBAH ANGGOTA</p>
+                        <a href="{{ url('/daftar_anggota')}}" class="nav-link">
+                        <i class="fas fa-list"></i>
+                        <p>DAFTAR ANGGOTA</p>
                         </a>
                     </li>
-                  {{-- @endif --}}
-                  <li class="nav-item">
-                    <a href="{{ url('/daftar_anggota')}}" class="nav-link">
-                      <i class="fas fa-list"></i>
-                      <p>DAFTAR ANGGOTA</p>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-
-              <li class="nav-item">
-                <a href="" class="nav-link">
-                  <i class="fas fa-arrow-circle-down"></i>
-                  <p>
-                    UANG MASUK
-                    {{-- <span class="right badge badge-primary">Coming Soon</span> --}}
-                    <i class="fas fa-angle-left right"></i>
-                  </p>
-                </a>
-                <ul class="nav nav-treeview" style="padding-left: 20px;">
-                  <li class="nav-item">
-                    <a href="{{ url('/tabungan')}}" class="nav-link">
-                        <i class="fas fa-coins"></i>
-                      <p>TABUNGAN</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ url('/setoran')}}" class="nav-link">
-                      <i class="fas fa-hand-holding-usd"></i>
-                      <p>SETORAN</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ url('/hutang')}}" class="nav-link">
-                      <i class="fas fa-credit-card"></i>
-                      <p>HUTANG</p>
-                    </a>
-                  </li>
-                  {{-- <li class="nav-item">
-                    <a href="" class="nav-link">
-                      <p>SETORAN JAMAAH UMROH</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="" class="nav-link">
-                      <p>HUTANG</p>
-                    </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="" class="nav-link">
-                      <p>DP</p>
-                    </a>
-                  </li> --}}
-                </ul>
-                @if(Auth::user()->role == 1)
-                <li class="nav-item">
-                  <a href="{{ url('/uang_keluar')}}" class="nav-link">
-                    <i class="fas fa-arrow-circle-up"></i>
-                    <p>
-                      UANG KELUAR
-                    </p>
-                  </a>
+                    </ul>
                 </li>
-                @endif
-              </li>
+              @endif
+
+
+              @if(in_array(Auth::user()->role,[1,2,3,4]))
+                <li class="nav-item">
+                    <a href="" class="nav-link">
+                    <i class="fas fa-wallet"></i>
+                    <p>
+                        TABUNGAN
+                        {{-- <span class="right badge badge-primary">Coming Soon</span> --}}
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                    </a>
+                    <ul class="nav nav-treeview" style="padding-left: 20px;">
+                        <li class="nav-item">
+                            <a href="{{ url('/tabungan')}}" class="nav-link">
+                                <i class="fas fa-coins"></i>
+                            <p>TABUNGAN</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/setoran')}}" class="nav-link">
+                            <i class="fas fa-hand-holding-usd"></i>
+                            <p>SETORAN</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url('/hutang')}}" class="nav-link">
+                            <i class="fas fa-credit-card"></i>
+                            <p>HUTANG</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+              @endif
+
+              @if(in_array(Auth::user()->role,[1,6]))
+                <li class="nav-item">
+                    <a href="{{ url('/uang_keluar')}}" class="nav-link">
+                        <i class="fas fa-arrow-circle-up"></i>
+                        <p>
+                        UANG KELUAR
+                        </p>
+                    </a>
+                </li>
+              @endif
             </ul>
           </nav>
           <!-- /.sidebar-menu -->

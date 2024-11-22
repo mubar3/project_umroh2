@@ -1,5 +1,14 @@
 <script>
-
+    $(document).ready(function() {
+        $('#list_role').on('change', function() {
+            if ($(this).val() == '3') {
+                $('#top_leader_form').slideDown(); // Menampilkan form dengan animasi
+            } else {
+                $('.select-top_leader').val(null).trigger('change');
+                $('#top_leader_form').slideUp(); // Menyembunyikan form dengan animasi
+            }
+        });
+    });
 
     $('.select-top_leader').select2({
             placeholder: 'Cari top_leader...',

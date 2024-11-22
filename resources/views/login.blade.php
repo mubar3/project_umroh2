@@ -63,12 +63,11 @@
           </div>
         </div>
         <div class="input-group mb-3">
-                <select name="role" id="select_hapus_awal" class="form-control" required>
+                <select name="role" class="form-control" required>
                     <option value="" disable selected>ROLE</option>
-                    <option value="1">Admin</option>
-                    <option value="2">Top leader</option>
-                    <option value="3">leader</option>
-                    <option value="4">Koordinator</option>
+                    @foreach ($roles as $role)
+                        <option value="{{ $role->id }}">{{ $role->nama }}</option>
+                    @endforeach
                   </select>
         </div>
         <button type="submit" class="btn-lg btn-primary btn-block">Sign In</button>

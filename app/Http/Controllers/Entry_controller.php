@@ -213,6 +213,9 @@ class Entry_controller extends Controller
             }elseif($data->role == 3 && Auth::user()->role == 2){
                 // top leader input leader
                 $data->top_leader = Auth::user()->id;
+            }elseif(in_array($data->role,[5,6,7]) && Auth::user()->role == 1){
+                // admin input keanggotaan
+                $data->top_leader=Auth::user()->id;
             }else{
                 session()->flash('eror', 'Tidak valid');
                 return redirect('/tambah_user');
@@ -229,9 +232,19 @@ class Entry_controller extends Controller
                 $role='admin';
             }elseif($data->role == 2){
                 $role='top.leader';
-            }else{
+            }elseif($data->role == 3){
                 $role='leader';
+            }elseif($data->role == 5){
+                $role='keanggotaan';
+            }elseif($data->role == 6){
+                $role='keuangan';
+            }elseif($data->role == 7){
+                $role='pengadaan';
+            }else{
+                session()->flash('eror', 'Tidak valid');
+                return redirect('/tambah_user');
             }
+
             User::find($insert->id)->update(['email' => $insert->id.'@'.$role]);
 
 
@@ -367,7 +380,7 @@ class Entry_controller extends Controller
     }
 
     function ajax_get_jamaah() {
-        if(Auth::user()->role == 1){
+        if(in_array(Auth::user()->role,[1,5])){
             $anggota=Anggota::select(
                     'anggota.*',
                     DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
@@ -823,18 +836,20 @@ class Entry_controller extends Controller
     function ajax_get_user() {
         if(Auth::user()->role == 1){
             $user=User::select(
-                    '*',
-                    DB::raw("
-                        CASE
-                            WHEN `role` = 1 THEN 'ADMIN'
-                            WHEN `role` = 2 THEN 'TOP LEADER'
-                            WHEN `role` = 3 THEN 'LEADER'
-                            WHEN `role` = 4 THEN 'ADMINISTRATOR'
-                            ELSE 'UNKNOWN'
-                        END AS `role`
-                    ")
+                    'users.*',
+                    // DB::raw("
+                    //     CASE
+                    //         WHEN `role` = 1 THEN 'ADMIN'
+                    //         WHEN `role` = 2 THEN 'TOP LEADER'
+                    //         WHEN `role` = 3 THEN 'LEADER'
+                    //         WHEN `role` = 4 THEN 'ADMINISTRATOR'
+                    //         ELSE 'UNKNOWN'
+                    //     END AS `role`
+                    // ")
+                    'role.nama as role'
                 )
-                ->where('hapus','n')
+                ->join('role','role.id','=','users.role')
+                ->where('users.hapus','n')
                 ->whereNot('users.id',Auth::user()->id)
                 ->get();
         }elseif(Auth::user()->role == 2){

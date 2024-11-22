@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Daftar_paket;
 use App\Models\Setoran;
 use App\Models\Uang_keluar_list;
+use App\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -22,7 +23,10 @@ class Auth_controller extends Controller
         if (Auth::check()) {
             return redirect('/home');
         }else{
-            return view('login');
+            $roles=Role::where('status','y')->get();
+            return view('login')->with([
+                'roles' => $roles
+            ]);
         }
 
     }
@@ -77,8 +81,17 @@ class Auth_controller extends Controller
     }
 
     function tambah_user() {
+        $roles=Role::where('status','y')->whereNot('id',4);
+        if(Auth::user()->role == 2){
+            // top leader hanya bisa input leader
+            $roles=$roles->where('id',3)->get();
+        }else{
+            $roles=$roles->get();
+        }
+
         return view('dashboard.halaman')->with([
             'halaman'   => 'tambah_user',
+            'roles'   => $roles,
         ]);
     }
 

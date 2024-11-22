@@ -60,12 +60,14 @@
                             <input name="nama" type="text" class="form-control" placeholder="nama" required>
                         </div>
                         @if(Auth::user()->role == 1)
-                            <div class="form-group">
-                                <label>Top Leader
-                                    <span class="right badge badge-secondary">wajib ketika input data leader</span>
-                                </label>
-                                <select name="top_leader" class="form-control select-top_leader" style="width: 100%;">
-                                </select>
+                            <div id="top_leader_form" style="display: none; margin-top: 20px;">
+                                <div class="form-group">
+                                    <label>Top Leader
+                                        <span class="right badge badge-secondary">wajib ketika input data leader</span>
+                                    </label>
+                                    <select name="top_leader" class="form-control select-top_leader" style="width: 100%;">
+                                    </select>
+                                </div>
                             </div>
                         @endif
                     </div>
@@ -73,15 +75,11 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Role  <span class="right badge badge-success">wajib</span></label>
-                            <select name="role" id="select_hapus_awal" class="form-control" style="width: 100%;" required>
+                            <select name="role" id="list_role" class="form-control" style="width: 100%;" required>
                                 <option value="" disable selected>==Pilih Salah Satu==</option>
-                                @if(Auth::user()->role == 1)
-                                    <option value="1">ADMIN</option>
-                                    <option value="2">TOP LEADER</option>
-                                @endif
-                                @if(Auth::user()->role == 1 || Auth::user()->role == 2)
-                                    <option value="3">LEADER</option>
-                                @endif
+                                @foreach ($roles as $role)
+                                    <option value="{{ $role->id }}">{{ $role->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
