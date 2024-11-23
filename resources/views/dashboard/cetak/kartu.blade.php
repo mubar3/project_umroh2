@@ -75,7 +75,7 @@
         </div>
         <div class="qrcode">
             {{-- {!! QrCode::size(80)->backgroundColor(255, 255, 204)->color(0, 0, 128)->generate('https://example.com') !!} --}}
-            {!! QrCode::size(80)->generate('https://example.com') !!}
+            {!! QrCode::size(80)->generate(env('APP_URL').'/data_anggota/'.Crypt::encryptString($anggota->id_anggota) ) !!}
         </div>
         <div class="id-card-info">
             {{-- <h2>{{ $anggota->nama }}</h2> --}}
