@@ -83,7 +83,7 @@
     <section class="content">
         <div class="container-fluid">
 
-            <div class="card card-default collapsed-card">
+            <div class="card card-default collapsed-card" id="uang_masuk_card">
                 <div class="card-header">
                   <h3 class="card-title">Data kategori uang masuk</h3>
 
@@ -190,7 +190,7 @@
     <section class="content">
         <div class="container-fluid">
 
-            <div class="card card-default collapsed-card">
+            <div class="card card-default collapsed-card" id="uang_keluar_card">
                 <div class="card-header">
                   <h3 class="card-title">Data kategori uang keluar</h3>
 

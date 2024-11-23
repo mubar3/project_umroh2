@@ -94,90 +94,92 @@
     });
 
 
-    $(function () {
-
-        $("#tabel1").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            // "responsive": true,
-            // "scrollX": true,
-            "autoWidth": false,
-            "ajax": {
-                "url": "{{ env('APP_URL').'/ajax_get_list_uang_masuk' }}", // Ganti dengan URL API Anda
-                "type": "GET",
-                "headers": {
-                    'X-Requested-With': 'XMLHttpRequest'
+    $(document).ready(function () {
+        $(document).on('expanded.lte.cardwidget', '#uang_masuk_card', function () {
+            $("#tabel1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                // "responsive": true,
+                // "scrollX": true,
+                "autoWidth": false,
+                "ajax": {
+                    "url": "{{ env('APP_URL').'/ajax_get_list_uang_masuk' }}", // Ganti dengan URL API Anda
+                    "type": "GET",
+                    "headers": {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    "dataSrc": "" // Menggunakan data langsung dari respons
                 },
-                "dataSrc": "" // Menggunakan data langsung dari respons
-            },
-            "columns": [
-                { "data": "nama" },
-                { "data": "ket" },
-                { "data": "status" },
-                { "data": "input_time" },
-                {
-                    "data": null,
-                    "render": function(data, type, row) {
+                "columns": [
+                    { "data": "nama" },
+                    { "data": "ket" },
+                    { "data": "status" },
+                    { "data": "input_time" },
+                    {
+                        "data": null,
+                        "render": function(data, type, row) {
+                            let aktif;
+                            if(row.status == 'y'){
+                                aktif=`<button class="btn btn-danger btn-nonaktif" data-id="${row.id_list}">
+                                        <i class="fas fa-times-circle"></i> Nonaktifkan
+                                </button>`;
+                            }else{
+                                aktif=`<button class="btn btn-info btn-aktifkan" data-id="${row.id_list}">
+                                        <i class="fas fa-check-circle"></i> Aktifkan
+                                </button>`;
+                            }
 
-                        if(row.status == 'y'){
-                            aktif=`<button class="btn btn-danger btn-nonaktif" data-id="${row.id_list}">
-                                    <i class="fas fa-times-circle"></i> Nonaktifkan
-                            </button>`;
-                        }else{
-                            aktif=`<button class="btn btn-info btn-aktifkan" data-id="${row.id_list}">
-                                    <i class="fas fa-check-circle"></i> Aktifkan
-                            </button>`;
+                            return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
+                                    '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
                         }
-
-                        return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
-                                '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
                     }
-                }
-            ],
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                ],
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            });
         });
 
-        $("#tabel2").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            // "responsive": true,
-            // "scrollX": true,
-            "autoWidth": false,
-            "ajax": {
-                "url": "{{ env('APP_URL').'/ajax_get_list_uang_keluar' }}", // Ganti dengan URL API Anda
-                "type": "GET",
-                "headers": {
-                    'X-Requested-With': 'XMLHttpRequest'
+        $(document).on('expanded.lte.cardwidget', '#uang_keluar_card', function () {
+            $("#tabel2").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                // "responsive": true,
+                // "scrollX": true,
+                "autoWidth": false,
+                "ajax": {
+                    "url": "{{ env('APP_URL').'/ajax_get_list_uang_keluar' }}", // Ganti dengan URL API Anda
+                    "type": "GET",
+                    "headers": {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    "dataSrc": "" // Menggunakan data langsung dari respons
                 },
-                "dataSrc": "" // Menggunakan data langsung dari respons
-            },
-            "columns": [
-                { "data": "nama" },
-                { "data": "ket" },
-                { "data": "status" },
-                { "data": "input_time" },
-                {
-                    "data": null,
-                    "render": function(data, type, row) {
+                "columns": [
+                    { "data": "nama" },
+                    { "data": "ket" },
+                    { "data": "status" },
+                    { "data": "input_time" },
+                    {
+                        "data": null,
+                        "render": function(data, type, row) {
 
-                        if(row.status == 'y'){
-                            aktif=`<button class="btn btn-danger btn-nonaktif" data-id="${row.id_list}">
-                                    <i class="fas fa-times-circle"></i> Nonaktifkan
-                            </button>`;
-                        }else{
-                            aktif=`<button class="btn btn-info btn-aktifkan" data-id="${row.id_list}">
-                                    <i class="fas fa-check-circle"></i> Aktifkan
-                            </button>`;
+                            if(row.status == 'y'){
+                                aktif=`<button class="btn btn-danger btn-nonaktif" data-id="${row.id_list}">
+                                        <i class="fas fa-times-circle"></i> Nonaktifkan
+                                </button>`;
+                            }else{
+                                aktif=`<button class="btn btn-info btn-aktifkan" data-id="${row.id_list}">
+                                        <i class="fas fa-check-circle"></i> Aktifkan
+                                </button>`;
+                            }
+
+                            return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
+                                    '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
                         }
-
-                        return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
-                                '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
                     }
-                }
-            ],
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+                ],
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            });
         });
-
     });
 
 
