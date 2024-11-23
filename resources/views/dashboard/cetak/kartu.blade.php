@@ -37,6 +37,13 @@
             height: 100%;
             object-fit: cover;
         }
+        .qrcode {
+            text-align: center;
+            position: absolute;
+            top: 85mm; /* Menempatkan nama tepat di bawah foto */
+            left: 52%;
+            transform: translateX(-50%); /* Menempatkan nama di tengah secara horizontal */
+        }
         .id-card-info {
             text-align: center;
             position: absolute;
@@ -65,6 +72,10 @@
         <div class="foto-profil">
             <!-- Foto profil yang diambil dari controller -->
             <img src="{{ $anggota->foto }}" alt="Foto Profil">
+        </div>
+        <div class="qrcode">
+            {{-- {!! QrCode::size(80)->backgroundColor(255, 255, 204)->color(0, 0, 128)->generate('https://example.com') !!} --}}
+            {!! QrCode::size(80)->generate('https://example.com') !!}
         </div>
         <div class="id-card-info">
             {{-- <h2>{{ $anggota->nama }}</h2> --}}
