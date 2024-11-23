@@ -1271,6 +1271,9 @@ class Entry_controller extends Controller
 
     function ajax_ubah_list_uang_masuk($action,$id){
         if($action == 'hapus'){
+            if(Uang_masuk::where('id_list',$id)->first()){
+                return response()->json(['message' => 'Gagal hapus data karena sudah pernah digunakan'], 404);
+            }
             $data=Uang_masuk_list::find($id)->delete();
         }elseif($action == 'aktifkan'){
             $data=Uang_masuk_list::find($id)->update(['status'=>'y']);
@@ -1291,6 +1294,9 @@ class Entry_controller extends Controller
 
     function ajax_ubah_list_uang_keluar($action,$id){
         if($action == 'hapus'){
+            if(Uang_keluar::where('id_list',$id)->first()){
+                return response()->json(['message' => 'Gagal hapus data karena sudah pernah digunakan'], 404);
+            }
             $data=Uang_keluar_list::find($id)->delete();
         }elseif($action == 'aktifkan'){
             $data=Uang_keluar_list::find($id)->update(['status'=>'y']);
@@ -1348,6 +1354,9 @@ class Entry_controller extends Controller
 
     function ajax_ubah_paket($action,$id){
         if($action == 'hapus'){
+            if(Anggota::where('paket',$id)->first()){
+                return response()->json(['message' => 'Tidak bisa dihapus karena paket telah didaftarkan ke anggota'], 404);
+            }
             $data=Daftar_paket::find($id)->delete();
         }elseif($action == 'aktifkan'){
             $data=Daftar_paket::find($id)->update(['status'=>'y']);
