@@ -807,6 +807,8 @@ class Entry_controller extends Controller
                 ->where('koordinator',Auth::user()->id)
                 ->where('anggota.jenis_akun','jamaah')
                 ->count();
+        }else{
+            $anggota=0;
         }
 
         // hitung semua pemasukan
