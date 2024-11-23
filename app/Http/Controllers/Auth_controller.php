@@ -136,6 +136,18 @@ class Auth_controller extends Controller
         ]);
     }
 
+    function barang_masuk() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'barang_masuk',
+        ]);
+    }
+
+    function barang_keluar() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'barang_keluar',
+        ]);
+    }
+
     function kategori_list() {
         return view('dashboard.halaman')->with([
             'halaman'   => 'kategori_list',

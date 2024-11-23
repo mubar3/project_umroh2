@@ -26,6 +26,10 @@
     @include('dashboard.halaman.kategori_list')
 @elseif($halaman == 'daftar_paket')
     @include('dashboard.halaman.daftar_paket')
+@elseif($halaman == 'barang_masuk')
+    @include('dashboard.halaman.barang_masuk')
+@elseif($halaman == 'barang_keluar')
+    @include('dashboard.halaman.barang_keluar')
 @endif
 
 {{-- footer --}}
@@ -57,6 +61,10 @@
     @include('dashboard.halaman.ajax.kategori_list')
 @elseif($halaman == 'daftar_paket')
     @include('dashboard.halaman.ajax.daftar_paket')
+@elseif($halaman == 'barang_masuk')
+    @include('dashboard.halaman.ajax.barang_masuk')
+@elseif($halaman == 'barang_keluar')
+    @include('dashboard.halaman.ajax.barang_keluar')
 @endif
 
 @include('dashboard.halaman.ajax.default')

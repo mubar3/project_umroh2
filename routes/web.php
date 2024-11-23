@@ -42,6 +42,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/uang_masuk', [Auth_controller::class, 'uang_masuk'])->middleware('role:1,6');
     Route::get('/kategori_list', [Auth_controller::class, 'kategori_list'])->middleware('role:1,6');
     Route::get('/daftar_paket', [Auth_controller::class, 'daftar_paket'])->middleware('role:1');
+    Route::get('/barang_masuk', [Auth_controller::class, 'barang_masuk'])->middleware('role:1,7');
+    Route::get('/barang_keluar', [Auth_controller::class, 'barang_keluar'])->middleware('role:1,7');
 
     // cetak
     Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat']);
@@ -85,6 +87,13 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ajax_tambah_paket', 'App\Http\Controllers\Entry_controller@ajax_tambah_paket')->middleware('check.ajax.source');
     Route::get('/ajax_get_paket', 'App\Http\Controllers\Entry_controller@ajax_get_paket')->middleware('check.ajax.source');
     Route::get('/ajax_ubah_paket/{action}/{id}', 'App\Http\Controllers\Entry_controller@ajax_ubah_paket')->middleware('check.ajax.source');
+    Route::get('/ajax_get_barang', 'App\Http\Controllers\Entry_controller@ajax_get_barang')->middleware('check.ajax.source');
+    Route::post('/ajax_barang_masuk', 'App\Http\Controllers\Entry_controller@ajax_barang_masuk')->middleware('check.ajax.source');
+    Route::get('/ajax_get_barang_masuk', 'App\Http\Controllers\Entry_controller@ajax_get_barang_masuk')->middleware('check.ajax.source');
+    Route::get('/ajax_hapus_barang_masuk/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_barang_masuk')->middleware('check.ajax.source');
+    Route::post('/ajax_barang_keluar', 'App\Http\Controllers\Entry_controller@ajax_barang_keluar')->middleware('check.ajax.source');
+    Route::get('/ajax_get_barang_keluar', 'App\Http\Controllers\Entry_controller@ajax_get_barang_keluar')->middleware('check.ajax.source');
+    Route::get('/ajax_hapus_barang_keluar/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_barang_keluar')->middleware('check.ajax.source');
 });
 
 

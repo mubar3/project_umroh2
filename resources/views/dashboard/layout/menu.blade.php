@@ -224,6 +224,26 @@
                     </a>
                 </li>
               @endif
+
+              @if(in_array(Auth::user()->role,[1,7]))
+                <li class="nav-item">
+                    <a href="{{ url('/barang_masuk')}}" class="nav-link">
+                        <i class="fas fa-arrow-right"></i>
+                        <p>
+                        BARANG MASUK
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ url('/barang_keluar')}}" class="nav-link">
+                        <i class="fas fa-arrow-left"></i>
+                        <p>
+                        BARANG KELUAR
+                        </p>
+                    </a>
+                </li>
+              @endif
+
             </ul>
           </nav>
           <!-- /.sidebar-menu -->

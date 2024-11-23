@@ -13,6 +13,8 @@ use App\Models\Uang_keluar;
 use App\Models\Uang_keluar_list;
 use App\Models\Uang_masuk;
 use App\Models\Uang_masuk_list;
+use App\Models\Barang;
+use App\Models\Log_barang;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -1307,8 +1309,6 @@ class Entry_controller extends Controller
         }
     }
 
-
-
     function ajax_tambah_paket(Request $data) {
         $cek_validator=$this->validator($data,[
             'judul'    => 'required',
@@ -1403,4 +1403,192 @@ class Entry_controller extends Controller
         }
 
     }
+
+    function ajax_get_barang(Request $data) {
+
+        // Ambil query dari parameter 'q' yang dikirim oleh Select2
+        $search = $data->input('q');
+
+        $barang=Barang::select(
+                'id_barang as id',
+                'nama as text',
+            )
+            ->where('nama','like','%'.$search.'%')
+            ->get();
+
+        // Mengembalikan data dalam format JSON
+        return response()->json(['items' => $barang]);
+    }
+
+    function ajax_barang_masuk(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'banyak'    => 'required',
+            'barang'    => 'required',
+            // 'ket'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/barang_masuk');
+
+            // cek barang
+            $barang=Barang::find($data->barang);
+            if(!$barang){
+                $barang=Barang::create([
+                    'nama'  => $data->barang,
+                    'stok'  => $data->banyak,
+                    'userid'    => Auth::user()->id
+                ]);
+
+                Log_barang::create([
+                    'id_barang'   => $barang->id_barang,
+                    'banyak'   => $data->banyak,
+                    'ket'   => $data->ket,
+                    'userid'   => Auth::user()->id,
+                ]);
+            }else{
+                Log_barang::create([
+                    'id_barang'   => $barang->id_barang,
+                    'banyak'   => $data->banyak,
+                    'ket'   => $data->ket,
+                    'userid'   => Auth::user()->id,
+                ]);
+                $barang->update([
+                    'stok'  => $barang->stok + $data->banyak
+                ]);
+
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan barang masuk']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_get_barang_masuk() {
+
+        $data=Log_barang::select(
+                'barang.nama',
+                'log_barang.*'
+            )
+            ->join('barang','barang.id_barang','=','log_barang.id_barang')
+            ->where('log_barang.jenis','masuk')
+            ->get();
+
+        return response()->json($data);
+    }
+
+    function ajax_hapus_barang_masuk($id){
+        DB::beginTransaction();
+        try {
+            $this->log_web('/hapus_barang_masuk');
+
+            $barang_masuk=Log_barang::find($id);
+            if(!$barang_masuk){
+                return response()->json(['message' => 'Gagal hapus data'], 404);
+            }
+
+            $barang=Barang::find($barang_masuk->id_barang);
+
+            $barang->update([
+                'stok'  => $barang->stok - $barang_masuk->banyak
+            ]);
+
+            $barang_masuk->delete();
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil hapus data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+    }
+
+    function ajax_barang_keluar(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'banyak'    => 'required',
+            'barang'    => 'required',
+            // 'ket'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/barang_keluar');
+
+            // cek barang
+            $barang=Barang::find($data->barang);
+            if($barang){
+                if($barang->stok - $data->banyak < 0){
+                    return response()->json(['message' => 'Stok barang hanya tersisa '.$barang->stok], 404);
+                }
+
+                Log_barang::create([
+                    'id_barang'   => $barang->id_barang,
+                    'banyak'   => $data->banyak,
+                    'jenis'   => 'keluar',
+                    'ket'   => $data->ket,
+                    'userid'   => Auth::user()->id,
+                ]);
+                $barang->update([
+                    'stok'  => $barang->stok - $data->banyak
+                ]);
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan barang keluar']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_get_barang_keluar() {
+
+        $data=Log_barang::select(
+                'barang.nama',
+                'log_barang.*'
+            )
+            ->join('barang','barang.id_barang','=','log_barang.id_barang')
+            ->where('log_barang.jenis','keluar')
+            ->get();
+
+        return response()->json($data);
+    }
+
+    function ajax_hapus_barang_keluar($id){
+        DB::beginTransaction();
+        try {
+            $this->log_web('/hapus_barang_keluar');
+
+            $barang_masuk=Log_barang::find($id);
+            if(!$barang_masuk){
+                return response()->json(['message' => 'Gagal hapus data'], 404);
+            }
+
+            $barang=Barang::find($barang_masuk->id_barang);
+
+            $barang->update([
+                'stok'  => $barang->stok + $barang_masuk->banyak
+            ]);
+
+            $barang_masuk->delete();
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil hapus data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+    }
+
 }
