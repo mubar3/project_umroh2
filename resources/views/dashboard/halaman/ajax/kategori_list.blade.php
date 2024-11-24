@@ -95,7 +95,7 @@
 
 
     $(document).ready(function () {
-        $(document).on('expanded.lte.cardwidget', '#uang_masuk_card', function () {
+        // $(document).on('expanded.lte.cardwidget', '#uang_masuk_card', function () {
             $("#tabel1").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -129,16 +129,16 @@
                                 </button>`;
                             }
 
-                            return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
-                                    '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
+                            return '<div class="btn-group"><button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
+                                    '<i class="fas fa-trash"></i> Hapus</button>'+aktif+'</div>';
                         }
                     }
                 ],
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             });
-        });
+        // });
 
-        $(document).on('expanded.lte.cardwidget', '#uang_keluar_card', function () {
+        // $(document).on('expanded.lte.cardwidget', '#uang_keluar_card', function () {
             $("#tabel2").DataTable({
                 "responsive": true,
                 "lengthChange": false,
@@ -172,14 +172,14 @@
                                 </button>`;
                             }
 
-                            return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
-                                    '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
+                            return '<div class="btn-group"><button class="btn btn-danger btn-hapus" data-id="' + row.id_list + '">' +
+                                    '<i class="fas fa-trash"></i> Hapus</button>'+aktif+'</div>';
                         }
                     }
                 ],
                 "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
             });
-        });
+        // });
     });
 
 

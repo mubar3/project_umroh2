@@ -118,8 +118,8 @@
                             </button>`;
                         }
 
-                        return '<button class="btn btn-danger btn-hapus" data-id="' + row.id_paket + '">' +
-                                '<i class="fas fa-trash"></i> Hapus</button>'+aktif;
+                        return '<div class="btn-group"><button class="btn btn-danger btn-hapus" data-id="' + row.id_paket + '">' +
+                                '<i class="fas fa-trash"></i> Hapus</button>'+aktif+'</div>';
                     }
                 }
             ],

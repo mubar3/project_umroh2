@@ -173,7 +173,7 @@
               @endif
 
 
-              @if(in_array(Auth::user()->role,[1,2,3,4]))
+              @if(in_array(Auth::user()->role,[1,8]))
                 <li class="nav-item">
                     <a href="" class="nav-link">
                     <i class="fas fa-wallet"></i>

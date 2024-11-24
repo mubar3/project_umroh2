@@ -35,9 +35,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota'])->middleware('role:1,2,3,4,5');
     Route::get('/tambah_user', [Auth_controller::class, 'tambah_user'])->middleware('role:1,2');
     Route::get('/daftar_user', [Auth_controller::class, 'daftar_user'])->middleware('role:1,2');
-    Route::get('/tabungan', [Auth_controller::class, 'tabungan'])->middleware('role:1,2,3,4');
-    Route::get('/setoran', [Auth_controller::class, 'setoran'])->middleware('role:1,2,3,4');
-    Route::get('/hutang', [Auth_controller::class, 'hutang'])->middleware('role:1,2,3,4');
+    Route::get('/tabungan', [Auth_controller::class, 'tabungan'])->middleware('role:1,8');
+    Route::get('/setoran', [Auth_controller::class, 'setoran'])->middleware('role:1,8');
+    Route::get('/hutang', [Auth_controller::class, 'hutang'])->middleware('role:1,8');
     Route::get('/uang_keluar', [Auth_controller::class, 'uang_keluar'])->middleware('role:1,6');
     Route::get('/uang_masuk', [Auth_controller::class, 'uang_masuk'])->middleware('role:1,6');
     Route::get('/kategori_list', [Auth_controller::class, 'kategori_list'])->middleware('role:1,6');

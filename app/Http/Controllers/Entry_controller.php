@@ -217,7 +217,7 @@ class Entry_controller extends Controller
             }elseif($data->role == 3 && Auth::user()->role == 2){
                 // top leader input leader
                 $data->top_leader = Auth::user()->id;
-            }elseif(in_array($data->role,[5,6,7]) && Auth::user()->role == 1){
+            }elseif(in_array($data->role,[5,6,7,8]) && Auth::user()->role == 1){
                 // admin input keanggotaan
                 $data->top_leader=Auth::user()->id;
             }else{
@@ -244,6 +244,8 @@ class Entry_controller extends Controller
                 $role='keuangan';
             }elseif($data->role == 7){
                 $role='pengadaan';
+            }elseif($data->role == 8){
+                $role='tabungan';
             }else{
                 session()->flash('eror', 'Tidak valid');
                 return redirect('/tambah_user');
