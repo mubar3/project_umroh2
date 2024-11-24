@@ -62,4 +62,37 @@
             // console.log('Error:', error);
         }
     });
+
+    $.ajax({
+        url: "{{ env('APP_URL').'/ajax_get_chart2' }}",
+        type: "GET",
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        success: function(response) {
+            var areaChartData = response.chart;
+
+            var barChartCanvas = $('#barChart2').get(0).getContext('2d')
+            var barChartData = $.extend(true, {}, areaChartData)
+            var temp0 = areaChartData.datasets[0]
+            barChartData.datasets[0] = temp0
+
+            var barChartOptions = {
+            responsive              : true,
+            maintainAspectRatio     : false,
+            datasetFill             : false
+            }
+
+            new Chart(barChartCanvas, {
+            type: 'bar',
+            data: barChartData,
+            options: barChartOptions
+            })
+
+            // console.log(areaChartData);
+        },
+        error: function(error) {
+            // console.log('Error:', error);
+        }
+    });
 </script>

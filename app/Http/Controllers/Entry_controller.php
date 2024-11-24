@@ -839,6 +839,90 @@ class Entry_controller extends Controller
 
     }
 
+    function ajax_get_chart2() {
+
+        // Set locale ke bahasa Indonesia
+        Carbon::setLocale('id');
+        $data_provinsi=DB::table('indonesia_provinces')
+            ->get();
+        // Loop untuk 4 bulan ke belakang
+        $provinsi=[];
+
+        $total_jamaah=Anggota::where('status','y')
+            ->where('jenis_akun','jamaah')
+            ->count();
+
+        $total_koordinator=Anggota::where('status','y')
+            ->where('jenis_akun','koordinator')
+            ->count();
+
+        foreach ($data_provinsi as $key) {
+            $jamaah=Anggota::select(
+                    DB::raw('count(*) as jumlah_jamaah')
+                )
+                ->where('provinsi',$key->id)
+                ->where('status','y')
+                ->where('jenis_akun','jamaah')
+                ->first();
+            if($jamaah->jumlah_jamaah > 0){
+                $jumlah_jamaah[]=$jamaah->jumlah_jamaah;
+                $provinsi[]=$key->name;
+            }
+
+            $koordinator=Anggota::select(
+                    DB::raw('count(*) as jumlah_koordinator')
+                )
+                ->where('provinsi',$key->id)
+                ->where('status','y')
+                ->where('jenis_akun','koordinator')
+                ->first();
+            if($jamaah->jumlah_jamaah > 0){
+                $jumlah_koordinator[]=$koordinator->jumlah_koordinator;
+            }
+
+            // echo $date->format('n') . ' - ' . $date->format('Y') . ' - ' . $date->translatedFormat('F') . PHP_EOL;
+
+        }
+
+        // data chart
+        $data = [
+            // 'labels' => ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            'labels' => $provinsi,
+            'datasets' => [
+                [
+                    'label' => 'Jamaah total : '. $total_jamaah,
+                    'backgroundColor' => 'rgba(60,141,188,0.9)',
+                    'borderColor' => 'rgba(60,141,188,0.8)',
+                    'pointRadius' => false,
+                    'pointColor' => '#3b8bba',
+                    'pointStrokeColor' => 'rgba(60,141,188,1)',
+                    'pointHighlightFill' => '#fff',
+                    'pointHighlightStroke' => 'rgba(60,141,188,1)',
+                    // 'data' => [28, 48, 40, 19, 86, 27, 90]
+                    'data' => $jumlah_jamaah
+                ],
+                [
+                    'label' => 'Koordinator total : '. $total_koordinator,
+                    'backgroundColor' => 'rgba(210, 214, 222, 1)',
+                    'borderColor' => 'rgba(210, 214, 222, 1)',
+                    'pointRadius' => false,
+                    'pointColor' => 'rgba(210, 214, 222, 1)',
+                    'pointStrokeColor' => '#c1c7d1',
+                    'pointHighlightFill' => '#fff',
+                    'pointHighlightStroke' => 'rgba(220,220,220,1)',
+                    'data' => $jumlah_koordinator
+                ],
+            ]
+        ];
+
+        $data=[
+            'chart' => $data,
+        ];
+
+        return response()->json($data);
+
+    }
+
     function ajax_get_user() {
         if(Auth::user()->role == 1){
             $user=User::select(
