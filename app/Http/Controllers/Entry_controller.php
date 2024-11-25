@@ -176,6 +176,7 @@ class Entry_controller extends Controller
                 'email' => $tambah_anggota->id_anggota.'@koordinator',
                 'role' => 4,
                 'password' => bcrypt('asd'), // Pastikan untuk mengenkripsi password
+                'atasan'  => $data->leader
             ]);
             DB::commit();
             session()->flash('success', 'Koordinator telah berhasil ditambahkan');
@@ -357,6 +358,13 @@ class Entry_controller extends Controller
             }
 
             $anggota=Anggota::find($data->id_anggota);
+
+            $update_user=User::where('id_anggota',$data->id_anggota)->first();
+            if($update_user){
+                $update_user->update([
+                    'name'  => $data->nama
+                ]);
+            }
 
 
             if(!$this->isNullOrEmpty($data->rfid)){
