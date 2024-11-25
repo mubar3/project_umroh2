@@ -97,7 +97,7 @@
             },
             success: function (data) {
             $('#' + name).empty();
-            $('#' + name).append('<option>==Pilih Salah Satu==</option>');
+            $('#' + name).append('<option value="" disable selected>==Pilih Salah Satu==</option>');
             $.each(data, function (key, value) {
                 if(key == selected){
                     $('#' + name).append('<option value="' + key + '" selected>' + value + '</option>');
@@ -229,7 +229,7 @@
                                     $provinces= $provinces->provinces();
                                 @endphp
                                 <select class="form-control" name="provinsi" id="provinsi" required>
-                                    <option>==Pilih Salah Satu==</option>
+                                    <option value="" disable selected>==Pilih Salah Satu==</option>
                                     @foreach ($provinces as $item)
                                         <option value="{{ $item->id ?? '' }}">{{ $item->name ?? '' }}</option>
                                     @endforeach
@@ -238,19 +238,19 @@
                             <div class="form-group" for="kota">
                                 <label>Kabupaten / Kota  <span class="right badge badge-success">wajib</span></label>
                                 <select class="form-control" name="kota" id="kota" required>
-                                    <option>==Pilih Salah Satu==</option>
+                                    <option value="" disable selected>==Pilih Salah Satu==</option>
                                 </select>
                             </div>
                             <div class="form-group" for="kecamatan">
                                 <label>Kecamatan  <span class="right badge badge-success">wajib</span></label>
                                 <select class="form-control" name="kecamatan" id="kecamatan" required>
-                                    <option>==Pilih Salah Satu==</option>
+                                    <option value="" disable selected>==Pilih Salah Satu==</option>
                                 </select>
                             </div>
                             <div class="form-group" for="desa">
                                 <label>Desa  <span class="right badge badge-success">wajib</span></label>
                                 <select class="form-control" name="desa" id="desa" required>
-                                    <option>==Pilih Salah Satu==</option>
+                                    <option value="" disable selected>==Pilih Salah Satu==</option>
                                 </select>
                             </div>
 

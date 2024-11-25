@@ -61,7 +61,7 @@
             },
             success: function (data) {
             $('#' + name).empty();
-            $('#' + name).append('<option>==Pilih Salah Satu==</option>');
+            $('#' + name).append('<option value="" disable selected >==Pilih Salah Satu==</option>');
             $.each(data, function (key, value) {
                 $('#' + name).append('<option value="' + key + '">' + value + '</option>');
             });

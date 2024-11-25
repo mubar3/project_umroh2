@@ -78,7 +78,7 @@
                                 $provinces= $provinces->provinces();
                             @endphp
                             <select class="form-control" name="provinsi" id="provinsi" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected>==Pilih Salah Satu==</option>
                                 @foreach ($provinces as $item)
                                     <option value="{{ $item->id ?? '' }}">{{ $item->name ?? '' }}</option>
                                 @endforeach
@@ -87,19 +87,19 @@
                         <div class="form-group" for="kota">
                             <label>Kabupaten / Kota  <span class="right badge badge-success">wajib</span></label>
                             <select class="form-control" name="kota" id="kota" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected>==Pilih Salah Satu==</option>
                             </select>
                         </div>
                         <div class="form-group" for="kecamatan">
                             <label>Kecamatan  <span class="right badge badge-success">wajib</span></label>
                             <select class="form-control" name="kecamatan" id="kecamatan" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected>==Pilih Salah Satu==</option>
                             </select>
                         </div>
                         <div class="form-group" for="desa">
                             <label>Desa  <span class="right badge badge-success">wajib</span></label>
                             <select class="form-control" name="desa" id="desa" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected>==Pilih Salah Satu==</option>
                             </select>
                         </div>
 
@@ -216,7 +216,7 @@
                                 $provinces= $provinces->provinces();
                             @endphp
                             <select class="form-control" name="provinsi" id="provinsi2" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected >==Pilih Salah Satu==</option>
                                 @foreach ($provinces as $item)
                                     <option value="{{ $item->id ?? '' }}">{{ $item->name ?? '' }}</option>
                                 @endforeach
@@ -225,19 +225,19 @@
                         <div class="form-group" for="kota2">
                             <label>Kabupaten / Kota  <span class="right badge badge-success">wajib</span></label>
                             <select class="form-control" name="kota" id="kota2" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected >==Pilih Salah Satu==</option>
                             </select>
                         </div>
                         <div class="form-group" for="kecamatan2">
                             <label>Kecamatan  <span class="right badge badge-success">wajib</span></label>
                             <select class="form-control" name="kecamatan" id="kecamatan2" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected >==Pilih Salah Satu==</option>
                             </select>
                         </div>
                         <div class="form-group" for="desa2">
                             <label>Desa  <span class="right badge badge-success">wajib</span></label>
                             <select class="form-control" name="desa" id="desa2" required>
-                                <option>==Pilih Salah Satu==</option>
+                                <option value="" disable selected >==Pilih Salah Satu==</option>
                             </select>
                         </div>
 
