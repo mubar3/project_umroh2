@@ -268,8 +268,8 @@
                         </div>
                         <div class="form-group">
                             <label>Bank  <span class="right badge badge-success">wajib</span></label>
-                            <select class="form-control" name="bank"required>
-                                <option disable selected>==Pilih Salah Satu==</option>
+                            <select class="form-control" name="bank" required>
+                                <option value="" disable selected>==Pilih Salah Satu==</option>
                                 @foreach ($bank as $data_bank)
                                     <option value="{{ $data_bank->id}}"> {{ $data_bank->nama_bank }} </option>
                                 @endforeach
