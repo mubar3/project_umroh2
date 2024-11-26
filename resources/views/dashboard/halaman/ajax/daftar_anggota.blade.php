@@ -44,23 +44,9 @@
                 {
                     "data": null,
                     "render": function(data, type, row) {
-                        if({{ Auth::user()->role }} == 5){
-                            return `
-                                <div class="btn-group">
-                                    <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
-                                        <i class="fas fa-eye"></i> Lihat
-                                    </a>
-                                    <a href="{{ url('/sertifikat') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
-                                        <i class="fas fa-award"></i> Cetak Sertifikat
-                                    </a>
-                                    <a href="{{ url('/kartu') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
-                                        <i class="fas fa-address-card"></i> Cetak kartu
-                                    </a>
-                                </div>
-                            `;
-                        }else{
-                            return `
-                                <div class="btn-group">
+
+                        if({{ Auth::user()->role }} == 1){
+                            isi = `
                                     <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
                                         <i class="fas fa-eye"></i> Lihat
                                     </a>
@@ -76,9 +62,43 @@
                                     <a href="{{ url('/kartu') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
                                         <i class="fas fa-address-card"></i> Cetak kartu
                                     </a>
-                                </div>
-                            `;
+                                `;
+
+
+                        }else if( [2, 3].includes({{ Auth::user()->role }}) ){
+                            isi = `
+                                    <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
+                                        <i class="fas fa-eye"></i> Lihat
+                                    </a>
+                                `;
+                        }else if({{ Auth::user()->role }} == 4){
+                            isi = `
+                                    <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
+                                        <i class="fas fa-eye"></i> Lihat
+                                    </a>
+                                    <button type="button" class="btn btn-primary btn-edit" data-id='${row.id_anggota_fix}'>
+                                        <i class="fas fa-edit"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-hapus" data-id="${row.id_anggota_fix}">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </button>
+                                `;
+                        }else if({{ Auth::user()->role }} == 5){
+                            isi = `
+                                    <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
+                                        <i class="fas fa-eye"></i> Lihat
+                                    </a>
+                                    <a href="{{ url('/sertifikat') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
+                                        <i class="fas fa-award"></i> Cetak Sertifikat
+                                    </a>
+                                    <a href="{{ url('/kartu') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
+                                        <i class="fas fa-address-card"></i> Cetak kartu
+                                    </a>
+                                `;
+                        }else{
+                           isi=``;
                         }
+                        return `<div class="btn-group">`+isi+`</div>`
                     }
                 }
             ],

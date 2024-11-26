@@ -68,6 +68,15 @@
                                 @endforeach
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Bank <span class="right badge badge-success">wajib</span></label>
+                            <select name="bank" id="bank" class="form-control" style="width: 100%;" required>
+                                <option value="">==Pilih Salah Satu==</option>
+                                @foreach ($bank as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_bank }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Simpan</button>
                     </form>
@@ -102,6 +111,7 @@
                       <th>Jumlah</th>
                       <th>Keterangan</th>
                       <th>Waktu</th>
+                      <th>Ke Bank</th>
                       <th>Action</th>
                   </tr>
                   </thead>

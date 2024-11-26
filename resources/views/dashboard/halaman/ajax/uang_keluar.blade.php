@@ -35,6 +35,7 @@
             let angkaBersih = $('#jumlah_uang').val().replace(/[^,\d]/g, "");
             let kategori = $('#kategori').val();
             let ket = $('#ket').val();
+            let bank = $('#bank').val();
             if (angkaBersih === ''|| angkaBersih < 1) {
                 // alert('Angka kosong');
                 $('#rfidErrorModalLabel').text('Gagal');
@@ -60,7 +61,7 @@
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF
                 },
-                data: { jumlah: jumlah, kategori: kategori, ket:ket },
+                data: { jumlah: jumlah, kategori: kategori, ket:ket, bank:bank },
                 success: function(response) {
                     $('#tabel1').DataTable().ajax.reload();
                     $('#rfidErrorModalLabel').text('Berhasil');
@@ -69,6 +70,7 @@
                     $('#kategori').val('');
                     $('#jumlah_uang').val('');
                     $('#ket').val('');
+                    $('#bank').val('');
                 },
                 error: function(xhr, status, error) {
                     // $('#errorMessage').text(JSON.parse(xhr.responseText).message);
@@ -110,6 +112,7 @@
                 },
                 { "data": "ket" },
                 { "data": "input_time" },
+                { "data": "nama_bank" },
                 {
                     "data": null,
                     "render": function(data, type, row) {

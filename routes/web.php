@@ -36,8 +36,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/tambah_user', [Auth_controller::class, 'tambah_user'])->middleware('role:1,2');
     Route::get('/daftar_user', [Auth_controller::class, 'daftar_user'])->middleware('role:1,2');
     Route::get('/tabungan', [Auth_controller::class, 'tabungan'])->middleware('role:1,8');
-    Route::get('/setoran', [Auth_controller::class, 'setoran'])->middleware('role:1,8');
-    Route::get('/hutang', [Auth_controller::class, 'hutang'])->middleware('role:1,8');
+    Route::get('/setoran', [Auth_controller::class, 'setoran'])->middleware('role:1,8,6');
+    Route::get('/hutang', [Auth_controller::class, 'hutang'])->middleware('role:1,8,6');
     Route::get('/uang_keluar', [Auth_controller::class, 'uang_keluar'])->middleware('role:1,6');
     Route::get('/uang_masuk', [Auth_controller::class, 'uang_masuk'])->middleware('role:1,6');
     Route::get('/kategori_list', [Auth_controller::class, 'kategori_list'])->middleware('role:1,6');
@@ -46,8 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barang_keluar', [Auth_controller::class, 'barang_keluar'])->middleware('role:1,7');
 
     // cetak
-    Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat']);
-    Route::get('/kartu/{id}', [Auth_controller::class, 'kartu']);
+    Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat'])->middleware('role:5');
+    Route::get('/kartu/{id}', [Auth_controller::class, 'kartu'])->middleware('role:5');
 
     // action
     Route::get('/logout', [Auth_controller::class, 'logout']);
@@ -58,8 +58,10 @@ Route::middleware(['auth'])->group(function () {
     // ajax
     // Route::get('/ajax_get_jamaah', [Entry_controller::class, 'ajax_get_jamaah']);
     Route::get('/ajax_get_jamaah', 'App\Http\Controllers\Entry_controller@ajax_get_jamaah')->middleware('check.ajax.source');
-    Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware('check.ajax.source');
-    Route::get('/ajax_ubah_user/{task}/{id}', 'App\Http\Controllers\Entry_controller@ajax_ubah_user')->middleware('check.ajax.source');
+    Route::post('/ajax_update_anggota', 'App\Http\Controllers\Entry_controller@ajax_update_anggota')->middleware(['check.ajax.source','role:1,4']);
+    Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware(['check.ajax.source','role:1,4']);
+    Route::get('/ajax_ubah_user/{task}/{id}', 'App\Http\Controllers\Entry_controller@ajax_ubah_user')->middleware(['check.ajax.source','role:1,2']);
+    Route::post('/ajax_edit_user', 'App\Http\Controllers\Entry_controller@ajax_edit_user')->middleware(['check.ajax.source','role:1,2']);
     Route::get('/ajax_get_koordinator', 'App\Http\Controllers\Entry_controller@ajax_get_koordinator')->middleware('check.ajax.source');
     Route::get('/ajax_get_leader', 'App\Http\Controllers\Entry_controller@ajax_get_leader')->middleware('check.ajax.source');
     Route::get('/ajax_get_chart', 'App\Http\Controllers\Entry_controller@ajax_get_chart')->middleware('check.ajax.source');
@@ -67,7 +69,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/ajax_get_top_leader', 'App\Http\Controllers\Entry_controller@ajax_get_top_leader')->middleware('check.ajax.source');
     Route::get('/ajax_get_user', 'App\Http\Controllers\Entry_controller@ajax_get_user')->middleware('check.ajax.source');
     Route::get('/ajax_data_jamaah/{id_anggota}', 'App\Http\Controllers\Entry_controller@ajax_data_jamaah')->middleware('check.ajax.source');
-    Route::post('/ajax_update_anggota', 'App\Http\Controllers\Entry_controller@ajax_update_anggota')->middleware('check.ajax.source');
     Route::post('/ajax_tambah_tabungan', 'App\Http\Controllers\Entry_controller@ajax_tambah_tabungan')->middleware('check.ajax.source');
     Route::post('/ajax_tambah_setoran', 'App\Http\Controllers\Entry_controller@ajax_tambah_setoran')->middleware('check.ajax.source');
     Route::post('/ajax_tambah_hutang', 'App\Http\Controllers\Entry_controller@ajax_tambah_hutang')->middleware('check.ajax.source');

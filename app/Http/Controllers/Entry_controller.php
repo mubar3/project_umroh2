@@ -15,6 +15,7 @@ use App\Models\Uang_masuk;
 use App\Models\Uang_masuk_list;
 use App\Models\Barang;
 use App\Models\Log_barang;
+use App\Models\Role;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -233,24 +234,13 @@ class Entry_controller extends Controller
                 'role' => $data->role,
                 'password' => bcrypt('asd'), // Pastikan untuk mengenkripsi password
             ]);
-            if($data->role == 1){
-                $role='admin';
-            }elseif($data->role == 2){
-                $role='top.leader';
-            }elseif($data->role == 3){
-                $role='leader';
-            }elseif($data->role == 5){
-                $role='keanggotaan';
-            }elseif($data->role == 6){
-                $role='keuangan';
-            }elseif($data->role == 7){
-                $role='pengadaan';
-            }elseif($data->role == 8){
-                $role='tabungan';
-            }else{
-                session()->flash('eror', 'Tidak valid');
+
+            $role=Role::find($data->role);
+            if(!$role){
+                session()->flash('eror', 'Role tidak valid');
                 return redirect('/tambah_user');
             }
+            $role=strtolower(str_replace(" ", ".", $role->nama));
 
             User::find($insert->id)->update(['email' => $insert->id.'@'.$role]);
 
@@ -1195,6 +1185,7 @@ class Entry_controller extends Controller
         $cek_validator=$this->validator($data,[
             'jumlah'    => 'required',
             'kategori'    => 'required',
+            'bank'    => 'required',
         ]);
         if(!empty($cek_validator)){
             return response()->json(['message' => $cek_validator], 404);
@@ -1209,6 +1200,7 @@ class Entry_controller extends Controller
                 'id_list'   => $data->kategori,
                 'ket'   => $data->ket,
                 'jumlah'   => $data->jumlah,
+                'bank'   => $data->bank,
                 'userid'   => Auth::user()->id,
             ]);
 
@@ -1224,6 +1216,7 @@ class Entry_controller extends Controller
         $cek_validator=$this->validator($data,[
             'jumlah'    => 'required',
             'kategori'    => 'required',
+            'bank'    => 'required',
         ]);
         if(!empty($cek_validator)){
             return response()->json(['message' => $cek_validator], 404);
@@ -1238,6 +1231,7 @@ class Entry_controller extends Controller
                 'id_list'   => $data->kategori,
                 'ket'   => $data->ket,
                 'jumlah'   => $data->jumlah,
+                'bank'   => $data->bank,
                 'userid'   => Auth::user()->id,
             ]);
 
@@ -1253,9 +1247,11 @@ class Entry_controller extends Controller
 
         $data=Uang_keluar::select(
                 'uang_keluar.*',
-                'uang_keluar_list.nama as kategori'
+                'uang_keluar_list.nama as kategori',
+                'bank.nama_bank'
             )
             ->join('uang_keluar_list','uang_keluar_list.id_list','=','uang_keluar.id_list')
+            ->leftJoin('bank','bank.id','=','uang_keluar.bank')
             ->get();
 
         return response()->json($data);
@@ -1265,9 +1261,11 @@ class Entry_controller extends Controller
 
         $data=Uang_masuk::select(
                 'uang_masuk.*',
-                'uang_masuk_list.nama as kategori'
+                'uang_masuk_list.nama as kategori',
+                'bank.nama_bank'
             )
             ->join('uang_masuk_list','uang_masuk_list.id_list','=','uang_masuk.id_list')
+            ->leftJoin('bank','bank.id','=','uang_masuk.bank')
             ->get();
 
         return response()->json($data);
@@ -1502,6 +1500,35 @@ class Entry_controller extends Controller
 
             DB::commit();
             return response()->json(['message' => 'Berhasil edit password']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+
+    }
+
+    function ajax_edit_user(Request $data){
+        $cek_validator=$this->validator($data,[
+            'id'    => 'required',
+            'nama'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/edit_nama_user');
+
+            $user=User::find($data->id);
+            if(!$user){
+                return response()->json(['message' => 'User tidak ditemukan'], 404);
+            }
+            $user->update(['name'=>$data->nama]);
+
+            DB::commit();
+            return response()->json(['message' => 'Edit berhasil']);
         } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);

@@ -173,7 +173,7 @@
               @endif
 
 
-              @if(in_array(Auth::user()->role,[1,8]))
+              @if(in_array(Auth::user()->role,[1,8,6]))
                 <li class="nav-item">
                     <a href="" class="nav-link">
                     <i class="fas fa-wallet"></i>
@@ -184,12 +184,14 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview" style="padding-left: 20px;">
-                        <li class="nav-item">
-                            <a href="{{ url('/tabungan')}}" class="nav-link">
-                                <i class="fas fa-coins"></i>
-                            <p>TABUNGAN</p>
-                            </a>
-                        </li>
+                        @if(in_array(Auth::user()->role,[1,8]))
+                            <li class="nav-item">
+                                <a href="{{ url('/tabungan')}}" class="nav-link">
+                                    <i class="fas fa-coins"></i>
+                                <p>TABUNGAN</p>
+                                </a>
+                            </li>
+                        @endif
                         <li class="nav-item">
                             <a href="{{ url('/setoran')}}" class="nav-link">
                             <i class="fas fa-hand-holding-usd"></i>

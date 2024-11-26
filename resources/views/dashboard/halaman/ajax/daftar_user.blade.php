@@ -33,9 +33,14 @@
                     "data": null,
                     "render": function(data, type, row) {
                         button_awal=`<div class="btn-group">`;
-                        hapus=`<button class="btn btn-danger btn-hapus" data-id="${row.id}">
+                        hapus=`
+                            <button class="btn btn-secondary btn-edit" data-id="${row.id}" data-nama="${row.name}">
+                                <i class="fas fa-edit"></i> Edit
+                            </button>
+                            <button class="btn btn-danger btn-hapus" data-id="${row.id}">
                                 <i class="fas fa-trash"></i> Hapus
-                        </button>`;
+                            </button>
+                        `;
                         if(row.status == 'y'){
                             aktif=`<button class="btn btn-danger btn-nonaktif" data-id="${row.id}">
                                     <i class="fas fa-times-circle"></i> Nonaktifkan
@@ -96,19 +101,54 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="modalEdit" tabindex="-1" aria-labelledby="modalHapusLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" >Edit</h5>
+                {{-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+            </div>
+            <div class="modal-body" id="modalKonfirmasiIsi">
+                <div class="form-group">
+                    <label>Nama :</label>
+                    <input class="form-control" type="text" id="nama_edit">
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="modalKonfirmasiCancel_edit">Batal</button>
+                <button type="button" class="btn btn-primary" id="btn-Konfirmasi_edit">Ya</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     // Variabel untuk menyimpan ID yang akan dihapus
     let idToDelete;
     let idAktivasi;
     let idNonaktif;
     let idReset;
+    let idEdit;
+    let namaEdit;
 
     function reset_params(){
         idToDelete=null;
         idAktivasi=null;
         idNonaktif=null;
         idReset=null;
+        idEdit=null;
+        namaEdit=null;
+        $('#nama_edit').val(null);
     }
+
+    $('#tabel1').on('click', '.btn-edit', function() {
+        idEdit = $(this).data('id'); // Mendapatkan ID dari atribut data-id
+        namaEdit = $(this).data('nama'); // Mendapatkan ID dari atribut data-id
+        $('#nama_edit').val(namaEdit);
+        $('#modalEdit').modal('show'); // Menampilkan modal
+    });
 
     // Event listener untuk tombol hapus
     $('#tabel1').on('click', '.btn-hapus', function() {
@@ -228,8 +268,42 @@
 
     });
 
+    $('#btn-Konfirmasi_edit').on('click', function() {
+        $('#modalEdit').modal('hide');
+        $.ajax({
+            url: "{{ env('APP_URL').'/ajax_edit_user' }}", // Ganti dengan URL endpoint hapus
+            type: 'post', // Atau 'POST' sesuai kebutuhan
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF
+            },
+            data: {
+                id: idEdit,
+                nama: $('#nama_edit').val(),
+            },
+            success: function(response) {
+                $('#tabel1').DataTable().ajax.reload(); // Reload DataTable setelah menghapus
+                $('#modalsuksesLabel').text('Berhasil');
+                $('#modalsuksesIsi').text(response.message);
+                $('#modalsukses').modal('show');
+            },
+            error: function(xhr) {
+                $('#modalsuksesLabel').text('Gagal');
+                $('#modalsuksesIsi').text(JSON.parse(xhr.responseText).message);
+                $('#modalsukses').modal('show');
+            }
+        });
+
+        reset_params();
+
+    });
+
     $('#modalKonfirmasiCancel').on('click', function() {
         $('#modalKonfirmasi').modal('hide'); // Menutup modal secara manual
+        reset_params();
+    });
+    $('#modalKonfirmasiCancel_edit').on('click', function() {
+        $('#modalEdit').modal('hide'); // Menutup modal secara manual
         reset_params();
     });
     $('#btn-cancel-sukses').on('click', function() {

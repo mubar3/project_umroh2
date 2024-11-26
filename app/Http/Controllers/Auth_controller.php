@@ -122,17 +122,21 @@ class Auth_controller extends Controller
 
     function uang_keluar() {
         $list=Uang_keluar_list::where('status','y')->get();
+        $bank=Bank::where('status','y')->get();
         return view('dashboard.halaman')->with([
             'halaman'   => 'uang_keluar',
             'list'   => $list,
+            'bank'   => $bank,
         ]);
     }
 
     function uang_masuk() {
         $list=Uang_masuk_list::where('status','y')->get();
+        $bank=Bank::where('status','y')->get();
         return view('dashboard.halaman')->with([
             'halaman'   => 'uang_masuk',
             'list'   => $list,
+            'bank'   => $bank,
         ]);
     }
 
