@@ -18,7 +18,7 @@
         }
         .nama-penerima {
             position: absolute;
-            top: 30%; /* Atur posisi vertikal */
+            top: 35%; /* Atur posisi vertikal */
             left: 50%; /* Atur posisi horizontal */
             transform: translate(-50%, -50%);
             font-size: 4rem; /* Atur ukuran font */
