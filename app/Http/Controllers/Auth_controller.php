@@ -166,9 +166,25 @@ class Auth_controller extends Controller
 
     function sertifikat($id) {
         $id = Crypt::decryptString($id);
+        $anggota=Anggota::find($id);
+
+        if($anggota->jenis_akun == 'jamaah'){
+            $anggota->nama_koordinator=(Anggota::find($anggota->koordinator))->nama;
+            $anggota->id_koordinator=Anggota::find($anggota->koordinator);
+
+        }else{
+            $anggota->nama_koordinator=$anggota->nama;
+            $anggota->id_koordinator=User::where('id_anggota',$anggota->id_anggota)->value('id');
+        }
+
+        $leader=User::find( (User::find($anggota->id_koordinator))->atasan );
+        $anggota->nama_leader=$leader->name;
+
+        $top_leader=User::find( $leader->atasan );
+        $anggota->nama_top_leader=$top_leader->name;
 
         return view('dashboard.cetak.sertifikat')->with([
-            'anggota'   => Anggota::find($id),
+            'anggota'   => $anggota,
         ]);
     }
 

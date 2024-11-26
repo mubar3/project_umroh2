@@ -46,8 +46,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/barang_keluar', [Auth_controller::class, 'barang_keluar'])->middleware('role:1,7');
 
     // cetak
-    Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat'])->middleware('role:5');
-    Route::get('/kartu/{id}', [Auth_controller::class, 'kartu'])->middleware('role:5');
+    Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat'])->middleware('role:1,5');
+    Route::get('/kartu/{id}', [Auth_controller::class, 'kartu'])->middleware('role:1,5');
 
     // action
     Route::get('/logout', [Auth_controller::class, 'logout']);

@@ -18,10 +18,22 @@
         }
         .nama-penerima {
             position: absolute;
-            top: 40%; /* Atur posisi vertikal */
+            top: 30%; /* Atur posisi vertikal */
             left: 50%; /* Atur posisi horizontal */
             transform: translate(-50%, -50%);
             font-size: 4rem; /* Atur ukuran font */
+            color: #333; /* Warna teks */
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .riwayat {
+            position: absolute;
+            top: 45%; /* Atur posisi vertikal */
+            left: 50%; /* Atur posisi horizontal */
+            transform: translate(-50%, -50%);
+            font-size: 2rem; /* Atur ukuran font */
             color: #333; /* Warna teks */
             font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
@@ -38,6 +50,10 @@
     <div class="sertifikat-container">
         <div class="nama-penerima">
             {{ $anggota->nama }}
+        </div>
+        <div class="riwayat">
+            {{-- Nasab<br> --}}
+            {{ $anggota->nama_koordinator }} / {{ $anggota->nama_leader }} / {{ $anggota->nama_top_leader }}
         </div>
     </div>
 </body>
