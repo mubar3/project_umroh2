@@ -164,20 +164,26 @@ class Auth_controller extends Controller
         ]);
     }
 
+    function daftar_bank() {
+        return view('dashboard.halaman')->with([
+            'halaman'   => 'daftar_bank',
+        ]);
+    }
+
     function sertifikat($id) {
         $id = Crypt::decryptString($id);
         $anggota=Anggota::find($id);
 
         if($anggota->jenis_akun == 'jamaah'){
-            $anggota->nama_koordinator=(Anggota::find($anggota->koordinator))->nama;
-            $anggota->id_koordinator=Anggota::find($anggota->koordinator);
+            $anggota->nama_koordinator=User::find($anggota->koordinator)?->name;
+            $anggota->id_koordinator=User::find($anggota->koordinator)?->id;
 
         }else{
             $anggota->nama_koordinator=$anggota->nama;
             $anggota->id_koordinator=User::where('id_anggota',$anggota->id_anggota)->value('id');
         }
 
-        $leader=User::find( (User::find($anggota->id_koordinator))->atasan );
+        $leader=User::find( User::find($anggota->id_koordinator)?->atasan );
         $anggota->nama_leader=$leader->name;
 
         $top_leader=User::find( $leader->atasan );

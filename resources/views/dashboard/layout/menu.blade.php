@@ -55,7 +55,8 @@
               <img src="{{ asset('img/blank.png') }}" class="img" alt="User Image">
             </div>
             <div class="info">
-              <a href="#" class="d-block">{{ Auth::user()->email }}</a>
+              <h5 href="#" style="color: white; margin-bottom:0rem">{{ Auth::user()->name }}</h5>
+              <a href="#" class="d-block">{{ Auth::user()->email }} <span class="right badge badge-success">{{ Auth::user()->getRoleNama() }}</span></a>
               <button class="btn-sm btn-secondary" id="edit_pass">
                 Edit Password
               </button>
@@ -136,6 +137,12 @@
                                 <a href="{{ url('/daftar_paket')}}" class="nav-link">
                                 <i class="fas fa-plane"></i>
                                 <p>DAFTAR PAKET</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ url('/daftar_bank')}}" class="nav-link">
+                                <i class="fas fa-university"></i>
+                                <p>DAFTAR BANK</p>
                                 </a>
                             </li>
                         @endif

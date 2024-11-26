@@ -44,6 +44,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/daftar_paket', [Auth_controller::class, 'daftar_paket'])->middleware('role:1');
     Route::get('/barang_masuk', [Auth_controller::class, 'barang_masuk'])->middleware('role:1,7');
     Route::get('/barang_keluar', [Auth_controller::class, 'barang_keluar'])->middleware('role:1,7');
+    Route::get('/daftar_bank', [Auth_controller::class, 'daftar_bank'])->middleware('role:1');
 
     // cetak
     Route::get('/sertifikat/{id}', [Auth_controller::class, 'sertifikat'])->middleware('role:1,5');
@@ -96,6 +97,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/ajax_barang_keluar', 'App\Http\Controllers\Entry_controller@ajax_barang_keluar')->middleware('check.ajax.source');
     Route::get('/ajax_get_barang_keluar', 'App\Http\Controllers\Entry_controller@ajax_get_barang_keluar')->middleware('check.ajax.source');
     Route::get('/ajax_hapus_barang_keluar/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_barang_keluar')->middleware('check.ajax.source');
+    Route::get('/ajax_get_bank', 'App\Http\Controllers\Entry_controller@ajax_get_bank')->middleware('check.ajax.source');
+    Route::post('/ajax_tambah_bank', 'App\Http\Controllers\Entry_controller@ajax_tambah_bank')->middleware('check.ajax.source');
+    Route::get('/ajax_ubah_bank/{action}/{id}', 'App\Http\Controllers\Entry_controller@ajax_ubah_bank')->middleware('check.ajax.source');
 });
 
 

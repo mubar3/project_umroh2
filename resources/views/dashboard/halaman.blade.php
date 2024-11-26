@@ -30,6 +30,8 @@
     @include('dashboard.halaman.barang_masuk')
 @elseif($halaman == 'barang_keluar')
     @include('dashboard.halaman.barang_keluar')
+@elseif($halaman == 'daftar_bank')
+    @include('dashboard.halaman.daftar_bank')
 @endif
 
 {{-- footer --}}
@@ -65,6 +67,8 @@
     @include('dashboard.halaman.ajax.barang_masuk')
 @elseif($halaman == 'barang_keluar')
     @include('dashboard.halaman.ajax.barang_keluar')
+@elseif($halaman == 'daftar_bank')
+    @include('dashboard.halaman.ajax.daftar_bank')
 @endif
 
 @include('dashboard.halaman.ajax.default')

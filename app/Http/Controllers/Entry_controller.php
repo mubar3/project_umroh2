@@ -16,6 +16,7 @@ use App\Models\Uang_masuk_list;
 use App\Models\Barang;
 use App\Models\Log_barang;
 use App\Models\Role;
+use App\Models\Bank;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\DB;
@@ -1719,6 +1720,62 @@ class Entry_controller extends Controller
             return response()->json(['message' => 'Berhasil hapus data']);
         } catch (Exception $e) {
             DB::rollBack();
+            return response()->json(['message' => 'Gagal hapus data'], 404);
+        }
+    }
+
+    function ajax_get_bank() {
+
+        $data=Bank::all();
+
+        return response()->json($data);
+    }
+
+    function ajax_tambah_bank(Request $data) {
+        $cek_validator=$this->validator($data,[
+            'nama'    => 'required',
+        ]);
+        if(!empty($cek_validator)){
+            return response()->json(['message' => $cek_validator], 404);
+        }
+
+
+        DB::beginTransaction();
+        try {
+            $this->log_web('/tambah_bank');
+
+            Bank::create([
+                'nama_bank'   => $data->nama,
+                'userid'   => Auth::user()->id,
+            ]);
+
+            DB::commit();
+            return response()->json(['message' => 'Berhasil menambahkan data']);
+        } catch (Exception $e) {
+            DB::rollBack();
+            return response()->json(['message' => 'Harap ulangi beberapa menit kemudian'], 404);
+        }
+    }
+
+    function ajax_ubah_bank($action,$id){
+        if($action == 'hapus'){
+            if(Anggota::where('bank',$id)->first()){
+                return response()->json(['message' => 'Tidak bisa dihapus karena bank telah didaftarkan ke anggota'], 404);
+            }
+            $data=Bank::find($id)->delete();
+        }elseif($action == 'aktifkan'){
+            $data=Bank::find($id)->update(['status'=>'y']);
+        }elseif($action == 'nonaktifkan'){
+            $data=Bank::find($id)->update(['status'=>'n']);
+        }else{
+            $data=false;
+        }
+
+        $this->log_web('/'.$action.'_bank');
+
+        if($data){
+            return response()->json(['message' => 'Berhasil '.$action.' data bank']);
+        }else{
             return response()->json(['message' => 'Gagal hapus data'], 404);
         }
     }
