@@ -26,6 +26,7 @@
             font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
             text-align: center;
+            white-space: nowrap;
         }
         .garis-bawah {
             position: absolute;
@@ -67,6 +68,7 @@
             font-family: 'Times New Roman', Times, serif;
             text-align: center;
             font-weight: bold;
+            white-space: nowrap;
             /* position: absolute;
             top: 44%;
             width: 70%;
