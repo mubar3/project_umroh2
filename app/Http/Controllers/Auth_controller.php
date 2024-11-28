@@ -12,6 +12,7 @@ use App\Models\Setoran;
 use App\Models\Uang_keluar_list;
 use App\Models\Uang_masuk_list;
 use App\Models\Role;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Contracts\Encryption\DecryptException;
@@ -188,6 +189,9 @@ class Auth_controller extends Controller
 
         $top_leader=User::find( $leader->atasan );
         $anggota->nama_top_leader=$top_leader->name;
+
+        Carbon::setLocale('id');
+        $anggota->tanggal_lahir=Carbon::parse($anggota->tanggal_lahir)->translatedFormat('j F Y');
 
         return view('dashboard.cetak.sertifikat')->with([
             'anggota'   => $anggota,
