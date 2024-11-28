@@ -70,7 +70,7 @@
         <section id="templatemo_contact">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-12">
+                    {{-- <div class="col-sm-12">
                         <header class="template_header">
                             <h1 class="text-center"><span>...</span> Contact <span>...</span></h1>
                         </header>
@@ -79,7 +79,7 @@
                             <i class="fa fa-envelope"></i> Email: <a href="mailto:info@company.com">info@company.com</a><br />
                             <i class="fa fa-phone"></i> Phone: <a href="tel:010-020-0340">010-020-0340</a>
                         </p>
-                    </div>
+                    </div> --}}
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-3">
