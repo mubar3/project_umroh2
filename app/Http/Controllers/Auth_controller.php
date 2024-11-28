@@ -193,6 +193,8 @@ class Auth_controller extends Controller
         Carbon::setLocale('id');
         $anggota->tanggal_lahir=Carbon::parse($anggota->tanggal_lahir)->translatedFormat('j F Y');
 
+        $anggota->foto=env('APP_URL').'/storage/foto/'.$anggota->foto;
+
         return view('dashboard.cetak.sertifikat')->with([
             'anggota'   => $anggota,
         ]);

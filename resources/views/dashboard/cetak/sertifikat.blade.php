@@ -79,6 +79,23 @@
             transform: translateX(-50%);
             padding: 0 5%; */
         }
+        .kotak-foto {
+            position: absolute;
+            bottom: 5%; /* Atur jarak dari bawah */
+            left: 30%; /* Atur jarak dari kiri */
+            width: 6cm; /* Lebar 3 cm (sekitar 90px) */
+            height: 8cm; /* Tinggi 4 cm (sekitar 120px) */
+            overflow: hidden; /* Agar foto tidak keluar dari kotak */
+            border-radius: 5px; /* Membuat sudut melengkung pada kotak */
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2); /* Bayangan pada kotak */
+        }
+
+        .kotak-foto img {
+            width: 100%; /* Gambar memenuhi lebar kotak */
+            height: 100%; /* Gambar memenuhi tinggi kotak */
+            object-fit: cover; /* Memastikan gambar tetap proporsional dan terpotong jika perlu */
+            border-radius: 5px; /* Sudut gambar melengkung sesuai kotak */
+        }
     </style>
     <script type="text/javascript">
         window.onload = function() {
@@ -115,6 +132,9 @@
             <div class="leader-kanan"> --}}
                 ~ Top Leader : {{ $anggota->nama_top_leader }}
             {{-- </div> --}}
+        </div>
+        <div class="kotak-foto">
+            <div class="foto"><img src="{{ $anggota->foto }}" alt="Foto 1"></div>
         </div>
     </div>
 </body>
