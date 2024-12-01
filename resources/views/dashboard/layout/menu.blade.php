@@ -150,7 +150,7 @@
                 </li>
               @endif
 
-              @if(in_array(Auth::user()->role,[1,2,3,4,5]))
+              @if(in_array(Auth::user()->role,[1,2,3,4,5,8]))
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                     <i class="fas fa-users"></i>
@@ -161,7 +161,7 @@
                     </p>
                     </a>
                     <ul class="nav nav-treeview" style="padding-left: 20px;">
-                        @if(in_array(Auth::user()->role,[1,2,3,4]))
+                        @if(in_array(Auth::user()->role,[1,2,3,4,8]))
                             <li class="nav-item">
                                 <a href="{{ url('/tambah_anggota')}}" class="nav-link">
                                 <i class="fas fa-edit"></i>

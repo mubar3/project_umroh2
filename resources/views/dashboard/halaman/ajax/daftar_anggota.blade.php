@@ -65,7 +65,7 @@
                                 `;
 
 
-                        }else if( [2, 3].includes({{ Auth::user()->role }}) ){
+                        }else if( [2, 3, 8].includes({{ Auth::user()->role }}) ){
                             isi = `
                                     <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
                                         <i class="fas fa-eye"></i> Lihat

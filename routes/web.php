@@ -31,8 +31,8 @@ Route::middleware(['auth'])->group(function () {
 
     // halaman
     Route::get('/home', [Auth_controller::class, 'home']);
-    Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota'])->middleware('role:1,2,3,4');
-    Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota'])->middleware('role:1,2,3,4,5');
+    Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota'])->middleware('role:1,2,3,4,8');
+    Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota'])->middleware('role:1,2,3,4,5,8');
     Route::get('/tambah_user', [Auth_controller::class, 'tambah_user'])->middleware('role:1,2');
     Route::get('/daftar_user', [Auth_controller::class, 'daftar_user'])->middleware('role:1,2');
     Route::get('/tabungan', [Auth_controller::class, 'tabungan'])->middleware('role:1,8');

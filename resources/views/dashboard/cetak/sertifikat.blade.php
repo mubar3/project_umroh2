@@ -21,7 +21,7 @@
             top: 34%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4rem;
+            font-size: 2rem;
             color: #000;
             font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
@@ -40,13 +40,13 @@
             position: absolute;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 2.1rem;
+            font-size: 1.5rem;
             color: #000;
             font-family: 'Times New Roman', Times, serif;
             text-align: center;
             font-weight: bold;
         }
-        .no-id { top: 38%; }
+        .no-id { top: 38.5%; }
         .tempat-tanggal-lahir { top: 42.5%; }
         .leader {
             position: absolute;
@@ -56,13 +56,13 @@
             display: flex;
             justify-content: center;
             gap: 2rem; /* Jarak antar teks */
-            font-size: 2.1rem;
+            font-size: 1.2rem;
             color: #000;
             font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
         }
         .leader-text {
-            max-width: 60%; /* Batasi lebar masing-masing teks */
+            /* max-width: 35%; /* Batasi lebar masing-masing teks */
             white-space: nowrap; /* Jangan biarkan teks pindah baris */
             overflow: hidden; /* Sembunyikan teks yang terlalu panjang */
             text-overflow: ellipsis; /* Tambahkan "..." untuk teks yang dipotong */
@@ -70,10 +70,10 @@
         }
         .kotak-foto {
             position: absolute;
-            bottom: 5%;
+            bottom: 7%;
             left: 30%;
-            width: 6cm;
-            height: 8cm;
+            /* width: 6cm; */
+            height: 5cm;
             overflow: hidden;
             border-radius: 5px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);

@@ -385,7 +385,7 @@ class Entry_controller extends Controller
     }
 
     function ajax_get_jamaah() {
-        if(in_array(Auth::user()->role,[1,5])){
+        if(in_array(Auth::user()->role,[1,5,8])){
             $anggota=Anggota::select(
                     'anggota.*',
                     DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
@@ -557,7 +557,7 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        if(Auth::user()->role == 1){
+        if(in_array(Auth::user()->role,[1,8])){
             $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
                     ->where('name', 'like', '%' . $search . '%')
                     ->where('status','y')

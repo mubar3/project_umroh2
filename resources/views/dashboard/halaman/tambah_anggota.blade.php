@@ -171,7 +171,8 @@
         </div>
         {{-- @endif --}}
           <!-- /.card -->
-          @if(Auth::user()->role != 4)
+          {{-- @if(Auth::user()->role != 4) --}}
+          @if(!in_array(Auth::user()->role,[4,8]))
           {{-- <div class="card card-default"> --}}
           <div class="card card-default collapsed-card">
             <div class="card-header">
