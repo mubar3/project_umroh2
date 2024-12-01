@@ -56,7 +56,7 @@
             display: flex;
             justify-content: center;
             gap: 2rem; /* Jarak antar teks */
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #000;
             font-family: 'Times New Roman', Times, serif;
             font-weight: bold;
