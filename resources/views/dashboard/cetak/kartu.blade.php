@@ -40,28 +40,30 @@
         .qrcode {
             text-align: center;
             position: absolute;
-            top: 85mm; /* Menempatkan nama tepat di bawah foto */
+            top: 92mm; /* Menempatkan nama tepat di bawah foto */
             left: 52%;
             transform: translateX(-50%); /* Menempatkan nama di tengah secara horizontal */
         }
         .id-card-info {
             text-align: center;
             position: absolute;
-            top: 80mm; /* Menempatkan nama tepat di bawah foto */
+            top: 79mm; /* Menempatkan nama tepat di bawah foto */
             left: 50%;
             transform: translateX(-50%); /* Menempatkan nama di tengah secara horizontal */
         }
         .id-card-info h2 {
-            margin: 5px 0;
+            white-space: nowrap;
+            margin: 2px 0;
             font-size: 1.1rem;
             color: black; /* Warna teks putih agar terlihat jelas di atas latar belakang */
         }
         .id-card-info p {
             margin: 2px 0;
             font-size: 0.9rem;
-            color: #fff;
+            color: black;
         }
         .id-card-info .id-number {
+            white-space: nowrap;
             font-size: 1rem;
             font-weight: bold;
         }
@@ -78,10 +80,10 @@
             {!! QrCode::size(80)->generate(env('APP_URL').'/data_anggota/'.Crypt::encryptString($anggota->id_anggota) ) !!}
         </div>
         <div class="id-card-info">
-            {{-- <h2>{{ $anggota->nama }}</h2> --}}
+            <h2>{{ $anggota->nama }}</h2>
             {{-- <p class="id-number">ID: {{ $anggota->id }}</p> --}}
             {{-- <p>Email: {{ $user->email }}</p> --}}
-            {{-- <p>Nomor HP: {{ $user->nomor_hp }}</p> --}}
+            <p>{{ $anggota->nomor }}</p>
         </div>
     </div>
 
