@@ -47,8 +47,8 @@
         .id-card-info {
             text-align: center;
             position: absolute;
-            top: 79mm; /* Menempatkan nama tepat di bawah foto */
-            left: 50%;
+            top: 80mm; /* Menempatkan nama tepat di bawah foto */
+            left: 52%;
             transform: translateX(-50%); /* Menempatkan nama di tengah secara horizontal */
         }
         .id-card-info h2 {
