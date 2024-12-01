@@ -1608,6 +1608,7 @@ class Entry_controller extends Controller
 
         $data=Log_barang::select(
                 'barang.nama',
+                'barang.stok',
                 'log_barang.*'
             )
             ->join('barang','barang.id_barang','=','log_barang.id_barang')
@@ -1689,6 +1690,7 @@ class Entry_controller extends Controller
 
         $data=Log_barang::select(
                 'barang.nama',
+                'barang.stok',
                 'log_barang.*'
             )
             ->join('barang','barang.id_barang','=','log_barang.id_barang')

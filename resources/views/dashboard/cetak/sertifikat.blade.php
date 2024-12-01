@@ -70,10 +70,10 @@
         }
         .kotak-foto {
             position: absolute;
-            bottom: 7%;
+            bottom: 10%;
             left: 30%;
             /* width: 6cm; */
-            height: 5cm;
+            height: 4cm;
             overflow: hidden;
             border-radius: 5px;
             box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);

@@ -97,6 +97,7 @@
                   <tr>
                       <th>Barang</th>
                       <th>Jumlah</th>
+                      <th>Stok</th>
                       <th>Keterangan</th>
                       <th>Waktu</th>
                       <th>Action</th>

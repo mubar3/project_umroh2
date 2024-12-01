@@ -143,6 +143,7 @@
             "columns": [
                 { "data": "nama" },
                 { "data": "banyak" },
+                { "data": "stok" },
                 { "data": "ket" },
                 { "data": "input_time" },
                 {
