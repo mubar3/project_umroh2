@@ -557,7 +557,7 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        if(in_array(Auth::user()->role,[1,8])){
+        if(in_array(Auth::user()->role,[1,8,6])){
             $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
                     ->where('name', 'like', '%' . $search . '%')
                     ->where('status','y')
@@ -1218,6 +1218,8 @@ class Entry_controller extends Controller
             'jumlah'    => 'required',
             'kategori'    => 'required',
             'bank'    => 'required',
+            // 'foto'    => 'required',
+            // 'koordinator'    => 'required',
         ]);
         if(!empty($cek_validator)){
             return response()->json(['message' => $cek_validator], 404);
@@ -1228,13 +1230,25 @@ class Entry_controller extends Controller
         try {
             $this->log_web('/tambah_uang_masuk');
 
-            Uang_masuk::create([
+            $insert=[
                 'id_list'   => $data->kategori,
                 'ket'   => $data->ket,
                 'jumlah'   => $data->jumlah,
                 'bank'   => $data->bank,
                 'userid'   => Auth::user()->id,
-            ]);
+            ];
+
+            if(!$this->isNullOrEmpty($data->foto)){
+                $nama_foto='um'.Auth::user()->id.strtotime(Carbon::now()).'.jpg';
+                $this->upload_foto($data->foto,public_path('/storage/uang_masuk'),$nama_foto);
+                $insert['foto']=$nama_foto;
+            }
+            if(!$this->isNullOrEmpty($data->koordinator)){
+                $insert['koordinator']=$data->koordinator;
+
+            }
+
+            Uang_masuk::create($insert);
 
             DB::commit();
             return response()->json(['message' => 'Berhasil menambahkan data']);
@@ -1262,10 +1276,13 @@ class Entry_controller extends Controller
 
         $data=Uang_masuk::select(
                 'uang_masuk.*',
+                DB::raw("concat('".env('APP_URL')."','/storage/uang_masuk/',uang_masuk.foto) as 'foto'"),
+                'users.name as nama_koordinator',
                 'uang_masuk_list.nama as kategori',
                 'bank.nama_bank'
             )
             ->join('uang_masuk_list','uang_masuk_list.id_list','=','uang_masuk.id_list')
+            ->leftjoin('users','users.id','=','uang_masuk.koordinator')
             ->leftJoin('bank','bank.id','=','uang_masuk.bank')
             ->get();
 

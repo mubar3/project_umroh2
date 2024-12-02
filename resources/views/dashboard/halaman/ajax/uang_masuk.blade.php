@@ -20,6 +20,34 @@
 
 <script>
     $(document).ready(function() {
+
+        $('.select-koordinator').select2({
+            // dropdownParent: $('#modalEdit'), // Pastikan dropdown muncul di atas modal
+            width: '100%',
+            placeholder: 'Cari koordinator...',
+            ajax: {
+                url: '{{ env('APP_URL').'/ajax_get_koordinator' }}', // Sesuaikan URL dengan route server Anda
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                dataType: 'json',
+                delay: 250,
+                data: function(params) {
+                    return {
+                        q: params.term // Mengirimkan teks pencarian ke server
+                    };
+                },
+                processResults: function(data) {
+                    // Sesuaikan format data sesuai dengan respons server
+                    return {
+                        results: data.items // Pastikan server mengembalikan array data dalam `data.items`
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 2 // Panjang minimal input untuk trigger pencarian
+        });
+
         $('#jumlah_uang').on('input', function() {
             let angka = $(this).val().replace(/[^,\d]/g, ""); // Hanya angka
             let rupiah = formatRupiah(angka);
@@ -53,6 +81,9 @@
 
             let jumlah = angkaBersih;
 
+            var formData = new FormData($('#uang_masuk')[0]);
+            formData.set('jumlah', angkaBersih);
+
             // Kirim data jumlah dan RFID melalui AJAX
             $.ajax({
                 url: "{{ env('APP_URL').'/ajax_uang_masuk' }}", // Ganti dengan URL tujuan
@@ -61,16 +92,20 @@
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')  // Token CSRF
                 },
-                data: { jumlah: jumlah, kategori: kategori, ket:ket, bank:bank },
+                // data: { jumlah: jumlah, kategori: kategori, ket:ket, bank:bank },
+                data: formData,
+                contentType: false,  // Memberitahu jQuery untuk tidak mengatur contentType
+                processData: false,  // Memberitahu jQuery untuk tidak memproses data
                 success: function(response) {
                     $('#tabel1').DataTable().ajax.reload();
                     $('#rfidErrorModalLabel').text('Berhasil');
                     $('#rfidErrorMessage').text(response.message);
                     $('#rfidErrorModal').modal('show');  // Tampilkan modal error
-                    $('#kategori').val('');
-                    $('#jumlah_uang').val('');
-                    $('#ket').val('');
-                    $('#bank').val('');
+                    $('#uang_masuk')[0].reset();
+                    // $('#kategori').val('');
+                    // $('#jumlah_uang').val('');
+                    // $('#ket').val('');
+                    // $('#bank').val('');
                 },
                 error: function(xhr, status, error) {
                     // $('#errorMessage').text(JSON.parse(xhr.responseText).message);
@@ -113,6 +148,17 @@
                 { "data": "ket" },
                 { "data": "input_time" },
                 { "data": "nama_bank" },
+                {
+                    "data": null,
+                    "render": function(data, type, row) {
+                        if(row.foto != null){
+                            return '<img width="60" src="'+row.foto+'">';
+                        }else{
+                            return null;
+                        }
+                    }
+                },
+                { "data": "nama_koordinator" },
                 {
                     "data": null,
                     "render": function(data, type, row) {

@@ -47,21 +47,21 @@
               <div class="row">
 
                   <div class="col-md-6">
-                        <form id="uang_masuk">
+                        <form id="uang_masuk" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
                             <label>Jumlah  <span class="right badge badge-success">wajib</span></label>
                             <input name="jumlah" id="jumlah_uang" type="text" class="form-control" placeholder="jumlah" required>
                         </div>
                         <div class="form-group">
                             <label>Keterangan </label>
-                            <textarea class="form-control" id="ket"></textarea>
+                            <textarea name="ket" class="form-control" id="ket"></textarea>
                         </div>
                     </div>
                     <!-- /.col -->
                     <div class="col-md-6">
                         <div class="form-group">
                             <label>Kategori <span class="right badge badge-success">wajib</span></label>
-                            <select name="role" id="kategori" class="form-control" style="width: 100%;" required>
+                            <select name="kategori" id="kategori" class="form-control" style="width: 100%;" required>
                                 <option value="">==Pilih Salah Satu==</option>
                                 @foreach ($list as $item)
                                     <option value="{{ $item->id_list }}">{{ $item->nama }}</option>
@@ -75,6 +75,15 @@
                                 @foreach ($bank as $item)
                                     <option value="{{ $item->id }}">{{ $item->nama_bank }}</option>
                                 @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Foto </label>
+                            <input name="foto" type="file" class="form-control" placeholder="foto">
+                        </div>
+                        <div class="form-group">
+                            <label>Koordinator  </label>
+                            <select name="koordinator" class="form-control select-koordinator" style="width: 100%;">
                             </select>
                         </div>
                     </div>
@@ -112,6 +121,8 @@
                       <th>Keterangan</th>
                       <th>Waktu</th>
                       <th>Dari Bank</th>
+                      <th>Foto</th>
+                      <th>Koordinator</th>
                       <th>Action</th>
                   </tr>
                   </thead>
