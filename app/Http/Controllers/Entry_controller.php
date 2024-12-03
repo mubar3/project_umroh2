@@ -1267,6 +1267,7 @@ class Entry_controller extends Controller
             )
             ->join('uang_keluar_list','uang_keluar_list.id_list','=','uang_keluar.id_list')
             ->leftJoin('bank','bank.id','=','uang_keluar.bank')
+            ->orderBy('uang_keluar.input_time','desc')
             ->get();
 
         return response()->json($data);
@@ -1284,6 +1285,7 @@ class Entry_controller extends Controller
             ->join('uang_masuk_list','uang_masuk_list.id_list','=','uang_masuk.id_list')
             ->leftjoin('users','users.id','=','uang_masuk.koordinator')
             ->leftJoin('bank','bank.id','=','uang_masuk.bank')
+            ->orderBy('uang_masuk.input_time','desc')
             ->get();
 
         return response()->json($data);
@@ -1630,6 +1632,7 @@ class Entry_controller extends Controller
             )
             ->join('barang','barang.id_barang','=','log_barang.id_barang')
             ->where('log_barang.jenis','masuk')
+            ->orderBy('log_barang.input_time','desc')
             ->get();
 
         return response()->json($data);
@@ -1712,6 +1715,7 @@ class Entry_controller extends Controller
             )
             ->join('barang','barang.id_barang','=','log_barang.id_barang')
             ->where('log_barang.jenis','keluar')
+            ->orderBy('log_barang.input_time','desc')
             ->get();
 
         return response()->json($data);
