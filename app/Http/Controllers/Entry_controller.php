@@ -1217,7 +1217,7 @@ class Entry_controller extends Controller
         $cek_validator=$this->validator($data,[
             'jumlah'    => 'required',
             'kategori'    => 'required',
-            'bank'    => 'required',
+            // 'bank'    => 'required',
             // 'foto'    => 'required',
             // 'koordinator'    => 'required',
         ]);
@@ -1234,7 +1234,6 @@ class Entry_controller extends Controller
                 'id_list'   => $data->kategori,
                 'ket'   => $data->ket,
                 'jumlah'   => $data->jumlah,
-                'bank'   => $data->bank,
                 'userid'   => Auth::user()->id,
             ];
 
@@ -1245,7 +1244,9 @@ class Entry_controller extends Controller
             }
             if(!$this->isNullOrEmpty($data->koordinator)){
                 $insert['koordinator']=$data->koordinator;
-
+            }
+            if(!$this->isNullOrEmpty($data->bank)){
+                $insert['bank']=$data->bank;
             }
 
             Uang_masuk::create($insert);
