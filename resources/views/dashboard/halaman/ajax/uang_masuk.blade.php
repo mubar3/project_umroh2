@@ -142,11 +142,24 @@
                 {
                     "data": null,
                     "render": function(data, type, row) {
-                        return formatRupiah(row.jumlah);
+                        // return formatRupiah(row.jumlah);
+                        if (type === 'display') {
+                            return formatRupiah(row.jumlah); // Memanggil fungsi formatRupiah
+                        }
+                        return row.jumlah;
                     }
                 },
                 { "data": "ket" },
-                { "data": "input_time" },
+                // { "data": "input_time" },
+                {
+                    "data": "input_time",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return moment(data).format("DD-MM-YYYY HH:mm:ss"); // Format tanggal untuk ditampilkan
+                        }
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss"); // Format tanggal untuk sorting
+                    }
+                },
                 { "data": "nama_bank" },
                 {
                     "data": null,
@@ -167,6 +180,7 @@
                     }
                 }
             ],
+            "order": [[3, "desc"]],
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         });
 

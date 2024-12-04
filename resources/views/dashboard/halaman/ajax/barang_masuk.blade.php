@@ -145,7 +145,16 @@
                 { "data": "banyak" },
                 { "data": "stok" },
                 { "data": "ket" },
-                { "data": "input_time" },
+                // { "data": "input_time" },
+                {
+                    "data": "input_time",
+                    "render": function(data, type, row) {
+                        if (type === 'display') {
+                            return moment(data).format("DD-MM-YYYY HH:mm:ss"); // Format tanggal untuk ditampilkan
+                        }
+                        return moment(data).format("YYYY-MM-DD HH:mm:ss"); // Format tanggal untuk sorting
+                    }
+                },
                 {
                     "data": null,
                     "render": function(data, type, row) {
@@ -154,6 +163,7 @@
                     }
                 }
             ],
+            "order": [[4, "desc"]],
             "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         });
 
