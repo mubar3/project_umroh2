@@ -104,7 +104,7 @@
                                 <strong>Nomor Telepon:</strong> {{ $anggota->nomor }}
                             </div>
                             <div class="col-md-3 col-6">
-                                <strong>Total Saldo:</strong> {{ $anggota->saldo }}
+                                <strong>Total Tabungan:</strong> {{ $anggota->saldo }}
                             </div>
                             <div class="col-md-3 col-6">
                                 <strong>Total (Tagihan / Telah disetor):</strong> {{ $anggota->tagihan_paket}} / {{ $anggota->setoran}}
