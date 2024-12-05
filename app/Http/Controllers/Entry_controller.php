@@ -1259,7 +1259,10 @@ class Entry_controller extends Controller
         }
     }
 
-    function ajax_get_uang_keluar() {
+    function ajax_get_uang_keluar(Request $data) {
+
+        $startDate = $data->input('start_date');
+        $endDate = $data->input('end_date');
 
         $data=Uang_keluar::select(
                 'uang_keluar.*',
@@ -1268,13 +1271,17 @@ class Entry_controller extends Controller
             )
             ->join('uang_keluar_list','uang_keluar_list.id_list','=','uang_keluar.id_list')
             ->leftJoin('bank','bank.id','=','uang_keluar.bank')
+            ->whereBetween('uang_keluar.input_time', [$startDate.' 00:00:00', $endDate.' 23:59:00'])
             ->orderBy('uang_keluar.input_time','desc')
             ->get();
 
         return response()->json($data);
     }
 
-    function ajax_get_uang_masuk() {
+    function ajax_get_uang_masuk(Request $data) {
+
+        $startDate = $data->input('start_date');
+        $endDate = $data->input('end_date');
 
         $data=Uang_masuk::select(
                 'uang_masuk.*',
@@ -1286,6 +1293,7 @@ class Entry_controller extends Controller
             ->join('uang_masuk_list','uang_masuk_list.id_list','=','uang_masuk.id_list')
             ->leftjoin('users','users.id','=','uang_masuk.koordinator')
             ->leftJoin('bank','bank.id','=','uang_masuk.bank')
+            ->whereBetween('uang_masuk.input_time', [$startDate.' 00:00:00', $endDate.' 23:59:00'])
             ->orderBy('uang_masuk.input_time','desc')
             ->get();
 

@@ -19,7 +19,26 @@
 </div>
 
 <script>
+    let filter_start=moment().format('YYYY-MM-DD');
+    let filter_end=moment().format('YYYY-MM-DD');
+
     $(document).ready(function() {
+        $('input[name="dates"]').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'  // Format tanggal yang digunakan
+            },
+            startDate: moment(), // Set tanggal mulai ke hari ini
+            endDate: moment()    // Set tanggal akhir ke hari ini
+        });
+
+        $('input[name="dates"]').on('apply.daterangepicker', function(ev, picker) {
+            // Ambil nilai start_date dan end_date
+            filter_start = picker.startDate.format('YYYY-MM-DD');
+            filter_end = picker.endDate.format('YYYY-MM-DD');
+
+            // Reload DataTable dengan parameter baru
+            $('#tabel1').DataTable().ajax.reload();
+        });
 
         $('.select-koordinator').select2({
             // dropdownParent: $('#modalEdit'), // Pastikan dropdown muncul di atas modal
@@ -131,6 +150,11 @@
             "ajax": {
                 "url": "{{ env('APP_URL').'/ajax_get_uang_masuk' }}", // Ganti dengan URL API Anda
                 "type": "GET",
+                "data": function(d) {
+                    // Tambahkan start_date dan end_date ke parameter AJAX
+                    d.start_date = filter_start;
+                    d.end_date = filter_end;
+                },
                 "headers": {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
@@ -164,16 +188,20 @@
                 {
                     "data": null,
                     "render": function(data, type, row) {
-                        if(row.foto != null){
-                            return '<img width="60" src="'+row.foto+'">';
-                        }else{
-                            return null;
+                        if (type === 'display') {
+                            if(row.foto != null){
+                                return '<img width="60" src="'+row.foto+'">';
+                            }else{
+                                return null;
+                            }
                         }
+                        return row.foto;
                     }
                 },
                 { "data": "nama_koordinator" },
                 {
                     "data": null,
+                    "className": "no-export", // Tambahkan kelas ini untuk kolom action
                     "render": function(data, type, row) {
                         return '<button class="btn btn-danger btn-hapus" data-id="' + row.id + '">' +
                                 '<i class="fas fa-trash"></i> Hapus</button>';
@@ -181,7 +209,24 @@
                 }
             ],
             "order": [[3, "desc"]],
-            "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            dom: 'Bfrtip', // Tambahkan dom untuk mengaktifkan tombol
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    text: 'Export ke Excel', // Ubah nama tombol di sini
+                    filename: 'Uang_masuk('+filter_start+'_'+filter_end+')',
+                    // filename: function() {
+                    //     const today = new Date();
+                    //     const formattedDate = today.toISOString().slice(0, 10); // Format: YYYY-MM-DD
+                    //     return 'Data_Uang_Masuk_' + formattedDate; // Tambahkan tanggal ke nama file
+                    // },
+                    title: 'Data Export',
+                    exportOptions: {
+                        columns: ':not(.no-export)', // Kecualikan kolom dengan kelas no-export
+                        orthogonal: 'export' // Gunakan format "export" untuk gambar
+                    }
+                }
+            ]
         });
 
     });

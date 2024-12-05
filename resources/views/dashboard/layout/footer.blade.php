@@ -41,6 +41,8 @@
 <script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
 <script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
 <script src="{{ asset('asset/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+{{-- datarange --}}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <!-- ChartJS -->
 <script src="{{ asset('asset/plugins/chart.js/Chart.min.js') }}"></script>
 <!-- Sparkline -->

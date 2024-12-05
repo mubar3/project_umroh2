@@ -104,6 +104,11 @@
           <div class="card">
               <!-- /.card-header -->
               <div class="card-body">
+
+                <div class="form-group">
+                    <label>Data pada tanggal :  </label>
+                    <input type="text" class="form-control" name="dates" value="01/01/2018 - 01/15/2018" />
+                </div>
                 <table id="tabel1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
