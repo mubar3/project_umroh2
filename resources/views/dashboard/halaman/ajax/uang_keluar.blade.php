@@ -108,7 +108,7 @@
 
     $(function () {
 
-        $("#tabel1").DataTable({
+        const table1 = $("#tabel1").DataTable({
             "responsive": true,
             "lengthChange": false,
             // "responsive": true,
@@ -180,6 +180,19 @@
                     }
                 }
             ]
+        });
+
+
+        // Tambahkan overlay saat tabel loading
+        table1.on('preXhr.dt', function() {
+            $("#tabel1_wrapper").append('<div class="overlay"><div class="spinner"></div></div>');
+            $("#tabel1").addClass("no-click");
+        });
+
+        // Hapus overlay setelah tabel selesai loading
+        table1.on('xhr.dt', function() {
+            $(".overlay").remove();
+            $("#tabel1").removeClass("no-click");
         });
 
     });
