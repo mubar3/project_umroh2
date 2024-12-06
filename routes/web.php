@@ -33,8 +33,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/home', [Auth_controller::class, 'home']);
     Route::get('/tambah_anggota', [Auth_controller::class, 'tambah_anggota'])->middleware('role:1,2,3,4,8');
     Route::get('/daftar_anggota', [Auth_controller::class, 'daftar_anggota'])->middleware('role:1,2,3,4,5,8');
-    Route::get('/tambah_user', [Auth_controller::class, 'tambah_user'])->middleware('role:1,2');
-    Route::get('/daftar_user', [Auth_controller::class, 'daftar_user'])->middleware('role:1,2');
+    Route::get('/tambah_user', [Auth_controller::class, 'tambah_user'])->middleware('role:1');
+    Route::get('/daftar_user', [Auth_controller::class, 'daftar_user'])->middleware('role:1');
     Route::get('/tabungan', [Auth_controller::class, 'tabungan'])->middleware('role:1,8');
     Route::get('/setoran', [Auth_controller::class, 'setoran'])->middleware('role:1,8,6');
     Route::get('/hutang', [Auth_controller::class, 'hutang'])->middleware('role:1,8,6');
@@ -59,8 +59,8 @@ Route::middleware(['auth'])->group(function () {
     // ajax
     // Route::get('/ajax_get_jamaah', [Entry_controller::class, 'ajax_get_jamaah']);
     Route::get('/ajax_get_jamaah', 'App\Http\Controllers\Entry_controller@ajax_get_jamaah')->middleware('check.ajax.source');
-    Route::post('/ajax_update_anggota', 'App\Http\Controllers\Entry_controller@ajax_update_anggota')->middleware(['check.ajax.source','role:1,4']);
-    Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware(['check.ajax.source','role:1,4']);
+    Route::post('/ajax_update_anggota', 'App\Http\Controllers\Entry_controller@ajax_update_anggota')->middleware(['check.ajax.source','role:1']);
+    Route::get('/ajax_hapus_jamaah/{id}', 'App\Http\Controllers\Entry_controller@ajax_hapus_jamaah')->middleware(['check.ajax.source','role:1']);
     Route::get('/ajax_ubah_user/{task}/{id}', 'App\Http\Controllers\Entry_controller@ajax_ubah_user')->middleware(['check.ajax.source','role:1,2']);
     Route::post('/ajax_edit_user', 'App\Http\Controllers\Entry_controller@ajax_edit_user')->middleware(['check.ajax.source','role:1,2']);
     Route::get('/ajax_get_koordinator', 'App\Http\Controllers\Entry_controller@ajax_get_koordinator')->middleware('check.ajax.source');

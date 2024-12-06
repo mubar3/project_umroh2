@@ -88,7 +88,7 @@
                   </p>
                 </a>
               </li>
-              @if(Auth::user()->role == 1 || Auth::user()->role == 2)
+              @if(Auth::user()->role == 1)
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                         <i class="fas fa-users"></i>

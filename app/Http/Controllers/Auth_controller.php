@@ -44,6 +44,60 @@ class Auth_controller extends Controller
                 session()->flash('eror', 'Akun telah dihapus');
                 return redirect('/login_page');
             }
+
+            // cek koor naik pangkat
+            if($data->role == 4){
+                if( (Anggota::where('koordinator',Auth::user()->id)->where('status','y')->count()) >= 5 ){
+                    // naik ke leader
+                    $roles=Role::find(3);
+                    $role=strtolower(str_replace(" ", ".", $roles->nama));
+                    $data->email=Auth::user()->id.'@'.$role;
+                    User::find(Auth::user()->id)->update([
+                        'role'  => 3,
+                        'email' =>$data->email
+                    ]);
+
+                    // login ulang
+                    Auth::logout();
+                    Auth::attempt(['email' => $data->email, 'password' => $data->password, 'role' => 3]);
+
+                    $this->log_web('/home');
+
+                    return view('dashboard.halaman')->with([
+                        'halaman'   => 'home',
+                        'email_baru'   => $data->email,
+                        'pangkat' =>$roles->nama
+                    ]);
+                }
+            }
+
+
+            // leader koor naik pangkat
+            if($data->role == 3){
+                if( (User::where('atasan',Auth::user()->id)->where('status','y')->count()) >= 3 ){
+                    // naik ke top leader
+                    $roles=Role::find(2);
+                    $role=strtolower(str_replace(" ", ".", $roles->nama));
+                    $data->email=Auth::user()->id.'@'.$role;
+                    User::find(Auth::user()->id)->update([
+                        'role'  => 2,
+                        'email' =>$data->email
+                    ]);
+
+                    // login ulang
+                    Auth::logout();
+                    Auth::attempt(['email' => $data->email, 'password' => $data->password, 'role' => 2]);
+
+                    $this->log_web('/home');
+
+                    return view('dashboard.halaman')->with([
+                        'halaman'   => 'home',
+                        'email_baru'   => $data->email,
+                        'pangkat' =>$roles->nama
+                    ]);
+                }
+            }
+
             return redirect('/home');
         }else{
             session()->flash('eror', 'Username / password / role salah');

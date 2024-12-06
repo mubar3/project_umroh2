@@ -65,23 +65,11 @@
                                 `;
 
 
-                        }else if( [2, 3, 8].includes({{ Auth::user()->role }}) ){
+                        }else if( [2, 3, 4, 8].includes({{ Auth::user()->role }}) ){
                             isi = `
                                     <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
                                         <i class="fas fa-eye"></i> Lihat
                                     </a>
-                                `;
-                        }else if({{ Auth::user()->role }} == 4){
-                            isi = `
-                                    <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
-                                        <i class="fas fa-eye"></i> Lihat
-                                    </a>
-                                    <button type="button" class="btn btn-primary btn-edit" data-id='${row.id_anggota_fix}'>
-                                        <i class="fas fa-edit"></i> Edit
-                                    </button>
-                                    <button type="button" class="btn btn-danger btn-hapus" data-id="${row.id_anggota_fix}">
-                                        <i class="fas fa-trash"></i> Hapus
-                                    </button>
                                 `;
                         }else if({{ Auth::user()->role }} == 5){
                             isi = `

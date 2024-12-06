@@ -394,18 +394,49 @@ class Entry_controller extends Controller
                 ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
                 ->where('anggota.status','y')
                 ->get();
-        }elseif(Auth::user()->role == 2){
+        }elseif( in_array(Auth::user()->role,[2,3,4]) ){
+            // anggota inputan sendiri
+            $list_anggota=Anggota::where('koordinator',Auth::user()->id)
+                ->where('status','y')
+                ->get()
+                ->pluck('id_anggota')
+                ->toArray();
 
-            $koordinator=User::select(
-                    'koor.id as koordinator',
-                    'koor.id_anggota as koordinator_data',
-                )
-                ->join('users as koor','koor.atasan','=','users.id')
-                ->where('users.atasan',Auth::user()->id)
-                ->get();
-
-            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
-            $koordinator = $koordinator->pluck('koordinator')->toArray();
+            // anggota inputan bawahan
+            $bawahan=true;
+            $list_bawahan=[];
+            $atasan_cek=[];
+            while ($bawahan == true) {
+                if(count($atasan_cek) < 1){
+                    // cek bawahan level 1
+                    $user_bawahan=User::where('atasan',Auth::user()->id)->where('status','y')->get();
+                    foreach ($user_bawahan as $key) {
+                        if(!$this->isNullOrEmpty($key->id_anggota)){
+                            // cek data bawahan
+                            $list_anggota[]=$key->id_anggota;
+                        }
+                        $list_bawahan[]=$key->id;
+                        $atasan_cek[]=$key->id;
+                    }
+                }else{
+                    // bawahan level 2 kebawah
+                    $user_bawahan=User::whereIn('atasan',$atasan_cek)->where('status','y')->get();
+                    if(count($user_bawahan) < 1){
+                        // bawahan sudah kosong
+                        $bawahan=false;
+                    }
+                    $atasan_cek=[];
+                    foreach ($user_bawahan as $key) {
+                        if(!$this->isNullOrEmpty($key->id_anggota)){
+                            // cek data bawahan
+                            $list_anggota[]=$key->id_anggota;
+                        }
+                        $list_bawahan[]=$key->id;
+                        // inputan bawahan bawahnya sebagai cek atasan
+                        $atasan_cek[]=$key->id;
+                    }
+                }
+            }
 
             $anggota=Anggota::select(
                     'anggota.*',
@@ -414,52 +445,77 @@ class Entry_controller extends Controller
                 )
                 ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
                 ->where('anggota.status','y')
-                ->where(function ($where) use($koordinator,$koordinator_data){
-                    $where->whereIn('anggota.koordinator',$koordinator)
-                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
-                        ;
+                ->where(function ($where) use($list_anggota,$list_bawahan) {
+                    $where->whereIn('anggota.id_anggota',$list_anggota)
+                        ->orWhereIn('anggota.koordinator',$list_bawahan);
                 })
-                // ->whereIn('koordinator',$koordinator)
                 ->get();
+        // }elseif(Auth::user()->role == 2){
 
-        }elseif(Auth::user()->role == 3){
+        //     $koordinator=User::select(
+        //             'koor.id as koordinator',
+        //             'koor.id_anggota as koordinator_data',
+        //         )
+        //         ->join('users as koor','koor.atasan','=','users.id')
+        //         ->where('users.atasan',Auth::user()->id)
+        //         ->get();
 
-            $koordinator=User::select(
-                    'users.id as koordinator',
-                    'users.id_anggota as koordinator_data',
-                )
-                ->where('users.atasan',Auth::user()->id)
-                ->get();
+        //     $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+        //     $koordinator = $koordinator->pluck('koordinator')->toArray();
 
-            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
-            $koordinator = $koordinator->pluck('koordinator')->toArray();
+        //     $anggota=Anggota::select(
+        //             'anggota.*',
+        //             DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+        //             'users.email',
+        //         )
+        //         ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+        //         ->where('anggota.status','y')
+        //         ->where(function ($where) use($koordinator,$koordinator_data){
+        //             $where->whereIn('anggota.koordinator',$koordinator)
+        //                 ->orWhereIn('anggota.id_anggota',$koordinator_data)
+        //                 ;
+        //         })
+        //         // ->whereIn('koordinator',$koordinator)
+        //         ->get();
 
-            $anggota=Anggota::select(
-                    'anggota.*',
-                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
-                    'users.email',
-                )
-                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
-                ->where('anggota.status','y')
-                ->where(function ($where) use($koordinator,$koordinator_data){
-                    $where->whereIn('anggota.koordinator',$koordinator)
-                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
-                        ;
-                })
-                // ->whereIn('koordinator',$koordinator)
-                ->get();
+        // }elseif(Auth::user()->role == 3){
 
-        }elseif(Auth::user()->role == 4){
+        //     $koordinator=User::select(
+        //             'users.id as koordinator',
+        //             'users.id_anggota as koordinator_data',
+        //         )
+        //         ->where('users.atasan',Auth::user()->id)
+        //         ->get();
 
-            $anggota=Anggota::select(
-                    'anggota.*',
-                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
-                    'users.email',
-                )
-                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
-                ->where('anggota.status','y')
-                ->where('koordinator',Auth::user()->id)
-                ->get();
+        //     $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+        //     $koordinator = $koordinator->pluck('koordinator')->toArray();
+
+        //     $anggota=Anggota::select(
+        //             'anggota.*',
+        //             DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+        //             'users.email',
+        //         )
+        //         ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+        //         ->where('anggota.status','y')
+        //         ->where(function ($where) use($koordinator,$koordinator_data){
+        //             $where->whereIn('anggota.koordinator',$koordinator)
+        //                 ->orWhereIn('anggota.id_anggota',$koordinator_data)
+        //                 ;
+        //         })
+        //         // ->whereIn('koordinator',$koordinator)
+        //         ->get();
+
+        // }elseif(Auth::user()->role == 4){
+
+        //     $anggota=Anggota::select(
+        //             'anggota.*',
+        //             DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+        //             'users.email',
+        //         )
+        //         ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+        //         ->where('anggota.status','y')
+        //         ->where('koordinator',Auth::user()->id)
+        //         ->get();
 
         }else{
             $anggota=[];
@@ -564,29 +620,67 @@ class Entry_controller extends Controller
                     ->where('role',4)
                     ->get();
 
-        }elseif(Auth::user()->role == 2){
-            $data = User::select('users.id', 'users.name as text') // 'text' adalah format yang dibutuhkan Select2
-                    ->join('users as leader','leader.id','=','users.atasan')
-                    ->where('users.name', 'like', '%' . $search . '%')
-                    ->where('users.status','y')
-                    ->where('leader.atasan',Auth::user()->id)
-                    ->where('users.role',4)
+        }elseif(in_array(Auth::user()->role,[2,3,4])){
+
+            // koordinator inputan bawahan
+            $bawahan=true;
+            $list_bawahan=[];
+            $atasan_cek=[];
+            while ($bawahan == true) {
+                if(count($atasan_cek) < 1){
+                    // cek bawahan level 1
+                    $user_bawahan=User::where('atasan',Auth::user()->id)->where('status','y')->get();
+                    foreach ($user_bawahan as $key) {
+                        $list_bawahan[]=$key->id;
+                        $atasan_cek[]=$key->id;
+                    }
+                }else{
+                    // bawahan level 2 kebawah
+                    $user_bawahan=User::whereIn('atasan',$atasan_cek)->where('status','y')->get();
+                    if(count($user_bawahan) < 1){
+                        // bawahan sudah kosong
+                        $bawahan=false;
+                    }
+                    $atasan_cek=[];
+                    foreach ($user_bawahan as $key) {
+                        $list_bawahan[]=$key->id;
+                        // inputan bawahan bawahnya sebagai cek atasan
+                        $atasan_cek[]=$key->id;
+                    }
+                }
+            }
+            $list_bawahan[]=Auth::user()->id;
+
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                    ->where('name', 'like', '%' . $search . '%')
+                    ->where('status','y')
+                    ->whereIn('atasan',$list_bawahan)
+                    ->where('role',4)
                     ->get();
 
-        }elseif(Auth::user()->role == 3){
-            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
-                    ->where('name', 'like', '%' . $search . '%')
-                    ->where('status','y')
-                    ->where('atasan',Auth::user()->id)
-                    ->where('role',4)
-                    ->get();
-        }elseif(Auth::user()->role == 4){
-            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
-                    ->where('name', 'like', '%' . $search . '%')
-                    ->where('status','y')
-                    ->where('atasan',Auth::user()->atasan)
-                    ->where('role',4)
-                    ->get();
+        // }elseif(Auth::user()->role == 2){
+        //     $data = User::select('users.id', 'users.name as text') // 'text' adalah format yang dibutuhkan Select2
+        //             ->join('users as leader','leader.id','=','users.atasan')
+        //             ->where('users.name', 'like', '%' . $search . '%')
+        //             ->where('users.status','y')
+        //             ->where('leader.atasan',Auth::user()->id)
+        //             ->where('users.role',4)
+        //             ->get();
+
+        // }elseif(Auth::user()->role == 3){
+        //     $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+        //             ->where('name', 'like', '%' . $search . '%')
+        //             ->where('status','y')
+        //             ->where('atasan',Auth::user()->id)
+        //             ->where('role',4)
+        //             ->get();
+        // }elseif(Auth::user()->role == 4){
+        //     $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+        //             ->where('name', 'like', '%' . $search . '%')
+        //             ->where('status','y')
+        //             ->where('atasan',Auth::user()->atasan)
+        //             ->where('role',4)
+        //             ->get();
         }else{
             $data=[];
         }
@@ -739,18 +833,49 @@ class Entry_controller extends Controller
                 ->where('anggota.status','y')
                 ->where('anggota.jenis_akun','jamaah')
                 ->count();
-        }elseif(Auth::user()->role == 2){
+        }elseif( in_array(Auth::user()->role,[2,3,4]) ){
+            // anggota inputan sendiri
+            $list_anggota=Anggota::where('koordinator',Auth::user()->id)
+                ->where('status','y')
+                ->get()
+                ->pluck('id_anggota')
+                ->toArray();
 
-            $koordinator=User::select(
-                    'koor.id as koordinator',
-                    'koor.id_anggota as koordinator_data',
-                )
-                ->join('users as koor','koor.atasan','=','users.id')
-                ->where('users.atasan',Auth::user()->id)
-                ->get();
-
-            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
-            $koordinator = $koordinator->pluck('koordinator')->toArray();
+            // anggota inputan bawahan
+            $bawahan=true;
+            $list_bawahan=[];
+            $atasan_cek=[];
+            while ($bawahan == true) {
+                if(count($atasan_cek) < 1){
+                    // cek bawahan level 1
+                    $user_bawahan=User::where('atasan',Auth::user()->id)->where('status','y')->get();
+                    foreach ($user_bawahan as $key) {
+                        if(!$this->isNullOrEmpty($key->id_anggota)){
+                            // cek data bawahan
+                            $list_anggota[]=$key->id_anggota;
+                        }
+                        $list_bawahan[]=$key->id;
+                        $atasan_cek[]=$key->id;
+                    }
+                }else{
+                    // bawahan level 2 kebawah
+                    $user_bawahan=User::whereIn('atasan',$atasan_cek)->where('status','y')->get();
+                    if(count($user_bawahan) < 1){
+                        // bawahan sudah kosong
+                        $bawahan=false;
+                    }
+                    $atasan_cek=[];
+                    foreach ($user_bawahan as $key) {
+                        if(!$this->isNullOrEmpty($key->id_anggota)){
+                            // cek data bawahan
+                            $list_anggota[]=$key->id_anggota;
+                        }
+                        $list_bawahan[]=$key->id;
+                        // inputan bawahan bawahnya sebagai cek atasan
+                        $atasan_cek[]=$key->id;
+                    }
+                }
+            }
 
             $anggota=Anggota::select(
                     'anggota.*',
@@ -759,55 +884,81 @@ class Entry_controller extends Controller
                 )
                 ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
                 ->where('anggota.status','y')
-                ->where(function ($where) use($koordinator,$koordinator_data){
-                    $where->whereIn('anggota.koordinator',$koordinator)
-                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
-                        ;
+                ->where('anggota.jenis_akun','jamaah')
+                ->where(function ($where) use($list_anggota,$list_bawahan) {
+                    $where->whereIn('anggota.id_anggota',$list_anggota)
+                        ->orWhereIn('anggota.koordinator',$list_bawahan);
                 })
-                ->where('anggota.jenis_akun','jamaah')
-                // ->whereIn('koordinator',$koordinator)
                 ->count();
+        // }elseif(Auth::user()->role == 2){
 
-        }elseif(Auth::user()->role == 3){
+        //     $koordinator=User::select(
+        //             'koor.id as koordinator',
+        //             'koor.id_anggota as koordinator_data',
+        //         )
+        //         ->join('users as koor','koor.atasan','=','users.id')
+        //         ->where('users.atasan',Auth::user()->id)
+        //         ->get();
 
-            $koordinator=User::select(
-                    'users.id as koordinator',
-                    'users.id_anggota as koordinator_data',
-                )
-                ->where('users.atasan',Auth::user()->id)
-                ->get();
+        //     $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+        //     $koordinator = $koordinator->pluck('koordinator')->toArray();
 
-            $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
-            $koordinator = $koordinator->pluck('koordinator')->toArray();
+        //     $anggota=Anggota::select(
+        //             'anggota.*',
+        //             DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+        //             'users.email',
+        //         )
+        //         ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+        //         ->where('anggota.status','y')
+        //         ->where(function ($where) use($koordinator,$koordinator_data){
+        //             $where->whereIn('anggota.koordinator',$koordinator)
+        //                 ->orWhereIn('anggota.id_anggota',$koordinator_data)
+        //                 ;
+        //         })
+        //         ->where('anggota.jenis_akun','jamaah')
+        //         // ->whereIn('koordinator',$koordinator)
+        //         ->count();
 
-            $anggota=Anggota::select(
-                    'anggota.*',
-                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
-                    'users.email',
-                )
-                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
-                ->where('anggota.status','y')
-                ->where(function ($where) use($koordinator,$koordinator_data){
-                    $where->whereIn('anggota.koordinator',$koordinator)
-                        ->orWhereIn('anggota.id_anggota',$koordinator_data)
-                        ;
-                })
-                ->where('anggota.jenis_akun','jamaah')
-                // ->whereIn('koordinator',$koordinator)
-                ->count();
+        // }elseif(Auth::user()->role == 3){
 
-        }elseif(Auth::user()->role == 4){
+        //     $koordinator=User::select(
+        //             'users.id as koordinator',
+        //             'users.id_anggota as koordinator_data',
+        //         )
+        //         ->where('users.atasan',Auth::user()->id)
+        //         ->get();
 
-            $anggota=Anggota::select(
-                    'anggota.*',
-                    DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
-                    'users.email',
-                )
-                ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
-                ->where('anggota.status','y')
-                ->where('koordinator',Auth::user()->id)
-                ->where('anggota.jenis_akun','jamaah')
-                ->count();
+        //     $koordinator_data = $koordinator->pluck('koordinator_data')->toArray();
+        //     $koordinator = $koordinator->pluck('koordinator')->toArray();
+
+        //     $anggota=Anggota::select(
+        //             'anggota.*',
+        //             DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+        //             'users.email',
+        //         )
+        //         ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+        //         ->where('anggota.status','y')
+        //         ->where(function ($where) use($koordinator,$koordinator_data){
+        //             $where->whereIn('anggota.koordinator',$koordinator)
+        //                 ->orWhereIn('anggota.id_anggota',$koordinator_data)
+        //                 ;
+        //         })
+        //         ->where('anggota.jenis_akun','jamaah')
+        //         // ->whereIn('koordinator',$koordinator)
+        //         ->count();
+
+        // }elseif(Auth::user()->role == 4){
+
+        //     $anggota=Anggota::select(
+        //             'anggota.*',
+        //             DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
+        //             'users.email',
+        //         )
+        //         ->leftjoin('users','users.id_anggota','=','anggota.id_anggota')
+        //         ->where('anggota.status','y')
+        //         ->where('koordinator',Auth::user()->id)
+        //         ->where('anggota.jenis_akun','jamaah')
+        //         ->count();
         }else{
             $anggota=0;
         }
