@@ -1337,7 +1337,7 @@ class Entry_controller extends Controller
         $cek_validator=$this->validator($data,[
             'jumlah'    => 'required',
             'kategori'    => 'required',
-            'bank'    => 'required',
+            // 'bank'    => 'required',
         ]);
         if(!empty($cek_validator)){
             return response()->json(['message' => $cek_validator], 404);
@@ -1352,7 +1352,7 @@ class Entry_controller extends Controller
                 'id_list'   => $data->kategori,
                 'ket'   => $data->ket,
                 'jumlah'   => $data->jumlah,
-                'bank'   => $data->bank,
+                'bank'   => !$this->isNullOrEmpty($data->bank)? $data->bank:null,
                 'userid'   => Auth::user()->id,
             ]);
 

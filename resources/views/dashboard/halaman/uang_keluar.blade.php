@@ -69,8 +69,8 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label>Bank <span class="right badge badge-success">wajib</span></label>
-                            <select name="bank" id="bank" class="form-control" style="width: 100%;" required>
+                            <label>Bank</label>
+                            <select name="bank" id="bank" class="form-control" style="width: 100%;" >
                                 <option value="">==Pilih Salah Satu==</option>
                                 @foreach ($bank as $item)
                                     <option value="{{ $item->id }}">{{ $item->nama_bank }}</option>
