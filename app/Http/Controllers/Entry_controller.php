@@ -418,6 +418,10 @@ class Entry_controller extends Controller
                         $list_bawahan[]=$key->id;
                         $atasan_cek[]=$key->id;
                     }
+                    if(count($atasan_cek) < 1){
+                        // tidak punya bawahan lagi
+                        $bawahan=false;
+                    }
                 }else{
                     // bawahan level 2 kebawah
                     $user_bawahan=User::whereIn('atasan',$atasan_cek)->where('status','y')->get();
@@ -633,6 +637,11 @@ class Entry_controller extends Controller
                     foreach ($user_bawahan as $key) {
                         $list_bawahan[]=$key->id;
                         $atasan_cek[]=$key->id;
+                    }
+
+                    if(count($atasan_cek) < 1){
+                        // tidak punya bawahan lagi
+                        $bawahan=false;
                     }
                 }else{
                     // bawahan level 2 kebawah
@@ -856,6 +865,10 @@ class Entry_controller extends Controller
                         }
                         $list_bawahan[]=$key->id;
                         $atasan_cek[]=$key->id;
+                    }
+                    if(count($atasan_cek) < 1){
+                        // tidak punya bawahan lagi
+                        $bawahan=false;
                     }
                 }else{
                     // bawahan level 2 kebawah
