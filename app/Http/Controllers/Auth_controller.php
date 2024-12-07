@@ -61,7 +61,7 @@ class Auth_controller extends Controller
                     Auth::logout();
                     Auth::attempt(['email' => $data->email, 'password' => $data->password, 'role' => 3]);
 
-                    $this->log_web('/home');
+                    $this->log_web('/naik_pangkat');
 
                     return view('dashboard.halaman')->with([
                         'halaman'   => 'home',
@@ -88,7 +88,7 @@ class Auth_controller extends Controller
                     Auth::logout();
                     Auth::attempt(['email' => $data->email, 'password' => $data->password, 'role' => 2]);
 
-                    $this->log_web('/home');
+                    $this->log_web('/naik_pangkat');
 
                     return view('dashboard.halaman')->with([
                         'halaman'   => 'home',
