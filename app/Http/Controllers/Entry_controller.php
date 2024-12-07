@@ -698,30 +698,30 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        if(Auth::user()->role == 1){
+        if(in_array(Auth::user()->role,[1,2,3,4])){
             $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
                 ->where('name', 'like', '%' . $search . '%')
                 ->where('status','y')
                 ->where('role',3)
                 ->get();
 
-        }elseif(Auth::user()->role == 2){
-            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
-                ->where('name', 'like', '%' . $search . '%')
-                ->where('status','y')
-                ->where('atasan',Auth::user()->id)
-                ->where('role',3)
-                ->get();
+        // }elseif(Auth::user()->role == 2){
+        //     $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+        //         ->where('name', 'like', '%' . $search . '%')
+        //         ->where('status','y')
+        //         ->where('atasan',Auth::user()->id)
+        //         ->where('role',3)
+        //         ->get();
 
-        }elseif(Auth::user()->role == 3){
-            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
-                    // ->where('name', 'like', '%' . $search . '%')
-                    ->where('status','y')
-                    ->where('id',Auth::user()->id)
-                    ->where('role',3)
-                    ->get();
-        }elseif(Auth::user()->role == 4){
-            $data=[];
+        // }elseif(Auth::user()->role == 3){
+        //     $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+        //             // ->where('name', 'like', '%' . $search . '%')
+        //             ->where('status','y')
+        //             ->where('id',Auth::user()->id)
+        //             ->where('role',3)
+        //             ->get();
+        // }elseif(Auth::user()->role == 4){
+        //     $data=[];
         }else{
             $data=[];
         }
