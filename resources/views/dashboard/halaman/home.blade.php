@@ -2,7 +2,7 @@
     <!-- Content Header (Page header) -->
     @if(isset($email_baru))
         <div class="alert alert-success" role="alert">
-            <b>Selamat!</b> akun anda telah naik pangkat ke {{ $pangkat }} dengan email baru <b>{{ $email_baru }}</b>
+            <b>Selamat!</b> " Role akun Anda kini berubah menjadi {{ $pangkat }} dengan email baru <b>{{ $email_baru }}</b>
         </div>
     @endif
     <div class="content-header">
