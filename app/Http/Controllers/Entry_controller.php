@@ -1029,10 +1029,6 @@ class Entry_controller extends Controller
                 ->where('status','y')
                 ->where('jenis_akun','jamaah')
                 ->first();
-            if($jamaah->jumlah_jamaah > 0){
-                $jumlah_jamaah[]=$jamaah->jumlah_jamaah;
-                $provinsi[]=$key->name;
-            }
 
             $koordinator=Anggota::select(
                     DB::raw('count(*) as jumlah_koordinator')
@@ -1041,7 +1037,13 @@ class Entry_controller extends Controller
                 ->where('status','y')
                 ->where('jenis_akun','koordinator')
                 ->first();
-            if($jamaah->jumlah_jamaah > 0){
+            if($koordinator->jumlah_koordinator > 0){
+                if($jamaah->jumlah_jamaah > 0){
+                    $jumlah_jamaah[]=$jamaah->jumlah_jamaah;
+                }else{
+                    $jumlah_jamaah[]=0;
+                }
+                $provinsi[]=$key->name;
                 $jumlah_koordinator[]=$koordinator->jumlah_koordinator;
             }
 
