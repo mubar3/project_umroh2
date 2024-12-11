@@ -229,6 +229,8 @@ class Auth_controller extends Controller
         $id = Crypt::decryptString($id);
         $anggota=Anggota::find($id);
 
+        $this->log_web('/sertifikat_'.$id);
+
         if($anggota->jenis_akun == 'jamaah'){
             $anggota->nama_koordinator=User::find($anggota->koordinator)?->name;
             $anggota->id_koordinator=User::find($anggota->koordinator)?->id;
@@ -256,6 +258,9 @@ class Auth_controller extends Controller
 
     function kartu($id) {
         $id = Crypt::decryptString($id);
+
+        $this->log_web('/kartu_'.$id);
+
         $anggota=Anggota::select(
                 '*',
                 DB::raw("concat('".env('APP_URL')."','/storage/foto/',anggota.foto) as 'foto'"),
