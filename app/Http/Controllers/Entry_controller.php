@@ -630,6 +630,10 @@ class Entry_controller extends Controller
             $bawahan=true;
             $list_bawahan=[];
             $atasan_cek=[];
+
+            // masukkan data sendiri
+            $list_bawahan[]=Auth::user()->id;
+
             while ($bawahan == true) {
                 if(count($atasan_cek) < 1){
                     // cek bawahan level 1
@@ -663,7 +667,8 @@ class Entry_controller extends Controller
             $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
                     ->where('name', 'like', '%' . $search . '%')
                     ->where('status','y')
-                    ->whereIn('atasan',$list_bawahan)
+                    // ->whereIn('atasan',$list_bawahan)
+                    ->whereIn('id',$list_bawahan)
                     ->where('role',4)
                     ->get();
 
@@ -714,7 +719,7 @@ class Entry_controller extends Controller
                 ->where('role',3)
                 ->get();
 
-        }elseif( in_array(Auth::user()->role,[2,3,4]) ){
+        }elseif( in_array(Auth::user()->role,[2,3]) ){
 
             $bawahan=true;
             $list_bawahan=[];
@@ -757,6 +762,48 @@ class Entry_controller extends Controller
                 ->where('status','y')
                 ->where('role',3)
                 ->wherein('id',$list_bawahan)
+                ->get();
+
+        }elseif( in_array(Auth::user()->role,[4]) ){
+
+            $atasan=true;
+            $list_atasan=[];
+            $bawahan_cek=[];
+
+            while ($atasan == true) {
+                if(count($bawahan_cek) < 1){
+                    // cek atasan level 1
+                    $user_atasan=User::where('id',Auth::user()->atasan)->where('status','y')->get();
+                    foreach ($user_atasan as $key) {
+                        $list_atasan[]=$key->id;
+                        $bawahan_cek[]=$key->atasan;
+                    }
+                    if(count($bawahan_cek) < 1){
+                        // tidak punya atasan lagi
+                        $atasan=false;
+                    }
+                }else{
+                    // atasan level 2 keatas
+                    $user_atasan=User::whereIn('id',$bawahan_cek)->where('status','y')->get();
+                    if(count($user_atasan) < 1){
+                        // atasan sudah kosong
+                        $atasan=false;
+                    }
+                    $bawahan_cek=[];
+                    foreach ($user_atasan as $key) {
+                        $list_atasan[]=$key->id;
+                        // inputan atasan atasnya sebagai cek bawahannya siapa
+                        $bawahan_cek[]=$key->atasan;
+                    }
+                }
+            }
+
+
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                ->where('name', 'like', '%' . $search . '%')
+                ->where('status','y')
+                ->where('role',3)
+                ->wherein('id',$list_atasan)
                 ->get();
 
         // }elseif(Auth::user()->role == 2){
