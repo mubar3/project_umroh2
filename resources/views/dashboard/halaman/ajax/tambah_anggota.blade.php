@@ -24,7 +24,8 @@
                 },
                 cache: true
             },
-            minimumInputLength: 2
+            // minimumInputLength: 2
+            minimumInputLength: {{ Auth::user()->role }} === 4 ? 0 : 2 // Jika role = 4, tidak perlu input minimum
         });
         $('.select-leader').select2({
             placeholder: 'Cari leader...',
@@ -47,7 +48,8 @@
                 },
                 cache: true
             },
-            minimumInputLength: 2
+            // minimumInputLength: 2
+            minimumInputLength: {{ Auth::user()->role }} === 4 ? 0 : 2 // Jika role = 4, tidak perlu input minimum
         });
     })
 
