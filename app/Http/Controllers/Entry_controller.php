@@ -707,11 +707,56 @@ class Entry_controller extends Controller
         $search = $data->input('q');
 
         // Query ke database, misalnya mencari nama yang mirip dengan keyword
-        if(in_array(Auth::user()->role,[1,2,3,4])){
+        if(in_array(Auth::user()->role,[1])){
             $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
                 ->where('name', 'like', '%' . $search . '%')
                 ->where('status','y')
                 ->where('role',3)
+                ->get();
+
+        }elseif( in_array(Auth::user()->role,[2,3,4]) ){
+
+            $bawahan=true;
+            $list_bawahan=[];
+            $atasan_cek=[];
+
+            // masukkan data sendiri
+            $list_bawahan[]=Auth::user()->id;
+
+            while ($bawahan == true) {
+                if(count($atasan_cek) < 1){
+                    // cek bawahan level 1
+                    $user_bawahan=User::where('atasan',Auth::user()->id)->where('status','y')->get();
+                    foreach ($user_bawahan as $key) {
+                        $list_bawahan[]=$key->id;
+                        $atasan_cek[]=$key->id;
+                    }
+                    if(count($atasan_cek) < 1){
+                        // tidak punya bawahan lagi
+                        $bawahan=false;
+                    }
+                }else{
+                    // bawahan level 2 kebawah
+                    $user_bawahan=User::whereIn('atasan',$atasan_cek)->where('status','y')->get();
+                    if(count($user_bawahan) < 1){
+                        // bawahan sudah kosong
+                        $bawahan=false;
+                    }
+                    $atasan_cek=[];
+                    foreach ($user_bawahan as $key) {
+                        $list_bawahan[]=$key->id;
+                        // inputan bawahan bawahnya sebagai cek atasan
+                        $atasan_cek[]=$key->id;
+                    }
+                }
+            }
+
+
+            $data = User::select('id', 'name as text') // 'text' adalah format yang dibutuhkan Select2
+                ->where('name', 'like', '%' . $search . '%')
+                ->where('status','y')
+                ->where('role',3)
+                ->wherein('id',$list_bawahan)
                 ->get();
 
         // }elseif(Auth::user()->role == 2){
