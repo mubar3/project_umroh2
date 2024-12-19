@@ -88,7 +88,7 @@
                   </p>
                 </a>
               </li>
-              @if(Auth::user()->role == 1)
+              @if(in_array(Auth::user()->role,[1,2]))
                     <li class="nav-item">
                         <a href="#" class="nav-link">
                         <i class="fas fa-users"></i>
@@ -99,18 +99,21 @@
                         </p>
                         </a>
                         <ul class="nav nav-treeview" style="padding-left: 20px;">
-                        <li class="nav-item">
-                            <a href="{{ url('/tambah_user')}}" class="nav-link">
-                            <i class="fas fa-edit"></i>
-                            <p>TAMBAH USER</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ url('/daftar_user')}}" class="nav-link">
-                            <i class="fas fa-list"></i>
-                            <p>DAFTAR USER</p>
-                            </a>
-                        </li>
+
+                            @if(in_array(Auth::user()->role,[1]))
+                                <li class="nav-item">
+                                    <a href="{{ url('/tambah_user')}}" class="nav-link">
+                                    <i class="fas fa-edit"></i>
+                                    <p>TAMBAH USER</p>
+                                    </a>
+                                </li>
+                            @endif
+                            <li class="nav-item">
+                                <a href="{{ url('/daftar_user')}}" class="nav-link">
+                                <i class="fas fa-list"></i>
+                                <p>DAFTAR USER</p>
+                                </a>
+                            </li>
                         </ul>
                     </li>
               @endif

@@ -56,7 +56,11 @@
                         button_akhir=`</div>`
 
 
-                        return button_awal+hapus+reset_pass+aktif+button_akhir;
+                        if({{ Auth::user()->role }} == 1){
+                            return button_awal+hapus+reset_pass+aktif+button_akhir;
+                        }else{
+                            return '';
+                        }
                     }
                 }
             ],
