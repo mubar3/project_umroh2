@@ -34,7 +34,8 @@ class Controller extends BaseController
         Log::create([
             'user'  => Auth::user()->id,
             'url'   => $url,
-            'ip'    => request()->ip(),
+            // 'ip'    => request()->ip(),
+            'ip'    => request()->header('CF-Connecting-IP', request()->ip()),
         ]);
 
     }
