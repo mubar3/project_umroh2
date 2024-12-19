@@ -8,7 +8,8 @@
         <title>PT ASH SHOFWAH GROUP</title>
         <link rel="stylesheet" href="{{ asset('asset_landing_page/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('asset_landing_page/css/font-awesome.min.css') }}">
-        <link rel="stylesheet" href="{{ asset('asset_landing_page/css/templatemo_style.css') . '?v=' . time() }}">
+        {{-- <link rel="stylesheet" href="{{ asset('asset_landing_page/css/templatemo_style.css') . '?v=' . time() }}"> --}}
+        <link rel="stylesheet" href="{{ asset('asset_landing_page/css/templatemo_style.css') }}">
         <link rel="stylesheet" href="{{ asset('asset_landing_page/style.css') }}">
         <!-- Font Awesome -->
         <link rel="stylesheet" href="{{ asset('asset/plugins/fontawesome-free/css/all.min.css') }}">
@@ -110,6 +111,7 @@
         <script src="{{ asset('asset_landing_page/js/bootstrap.min.js') }}"></script>
         <script src="{{ asset('asset_landing_page/js/jquery.parallax.js') }}"></script>
         <!-- template mo config script -->
-        <script src="{{ asset('asset_landing_page/js/templatemo_scripts.js') . '?v=' . time() }}"></script>
+        {{-- <script src="{{ asset('asset_landing_page/js/templatemo_scripts.js') . '?v=' . time() }}"></script> --}}
+        <script src="{{ asset('asset_landing_page/js/templatemo_scripts.js') }}"></script>
     </body>
 </html>
