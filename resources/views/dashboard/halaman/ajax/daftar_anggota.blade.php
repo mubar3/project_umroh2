@@ -45,7 +45,7 @@
                     "data": null,
                     "render": function(data, type, row) {
 
-                        if({{ Auth::user()->role }} == 1){
+                        if(  [1,5].includes({{ Auth::user()->role }}) ){
                             isi = `
                                     <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
                                         <i class="fas fa-eye"></i> Lihat
@@ -71,18 +71,18 @@
                                         <i class="fas fa-eye"></i> Lihat
                                     </a>
                                 `;
-                        }else if({{ Auth::user()->role }} == 5){
-                            isi = `
-                                    <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
-                                        <i class="fas fa-eye"></i> Lihat
-                                    </a>
-                                    <a href="{{ url('/sertifikat') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
-                                        <i class="fas fa-award"></i> Cetak Sertifikat
-                                    </a>
-                                    <a href="{{ url('/kartu') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
-                                        <i class="fas fa-address-card"></i> Cetak kartu
-                                    </a>
-                                `;
+                        // }else if({{ Auth::user()->role }} == 5){
+                        //     isi = `
+                        //             <a href="{{ url('/data_anggota') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-info">
+                        //                 <i class="fas fa-eye"></i> Lihat
+                        //             </a>
+                        //             <a href="{{ url('/sertifikat') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
+                        //                 <i class="fas fa-award"></i> Cetak Sertifikat
+                        //             </a>
+                        //             <a href="{{ url('/kartu') }}/${row.id_anggota_fix}" target="_blank" class="btn btn-success">
+                        //                 <i class="fas fa-address-card"></i> Cetak kartu
+                        //             </a>
+                        //         `;
                         }else{
                            isi=``;
                         }

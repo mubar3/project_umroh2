@@ -48,8 +48,8 @@
                 },
                 cache: true
             },
-            minimumInputLength: 2
-            // minimumInputLength: {{ Auth::user()->role }} === 4 ? 0 : 2 // Jika role = 4, tidak perlu input minimum
+            // minimumInputLength: 2
+            minimumInputLength: {{ Auth::user()->role }} === 4 ? 0 : 2 // Jika role = 4, tidak perlu input minimum
         });
     })
 
